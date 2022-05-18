@@ -1,0 +1,695 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules &#8212; nilrt-docs 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="NI Linux Real-Time and opkg: Distributing Packages" href="opkg_intro.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="opkg_intro.html" title="NI Linux Real-Time and opkg: Distributing Packages"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="opkg_tutorials_index.html" accesskey="U">Opkg Package System Tutorials</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ni-linux-real-time-and-opkg-distributing-dkms-based-kernel-modules">
+<h1>NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules<a class="headerlink" href="#ni-linux-real-time-and-opkg-distributing-dkms-based-kernel-modules" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p>
+<ul>
+<li><p><a class="reference internal" href="#a-note-on-support" id="id2">A Note on Support</a></p></li>
+<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#dkms-opkg-and-kernel-modules" id="id4">DKMS, opkg, and Kernel Modules</a></p>
+<ul>
+<li><p><a class="reference internal" href="#creating-kernel-modules" id="id5">Creating Kernel Modules</a></p></li>
+<li><p><a class="reference internal" href="#dkms" id="id6">DKMS</a></p></li>
+<li><p><a class="reference internal" href="#opkg" id="id7">Opkg</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#configuring-the-system" id="id8">Configuring the System</a></p></li>
+<li><p><a class="reference internal" href="#source-files" id="id9">Source Files</a></p>
+<ul>
+<li><p><a class="reference internal" href="#kernel-module-source" id="id10">Kernel Module Source</a></p></li>
+<li><p><a class="reference internal" href="#testing-the-module-with-dkms" id="id11">Testing the Module with DKMS</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#creating-the-package-file" id="id12">Creating the Package File</a></p>
+<ul>
+<li><p><a class="reference internal" href="#directory-structure" id="id13">Directory Structure</a></p></li>
+<li><p><a class="reference internal" href="#control-file" id="id14">Control File</a></p></li>
+<li><p><a class="reference internal" href="#the-debian-binary-file" id="id15">The debian-binary File</a></p></li>
+<li><p><a class="reference internal" href="#scripts" id="id16">Scripts</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#building-the-package" id="id17">Building the Package</a></p></li>
+<li><p><a class="reference internal" href="#testing-the-package-file" id="id18">Testing the Package File</a></p></li>
+<li><p><a class="reference internal" href="#resources" id="id19">Resources</a></p></li>
+</ul>
+</div>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Oftentimes it can be desirable to extend the functionality provided by
+the Linux kernel and have access to system resources at the kernel level
+instead of the user level. Examples of this include device drivers and
+adding new system calls. In the Linux world, this is often done through
+out-of-tree loadable kernel modules. This document will discuss how to
+create, package, and test loadable kernel modules with NI Linux
+Real-Time.</p>
+<section id="a-note-on-support">
+<h3><a class="toc-backref" href="#id2">A Note on Support</a><a class="headerlink" href="#a-note-on-support" title="Permalink to this headline">¶</a></h3>
+<p>This document is meant as a walkthrough of general Linux concepts within
+NI Linux Real-Time. As these concepts are general to any Linux system
+and the open source software used, NI Support will not provide
+assistance through Technical Support channels should problems be
+encountered. NI does not provide official support for modifying the
+kernel such as through the addition of loadable kernel modules. For more
+information on how NI provides support for NI Linux Real-Time, refer to
+the <a class="reference external" href="https://forums.ni.com/t5/NI-Linux-Real-Time-Documents/NI-Linux-Real-Time-FAQ/ta-p/3495630">NI Linux Real-Time
+FAQ</a>.
+If problems are encountered, posting to the <a class="reference external" href="https://forums.ni.com/t5/NI-Linux-Real-Time/ct-p/7013">NI Linux Real-Time
+Community</a> or
+other Linux discussion boards is the recommended way to get further
+guidance.</p>
+</section>
+<section id="requirements">
+<h3><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>The following software and hardware are required to follow this
+tutorial:</p>
+<ul class="simple">
+<li><p>NI Linux Real-Time System with one of the following:</p>
+<ul>
+<li><p>NI Linux Real-Time 8.0.0 or newer</p>
+<ul>
+<li><p>This can be checked in either NI MAX under <strong>System
+Information</strong> or in the output of the <strong>uname -r</strong> command on
+the Linux Real-Time device.</p></li>
+</ul>
+</li>
+<li><p>Access to the online NI Repositories or an offline version of the
+repo copied from the online NI Repositories</p></li>
+</ul>
+</li>
+<li><p>Source for a Linux Kernel Module</p>
+<ul>
+<li><p>NI recommends using the “Hello, World!” kernel module <a class="reference download internal" download="" href="../_downloads/fdb0b25827205cd9e4da3ee7b88ebc08/dkms_opkg.tar.gz"><code class="xref download docutils literal notranslate"><span class="pre">available</span> <span class="pre">here</span></code></a> for
+this tutorial. The file contains two directories:</p>
+<ul>
+<li><p><em>module_source</em> – source files for a DKMS loadable kernel
+module</p></li>
+<li><p><em>hello</em> – the same module and required files formatted for
+*.ipk creation</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="dkms-opkg-and-kernel-modules">
+<h2><a class="toc-backref" href="#id4">DKMS, opkg, and Kernel Modules</a><a class="headerlink" href="#dkms-opkg-and-kernel-modules" title="Permalink to this headline">¶</a></h2>
+<section id="creating-kernel-modules">
+<h3><a class="toc-backref" href="#id5">Creating Kernel Modules</a><a class="headerlink" href="#creating-kernel-modules" title="Permalink to this headline">¶</a></h3>
+<p>As with other modern Linux distributions of kernel version 2.6 and
+later, NI Linux Real-Time uses loadable kernel modules as the basis for
+extending the functionality in the kernel. These are typically binary
+object files with the special *.ko (kernel object) file extension
+denoting that the binary object links against the kernel.</p>
+<p>Creating or obtaining source for these modules is much the same as for
+any other Linux distribution. While a simple “Hello, World!” example is
+provided for this tutorial, NI recommends reviewing <a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/html/">The Linux Kernel
+Module Programming Guide</a>
+before attempting to create or modify a Linux kernel module.</p>
+</section>
+<section id="dkms">
+<h3><a class="toc-backref" href="#id6">DKMS</a><a class="headerlink" href="#dkms" title="Permalink to this headline">¶</a></h3>
+<p>There are two ways to handle distribution of a loadable kernel module:
+Distribute the compiled binaries (i.e., the *.ko file) for a specific
+kernel version or distribute the source code to be compiled for the
+kernel version on install. The former option has the disadvantage that a
+module will typically only run on the kernel that it is compiled
+against. That is, if the kernel version is upgraded or support for a new
+kernel version is desired the module will require being recompiled and
+repackaged for distribution.</p>
+<p>To get around this limitation and implement the second more dynamic
+option, NI Linux Real-Time and many other distributions make use of
+<a class="reference external" href="https://github.com/dell/dkms">Dynamic Kernel Module Support (DKMS)</a>.
+DKMS is an open source program that allows Linux kernel modules outside
+of the kernel source tree to be automatically rebuilt upon installation
+or upgrade of the Linux kernel. That is, the source is compiled against
+the kernel to be used dynamically.</p>
+<p>By generating the kernel module dynamically, a single distribution can
+support multiple kernels. Additionally, kernel upgrades will be less
+likely to break or negatively impact the performance of the module. For
+these reasons, NI recommends using DKMS for managing any loadable kernel
+modules outside of the kernel source tree.</p>
+</section>
+<section id="opkg">
+<h3><a class="toc-backref" href="#id7">Opkg</a><a class="headerlink" href="#opkg" title="Permalink to this headline">¶</a></h3>
+<p>Opkg is a light-weight package manager which uses the *.ipk format to
+install and manage packages on a filesystem. While slightly different,
+*.ipks are very similar to *.deb packages and are based on that
+standard. Due to the lightweight nature of opkg and its basis on a
+standard Linux package type, NI chose to use opkg as the package manager
+for NI Linux Real-Time.</p>
+<p>This tutorial will cover the steps needed to use the <strong>opkg</strong> and
+<strong>opkg-build</strong> commands to create a package for distribution of a
+DKMS-based loadable kernel module. *.ipks can be created on any system
+with <strong>opkg-build</strong> installed. For simplicity, this tutorial uses a
+Linux Real-Time system. For more information on opkg, refer to the
+official documentation.</p>
+</section>
+</section>
+<section id="configuring-the-system">
+<h2><a class="toc-backref" href="#id8">Configuring the System</a><a class="headerlink" href="#configuring-the-system" title="Permalink to this headline">¶</a></h2>
+<p><strong>Note:</strong> DKMS will already be installed when using NI Linux Real-Time
+Operating System versions 8.0.0 and later or when using a PXI Linux
+Real-Time controller. When using older systems, running the
+<strong>updateNIDriver</strong> commands on non-*.ipk systems can cause problems with
+DKMS.</p>
+<p>Before starting, the required software and toolchains must be installed
+to the NI Linux Real-Time system used. This can be accomplished through
+console access to the device via a serial port, SSH, or direct access
+via a keyboard and monitor. For the screenshots in this tutorial, SSH is
+used via <a class="reference external" href="https://www.putty.org/">PuTTY</a>.</p>
+<ol class="arabic">
+<li><p>Open a console to the NI Linux Real-Time system and log in as or
+switch to the <strong>admin</strong> user.</p></li>
+<li><div class="line-block">
+<div class="line">Run the <strong>opkg update</strong> command to refresh the list of available
+packages.</div>
+</div>
+<img alt="../_images/image116.png" src="../_images/image116.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Install <strong>dkms</strong> for DKMS support if it’s not already installed.
+Note that this will also install <strong>GCC</strong>, the kernel headers
+(<strong>kernel-dev</strong>), and <strong>make</strong> as dependencies. If other
+development tools or dependencies are required for a given kernel
+module, those will need installed as well.</div>
+</div>
+<img alt="../_images/image214.png" src="../_images/image214.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Install the <strong>opkg-utils</strong> package to install the required tools
+for creating *.ipks.</div>
+</div>
+<img alt="../_images/image314.png" src="../_images/image314.png" />
+</li>
+<li><p>Confirm that the installation completed successfully.</p></li>
+</ol>
+</section>
+<section id="source-files">
+<h2><a class="toc-backref" href="#id9">Source Files</a><a class="headerlink" href="#source-files" title="Permalink to this headline">¶</a></h2>
+<p>To demonstrate building and testing a package containing a kernel module
+this tutorial will use a <a class="reference download internal" download="" href="../_downloads/fdb0b25827205cd9e4da3ee7b88ebc08/dkms_opkg.tar.gz"><code class="xref download docutils literal notranslate"><span class="pre">simple</span> <span class="pre">“Hello,</span> <span class="pre">World!”</span> <span class="pre">module</span></code></a>. This module will
+print a kernel message when it loads and unloads to confirm that the
+module is loaded. While this same process will apply to any kernel
+module, NI recommends walking through the process for this simple module
+before moving to more complex designs.</p>
+<section id="kernel-module-source">
+<h3><a class="toc-backref" href="#id10">Kernel Module Source</a><a class="headerlink" href="#kernel-module-source" title="Permalink to this headline">¶</a></h3>
+<p>The source for this “Hello, World!” module will consist of three main
+files:</p>
+<ul class="simple">
+<li><p><em>hello.c</em> – The C source code for the kernel module</p></li>
+<li><p><em>Makefile</em> – The makefile for the kernel module</p></li>
+<li><p><em>dkms</em>.conf – A sample dkms configuration file designed for the
+“Hello, World!” module</p></li>
+</ul>
+<section id="hello-c">
+<h4>hello.c<a class="headerlink" href="#hello-c" title="Permalink to this headline">¶</a></h4>
+<p>This is C source code for a simple “Hello, World!” kernel module taken
+from the examples given in <a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/html/">The Linux Kernel Module Programming
+Guide</a>. Other simple kernel
+module source examples can be found in that document, and this source is
+based on the <a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/html/hello2.html">Hello World (part
+2)</a> section of
+that document.</p>
+<p>The source code has been modified slightly to account for the default
+logging levels in the NI Linux Real-Time OS. That is, the <strong>printk</strong>
+functions have been modified to log at the KERN_NOTICE level rather than
+KERN_INFO level to more easily demonstrate logging functionality.</p>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/kernel.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/init.h&gt;</span><span class="cp"></span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">hello_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">printk</span><span class="p">(</span><span class="n">KERN_NOTICE</span><span class="w"> </span><span class="s">&quot;Hello world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__exit</span><span class="w"> </span><span class="nf">hello_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">printk</span><span class="p">(</span><span class="n">KERN_NOTICE</span><span class="w"> </span><span class="s">&quot;Goodbye world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">hello_init</span><span class="p">);</span><span class="w"></span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">hello_exit</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="makefile">
+<h4>Makefile<a class="headerlink" href="#makefile" title="Permalink to this headline">¶</a></h4>
+<p>This makefile, as with the C source file, is based on the examples given
+in the <a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/html/">The Linux Kernel Module Programming
+Guide</a>. More examples of
+kernel module makefiles and related options are covered in that
+document.</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">obj-m</span> <span class="o">:=</span> hello.o
+<span class="nv">KVERSION</span> <span class="o">:=</span> <span class="k">$(</span>shell uname -r<span class="k">)</span>
+
+<span class="nf">all</span><span class="o">:</span>
+  <span class="k">$(</span>MAKE<span class="k">)</span> -C /lib/modules/<span class="k">$(</span>KVERSION<span class="k">)</span>/build <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> modules
+<span class="nf">clean</span><span class="o">:</span>
+  <span class="k">$(</span>MAKE<span class="k">)</span> -C /lib/modules/<span class="k">$(</span>KVERSION<span class="k">)</span>/build <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> clean
+</pre></div>
+</div>
+</section>
+<section id="dkms-conf">
+<span id="dkmsconf"></span><h4>dkms.conf<a class="headerlink" href="#dkms-conf" title="Permalink to this headline">¶</a></h4>
+<p>The DKMS configuration file (dkms.conf) defines how and where a module
+should be installed when using DKMS and is required for any DKMS-based
+kernel module. The provided dkms.conf for this tutorial includes the
+package name, version, clean and make commands, module name, compiled
+module destination, and whether the module should be automatically
+installed when booting to a new kernel. For more information on the
+format of dkms.conf refer to the <a class="reference external" href="https://linux.die.net/man/8/dkms">dkms man
+page</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PACKAGE_NAME</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span>
+<span class="n">PACKAGE_VERSION</span><span class="o">=</span><span class="s2">&quot;0.1&quot;</span>
+<span class="n">CLEAN</span><span class="o">=</span><span class="s2">&quot;make clean&quot;</span>
+<span class="n">MAKE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;make all KVERSION=$kernelver&quot;</span>
+<span class="n">BUILT_MODULE_NAME</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;hello&quot;</span>
+<span class="n">DEST_MODULE_LOCATION</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;/updates&quot;</span>
+<span class="n">AUTOINSTALL</span><span class="o">=</span><span class="s2">&quot;yes&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-the-module-with-dkms">
+<h3><a class="toc-backref" href="#id11">Testing the Module with DKMS</a><a class="headerlink" href="#testing-the-module-with-dkms" title="Permalink to this headline">¶</a></h3>
+<p>If desired, the module provided can be tested with DKMS prior to
+building it into a package. This can be done as follows.</p>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Copy the source code files to <em>/usr/src/&lt;module
+name&gt;-&lt;module-version&gt;</em> on the Linux Real-Time controller via FTP,
+sFTP, or scp.</div>
+</div>
+<img alt="../_images/image74.png" src="../_images/image74.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Add the package via the <strong>dkms add</strong> command.</div>
+</div>
+<img alt="../_images/image85.png" src="../_images/image85.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Install the module via <strong>dkms install</strong>.</div>
+</div>
+<img alt="../_images/image94.png" src="../_images/image94.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Test loading the module with <strong>modprobe</strong> and confirm that it loaded.</div>
+</div>
+<img alt="../_images/image103.png" src="../_images/image103.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Unload and remove the module.</div>
+</div>
+<img alt="../_images/image117.png" src="../_images/image117.png" />
+</li>
+</ol>
+</section>
+</section>
+<section id="creating-the-package-file">
+<h2><a class="toc-backref" href="#id12">Creating the Package File</a><a class="headerlink" href="#creating-the-package-file" title="Permalink to this headline">¶</a></h2>
+<p>With the source in hand, the next step is to package it into an *.ipk
+for redistribution. As mentioned previously, *.ipks are very similar to
+*.deb packages and are based on that standard. For more information on
+creating *.ipks and the options for doing so, NI recommends referring
+to the official documentation for opkg and opkg-build.</p>
+<section id="directory-structure">
+<h3><a class="toc-backref" href="#id13">Directory Structure</a><a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h3>
+<p>To create an *.ipk file, everything must be in the proper directory
+structure. For this tutorial the following directory structure will be
+used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/home/admin
+`-- hello
+    |-- CONTROL
+    |   |-- control
+    |   |-- postinst
+    |   `-- prerm
+    |-- debian-binary
+    `-- usr
+        `-- src
+            `-- hello-0.1
+                |-- dkms.conf
+                |-- hello.c
+                `-- Makefile
+</pre></div>
+</div>
+<p>This mirrors the final structure contained in the built package, which
+is simply a special compressed form of that directory structure. As
+covered in the official opkg documentation, an *.ipk requires three
+things with the other items being optional:</p>
+<ol class="arabic simple">
+<li><p>A <em>CONTROL</em> directory with a <em>control</em> file.
+<strong>Note:</strong> Keep in mind that Linux is case sensitive.</p></li>
+<li><p>The data files to be installed in their proper directory structure.
+In this tutorial, these files are the same as used when testing the
+DKMS module previously.</p></li>
+<li><p>A <em>debian-binary</em> file denoting the version of the *.ipk/*.deb
+standard used</p></li>
+</ol>
+<p>The optional components required for a DKMS module are:</p>
+<ol class="arabic simple">
+<li><p>A <em>postinst</em> script, to register the kernel module with DKMS
+following the installation.</p></li>
+<li><p>A <em>prerm</em> script, to remove and unregister the kernel module from
+DKMS prior to removal.</p></li>
+</ol>
+<p>For more information on *.ipks and these files, refer to the official
+documentation and man pages for opkg. To proceed with this tutorial,
+recreate the file structure shown above on the NI Linux Real-Time system
+with the files provided for this tutorial.</p>
+</section>
+<section id="control-file">
+<h3><a class="toc-backref" href="#id14">Control File</a><a class="headerlink" href="#control-file" title="Permalink to this headline">¶</a></h3>
+<p>The control file describes the package’s dependencies, maintainer, name,
+version, and other information required by opkg to ensure proper
+installation. Much of this information will also be returned if the
+<strong>opkg info</strong> command is run on a built or installed package.</p>
+<p>In this case it’s particularly important to ensure that the package
+depends on <strong>dkms</strong>. This ensures all the required dependencies to
+dynamically compile the module are present before attempting to install
+it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Package</span><span class="p">:</span> <span class="n">hello</span>
+<span class="n">Version</span><span class="p">:</span> <span class="mf">0.1</span>
+<span class="n">Architecture</span><span class="p">:</span> <span class="n">x86_64</span>
+<span class="n">Maintainer</span><span class="p">:</span> <span class="n">an</span><span class="o">.</span><span class="n">email</span><span class="nd">@website</span><span class="o">.</span><span class="n">com</span>
+<span class="n">Description</span><span class="p">:</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">hello</span> <span class="n">world</span> <span class="n">dkms</span> <span class="n">module</span>
+<span class="n">Priority</span><span class="p">:</span> <span class="n">option</span>
+<span class="n">Depends</span><span class="p">:</span> <span class="n">dkms</span>
+</pre></div>
+</div>
+</section>
+<section id="the-debian-binary-file">
+<h3><a class="toc-backref" href="#id15">The debian-binary File</a><a class="headerlink" href="#the-debian-binary-file" title="Permalink to this headline">¶</a></h3>
+<p>This file should be a text file containing only the following line, as
+described by the *.ipk standard.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">2.0</span>
+</pre></div>
+</div>
+</section>
+<section id="scripts">
+<h3><a class="toc-backref" href="#id16">Scripts</a><a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned previously, there are two scripts required when creating
+*.ipk files for installing DKMS-based kernel-modules. These scripts
+handle the registration, installation, and removal of modules from DKMS
+during installation and removal of the package.</p>
+<p><strong>Note:</strong> In order to build a package, all scripts must have executable
+privileges. To ensure that this is the case, run <strong>chmod a+x &lt;script&gt;</strong>
+before attempting to build a package.</p>
+<section id="postinst">
+<h4>postinst<a class="headerlink" href="#postinst" title="Permalink to this headline">¶</a></h4>
+<p>The postinst script will be run upon finishing the installation of the
+package files. In this case, it will run the <em>common.postinst</em> script
+included with DKMS if the version of DKMS on the target supports it.
+Otherwise, it will print an error message. All versions of DKMS included
+with NI Linux Real-Time 2020 and later will support the
+<em>common.postinst</em> method.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<span class="nb">set</span> -e
+<span class="nv">DKMS_NAME</span><span class="o">=</span>hello
+<span class="nv">DKMS_PACKAGE_NAME</span><span class="o">=</span>hello
+<span class="nv">DKMS_VERSION</span><span class="o">=</span><span class="m">0</span>.1
+<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="k">in</span>
+  configure<span class="o">)</span>
+    <span class="k">if</span> <span class="o">[</span> -x /usr/lib/dkms/common.postinst <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+      /usr/lib/dkms/common.postinst <span class="nv">$DKMS_NAME</span> <span class="nv">$DKMS_VERSION</span> /usr/share/<span class="nv">$DKMS_PACKAGE_NAME</span>
+<span class="s2">&quot;&quot;</span> <span class="nv">$2</span>
+    <span class="k">else</span>
+      <span class="nb">echo</span> <span class="s2">&quot;ERROR: DKMS version is too old and </span><span class="nv">$DKMS_PACKAGE_NAME</span><span class="s2"> was not&quot;</span>
+      <span class="nb">echo</span> <span class="s2">&quot;built with legacy DKMS support.&quot;</span>
+      <span class="nb">echo</span> <span class="s2">&quot;You must either rebuild </span><span class="nv">$DKMS_PACKAGE_NAME</span><span class="s2"> with legacy postinst&quot;</span>
+      <span class="nb">echo</span> <span class="s2">&quot;support or upgrade DKMS to a more current version.&quot;</span>
+      <span class="nb">exit</span> <span class="m">1</span>
+    <span class="k">fi</span>
+  <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="nb">exit</span> <span class="m">0</span>
+</pre></div>
+</div>
+</section>
+<section id="premrm">
+<h4>premrm<a class="headerlink" href="#premrm" title="Permalink to this headline">¶</a></h4>
+<p>The <em>prerm</em> script will be run by opkg before any files are removed
+during package removal. For DKMS-based packages, this will ensure that
+the kernel module is not registered or in use during removal and will
+clean up any files created for the module by DKMS during normal usage.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<span class="nb">set</span> -e
+<span class="nv">DKMS_NAME</span><span class="o">=</span>hello
+<span class="nv">DKMS_VERSION</span><span class="o">=</span><span class="m">0</span>.1
+<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="k">in</span>
+  remove<span class="p">|</span>upgrade<span class="p">|</span>deconfigure<span class="o">)</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="k">$(</span>dkms status -m <span class="nv">$DKMS_NAME</span> -v <span class="nv">$DKMS_VERSION</span><span class="k">)</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+      dkms remove -m <span class="nv">$DKMS_NAME</span> -v <span class="nv">$DKMS_VERSION</span> --all <span class="o">||</span> <span class="nb">true</span>
+    <span class="k">fi</span>
+  <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="nb">exit</span> <span class="m">0</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="building-the-package">
+<h2><a class="toc-backref" href="#id17">Building the Package</a><a class="headerlink" href="#building-the-package" title="Permalink to this headline">¶</a></h2>
+<p>Once the directory structure is in place, all that’s necessary is to
+build them into an *.ipk package.</p>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Change directories to the directory containing the top-level
+directory for the package. In this case, the directory containing
+the <em>hello/</em> directory.</div>
+</div>
+<img alt="../_images/image173.png" src="../_images/image173.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Run the <strong>opkg-build</strong> command on the package directory.</div>
+</div>
+<img alt="../_images/image182.png" src="../_images/image182.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the *.ipk file is now present.</div>
+</div>
+<img alt="../_images/image192.png" src="../_images/image192.png" />
+</li>
+</ol>
+</section>
+<section id="testing-the-package-file">
+<h2><a class="toc-backref" href="#id18">Testing the Package File</a><a class="headerlink" href="#testing-the-package-file" title="Permalink to this headline">¶</a></h2>
+<p>With the *.ipk created, it’s now possible to test it by installing the
+file directly with opkg. This confirms that the package was built
+correctly and that the included scripts work.</p>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Manually install the package using the <strong>opkg install</strong> command.</div>
+</div>
+<img alt="../_images/image202.png" src="../_images/image202.png" />
+</li>
+<li><div class="line-block">
+<div class="line">View the information detailed in the <em>control</em> file using the
+<strong>opkg info</strong> command.</div>
+</div>
+<img alt="../_images/image215.png" src="../_images/image215.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the module installed with the <strong>dkms status</strong> command.</div>
+</div>
+<img alt="../_images/image222.png" src="../_images/image222.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Load the new module with <strong>modprobe</strong>.</div>
+</div>
+<img alt="../_images/image231.png" src="../_images/image231.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the module loaded by either checking the <em>messages</em>
+log or using <strong>dmesg.</strong></div>
+</div>
+<img alt="../_images/image242.png" src="../_images/image242.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Unload the module using <strong>rmmod</strong> and confirm it unloaded with the
+<em>messages</em> log or <strong>dmesg</strong>.</div>
+</div>
+<img alt="../_images/image252.png" src="../_images/image252.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm the module uninstalls properly by using <strong>opkg remove</strong>.</div>
+</div>
+<img alt="../_images/image262.png" src="../_images/image262.png" />
+</li>
+</ol>
+<p>At this point, NI recommends copying the package from your development
+system and deploying it to a different deployment system or formatting
+the system used to create the *.ipk and installing from scratch. The
+same testing described above can be used alongside any module-specific
+testing required by the loadable kernel module.</p>
+</section>
+<section id="resources">
+<h2><a class="toc-backref" href="#id19">Resources</a><a class="headerlink" href="#resources" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://forums.ni.com/t5/NI-Linux-Real-Time/ct-p/7013?profile.language=en">NI Linux Real-Time Community and Discussion
+Forums</a></p></li>
+<li><p><a class="reference external" href="https://forums.ni.com/t5/NI-Linux-Real-Time-Documents/NI-Linux-Real-Time-FAQ/ta-p/3495630?profile.language=en">NI Linux Real-Time
+FAQ</a></p></li>
+<li><p><a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/html/">The Linux Kernel Module Programming
+Guide</a></p></li>
+<li><p><a class="reference external" href="https://github.com/dell/dkms">Dynamic Kernel Module Support
+source</a></p></li>
+<li><p><a class="reference external" href="https://www.putty.org/">Putty</a></p></li>
+<li><p><a class="reference external" href="https://linux.die.net/man/8/dkms">dkms(8) - Linux man page</a></p></li>
+<li><p><a class="reference external" href="http://www.ni.com/tutorial/14625/en/">Getting Started with C/C++ Development Tools for NI Linux Real-Time,
+Eclipse Edition</a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#a-note-on-support">A Note on Support</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dkms-opkg-and-kernel-modules">DKMS, opkg, and Kernel Modules</a><ul>
+<li><a class="reference internal" href="#creating-kernel-modules">Creating Kernel Modules</a></li>
+<li><a class="reference internal" href="#dkms">DKMS</a></li>
+<li><a class="reference internal" href="#opkg">Opkg</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuring-the-system">Configuring the System</a></li>
+<li><a class="reference internal" href="#source-files">Source Files</a><ul>
+<li><a class="reference internal" href="#kernel-module-source">Kernel Module Source</a><ul>
+<li><a class="reference internal" href="#hello-c">hello.c</a></li>
+<li><a class="reference internal" href="#makefile">Makefile</a></li>
+<li><a class="reference internal" href="#dkms-conf">dkms.conf</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#testing-the-module-with-dkms">Testing the Module with DKMS</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-the-package-file">Creating the Package File</a><ul>
+<li><a class="reference internal" href="#directory-structure">Directory Structure</a></li>
+<li><a class="reference internal" href="#control-file">Control File</a></li>
+<li><a class="reference internal" href="#the-debian-binary-file">The debian-binary File</a></li>
+<li><a class="reference internal" href="#scripts">Scripts</a><ul>
+<li><a class="reference internal" href="#postinst">postinst</a></li>
+<li><a class="reference internal" href="#premrm">premrm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-the-package">Building the Package</a></li>
+<li><a class="reference internal" href="#testing-the-package-file">Testing the Package File</a></li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="opkg_intro.html"
+                          title="previous chapter">NI Linux Real-Time and opkg: Distributing Packages</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/opkg/dkms_opkg.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="opkg_intro.html" title="NI Linux Real-Time and opkg: Distributing Packages"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="opkg_tutorials_index.html" >Opkg Package System Tutorials</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

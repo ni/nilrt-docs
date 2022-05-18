@@ -1,0 +1,583 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time &#8212; nilrt-docs 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time" href="build_shared_library.html" />
+    <link rel="prev" title="Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code" href="config_vs_code.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="build_shared_library.html" title="Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="config_vs_code.html" title="Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="cross_compile_index.html" accesskey="U">NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-4-hello-world-with-visual-studio-code-and-ni-linux-real-time">
+<h1>Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time<a class="headerlink" href="#part-4-hello-world-with-visual-studio-code-and-ni-linux-real-time" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p>
+<ul>
+<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#creating-a-project" id="id3">Creating a Project</a></p></li>
+<li><p><a class="reference internal" href="#creating-the-c-source-code" id="id4">Creating the C Source Code</a></p></li>
+<li><p><a class="reference internal" href="#building-c-source-code-using-cmake-and-ninja" id="id5">Building C Source Code using CMake and Ninja</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cmake-configuration" id="id6">CMake Configuration</a></p></li>
+<li><p><a class="reference internal" href="#building" id="id7">Building</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#deploying-and-running-a-compiled-executable" id="id8">Deploying and Running a Compiled Executable</a></p></li>
+<li><p><a class="reference internal" href="#debugging-remotely-with-gdb" id="id9">Debugging Remotely with GDB</a></p>
+<ul>
+<li><p><a class="reference internal" href="#configuring-launch-json" id="id10">Configuring <em>launch.json</em></a></p></li>
+<li><p><a class="reference internal" href="#debugging-the-remote-executable" id="id11">Debugging the Remote Executable</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The NI Linux Real-Time C/C++ Cross Compile toolchain allows customers to
+create custom applications and binaries for distribution to NI Linux
+Real-Time systems. This tutorial walks through the creation, deployment,
+and debugging of a C code “Hello, World!” application using the cross
+compile toolchain and a Linux Real-Time controller.</p>
+<section id="requirements">
+<h3><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>This tutorial requires the following software and hardware:</p>
+<ul class="simple">
+<li><p>A development PC configured as described in Part 2: Configuring a
+Development System with Visual Studio Code</p></li>
+<li><p>A project template as described in Part 3: Configuring Visual Studio
+Code for Building NI Linux Real-Time C/C++ Code</p></li>
+<li><p><strong>(Optional)</strong> A Linux Real-Time System (e.g., PXI or CompactRIO)
+with SSH access enabled for deployment and debugging. The versions of
+software installed on this device should match the toolchain version
+used.</p></li>
+</ul>
+<p><strong>Note:</strong> This tutorial uses a C source file, but the same steps and
+configurations apply to C++ code. CMake can differentiate between C and
+C++ files to ensure the proper compile commands are used.</p>
+</section>
+</section>
+<section id="creating-a-project">
+<h2><a class="toc-backref" href="#id3">Creating a Project</a><a class="headerlink" href="#creating-a-project" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial assumes that a template project for ARMv7 or x64 NI Linux
+Real-Time Targets has been created as detailed in Part 3: Configuring
+Visual Studio Code for Building NI Linux Real-Time C/C++ Code. With a
+template created as described there, the following steps can be taken to
+create a new project:</p>
+<ol class="arabic">
+<li><p>Create a new directory to serve as the top-level project directory.</p></li>
+<li><div class="line-block">
+<div class="line">Copy the contents of the template project directory into this newly
+created directory.</div>
+</div>
+<img alt="../_images/image114.png" src="../_images/image114.png" />
+</li>
+<li><p>Open the folder in Visual Studio Code by doing one of the following:</p>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Right-click anywhere in the folder and select <strong>Open with
+Code</strong>.</div>
+</div>
+<img alt="../_images/image212.png" src="../_images/image212.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Launch Visual Studio Code, then select <strong>File &gt;&gt; Open Folder</strong>
+and choose the folder to open.</div>
+</div>
+<img alt="../_images/image312.png" src="../_images/image312.png" />
+</li>
+</ol>
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the folder opened properly in Visual Studio Code in the
+<strong>Explorer</strong>.</div>
+</div>
+<img alt="../_images/image44.png" src="../_images/image44.png" />
+</li>
+</ol>
+</section>
+<section id="creating-the-c-source-code">
+<h2><a class="toc-backref" href="#id4">Creating the C Source Code</a><a class="headerlink" href="#creating-the-c-source-code" title="Permalink to this headline">¶</a></h2>
+<p>With the project open, next is creating the source code. NI recommends
+manually typing out the source for this “Hello, World!” application
+instead of simply copying the source. This allows demonstration of the
+IntelliSense functionality in Visual Studio Code.</p>
+<ol class="arabic">
+<li><p>In the <em>src</em> directory of the project, create a new source file
+titled <em>helloWorld.c</em>.</p></li>
+<li><p>Save the file.</p></li>
+<li><div class="line-block">
+<div class="line">Complete the file as shown below, noting the IntelliSense
+autocompletion and error highlighting.</div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">puts</span><span class="p">(</span><span class="s">&quot;Hello, World!&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_SUCCESS</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>Save <em>helloWorld.c.</em></p></li>
+</ol>
+</section>
+<section id="building-c-source-code-using-cmake-and-ninja">
+<h2><a class="toc-backref" href="#id5">Building C Source Code using CMake and Ninja</a><a class="headerlink" href="#building-c-source-code-using-cmake-and-ninja" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial, the build process will be handled by CMake and Ninja.
+These tools can easily be swapped for other similar build tools with an
+understanding of the compile flags and other settings used for the NI
+Linux Real-Time GNU C/C++ Compilers.</p>
+<p>CMake will be used to generate Ninja build files, which will then be
+used to script the compilation of the “Hello, World!” executable. For
+building on Linux systems, Ninja can be replaced with GNU Make with
+proper changes to the CMake build configuration and <em>tasks.json</em> file.</p>
+<section id="cmake-configuration">
+<h3><a class="toc-backref" href="#id6">CMake Configuration</a><a class="headerlink" href="#cmake-configuration" title="Permalink to this headline">¶</a></h3>
+<p>CMake uses a <em>CMakeLists.txt</em> file for any build configuration. That is,
+the actual CMake program takes its instructions from a <em>CMakeLists.txt</em>
+file that defines one or more build targets and the configurations
+necessary for them. Since the template project already contains a
+<em>CMakeLists.txt</em> with the compiler and include configurations required
+for all NI Linux Real-Time compilations, only the project specific
+configurations need added. For more information on these configurations,
+refer to the official <a class="reference external" href="https://cmake.org/cmake/help/latest/">CMake
+documentation</a>.</p>
+<ol class="arabic">
+<li><p>Open the <em>&lt;project directory&gt;/build/CMakeLists.txt</em> file in the
+Visual Studio Code editor.</p></li>
+<li><p>Add the following lines to the end of the file.
+.. code:: cmake</p>
+<blockquote>
+<div><p># project specific information
+cmake_minimum_required(VERSION 3.14)
+project(helloWorld)
+set(EXECUTABLE_OUTPUT_PATH bin)
+set(CMAKE_BUILD_TYPE Debug)
+add_executable(helloWorld ../src/helloWorld.c)</p>
+</div></blockquote>
+</li>
+<li><p>Save <em>CMakeLists.txt.</em></p></li>
+</ol>
+</section>
+<section id="building">
+<h3><a class="toc-backref" href="#id7">Building</a><a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h3>
+<p>With <em>CMakeLists.txt</em> completed, CMake now has all the information
+needed to create the build files for Ninja and then build the final
+binary. CMake and Ninja will be invoked via Tasks in Visual Studio Code
+as defined in the <em>tasks.json</em> file in the <em>.vscode</em> directory of the
+template used to create the project. These allow shell commands to run
+in the Visual Studio Code terminal and can be expanded to other build
+tasks if desired. Refer to the <a class="reference external" href="https://code.visualstudio.com/docs/editor/tasks">Integrate with External Tools via
+Tasks</a> for more
+information on creating and using tasks.</p>
+<ol class="arabic">
+<li><p>Run the custom task to invoke CMake. Open the command palette via
+<strong>Ctrl + Shift + P</strong> or <strong>View &gt;&gt; Command Palette…</strong></p></li>
+<li><div class="line-block">
+<div class="line">Search for and select <strong>Tasks: Run Task</strong> in the Command Palette.
+This will pull up a list of the custom tasks available in the
+project.</div>
+</div>
+<img alt="../_images/image73.png" src="../_images/image73.png" />
+</li>
+<li><div class="line-block">
+<div class="line">From the list of custom tasks, select <strong>CMake Generate Build
+Files</strong> or the equivalent task in the project’s <em>tasks.json</em> if a
+different name was used.</div>
+</div>
+<img alt="../_images/image84.png" src="../_images/image84.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the task runs and completes successfully in the
+Terminal window. There should be several new files in the <em>build/</em>
+directory of the project including a new <em>bin/</em> directory for the
+build output, <em>build.ninja,</em> and <em>CMakeCache.txt</em>.</div>
+</div>
+<img alt="../_images/image93.png" src="../_images/image93.png" />
+</li>
+<li><p>Run the build using Ninja using the task defined in <em>tasks.json</em>.
+Open the Command Palette and select <strong>Tasks: Run Task</strong> again.</p></li>
+<li><div class="line-block">
+<div class="line">Select <strong>Ninja</strong> or the name used for the Ninja build task in the
+project’s <em>tasks.json</em> file.</div>
+</div>
+<img alt="../_images/image102.png" src="../_images/image102.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the build task runs successfully and that there is now
+a <em>helloWorld</em> binary in the <em>&lt;project folder&gt;/build/bin</em>
+directory.</div>
+</div>
+<img alt="../_images/image115.png" src="../_images/image115.png" />
+</li>
+<li><div class="line-block">
+<div class="line"><strong>(Optional)</strong> Add a syntax error to the <em>helloWorld.c</em> source file
+and run the <strong>Ninja</strong> task again. Note that since a problem matcher
+has been specified in <em>tasks.json</em> for the Ninja task, the
+compilation errors introduced now appear in the <strong>Problems</strong> window
+within Visual Studio Code alongside any syntax errors flagged by
+the editor. Fix the error and rebuild.</div>
+</div>
+<img alt="../_images/image123.png" src="../_images/image123.png" />
+</li>
+</ol>
+</section>
+</section>
+<section id="deploying-and-running-a-compiled-executable">
+<h2><a class="toc-backref" href="#id8">Deploying and Running a Compiled Executable</a><a class="headerlink" href="#deploying-and-running-a-compiled-executable" title="Permalink to this headline">¶</a></h2>
+<p>Since the “Hello, World!” executable was built using the NI Linux
+Real-Time C/C++ Cross Compile tool chain, the binary output must be run
+on the NI Linux Real-Time Operating System it was built for. While the
+binary was created on a host system with a different OS, it cannot be
+tested without access to a Linux Real-Time target.</p>
+<p>To run a cross compiled binary on a Linux Real-Time system, it must be
+deployed and then run from a shell or console. For the purposes of this
+tutorial, FileZilla will be used to transfer the file via sFTP and PuTTY
+will be used to access a shell on the remote target via SSH.
+Alternatives to this approach include using Secure Copy instead of sFTP,
+direct keyboard and monitor access with a USB thumb drive, or any
+combination of available options.</p>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Ensure that SSH is enabled on the Linux Real-Time system. For
+systems using *.ipk-based installations such as PXI Linux
+Real-Time devices, this will be enabled by default once a System
+Image is installed. For other Linux Real-Time systems, SSH can be
+enabled in NI MAX in the <strong>System Settings</strong> for the device.</div>
+</div>
+<img alt="../_images/image134.png" src="../_images/image134.png" />
+</li>
+<li><p>Launch FileZilla.</p></li>
+<li><div class="line-block">
+<div class="line">In FileZilla, connect to the Linux Real-Time target using the IP
+Address or Hostname, admin account, and Port 22. Click
+<strong>Quickconnect</strong> to open the connection.</div>
+</div>
+<img alt="../_images/image142.png" src="../_images/image142.png" />
+</li>
+<li><div class="line-block">
+<div class="line">In the <strong>Remote site</strong>, ensure that the directory location is
+<em>/home/admin</em>. Create a new directory for the binary deployment
+with a descriptive name (e.g., <em>helloWorld/</em>).</div>
+</div>
+<img alt="../_images/image152.png" src="../_images/image152.png" />
+</li>
+<li><p>Open the new directory in the <strong>Remote site</strong> side of FileZilla.</p></li>
+<li><div class="line-block">
+<div class="line">On the <strong>Local site</strong> side, navigate to the location of the binary
+to be deployed.</div>
+</div>
+<img alt="../_images/image162.png" src="../_images/image162.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Copy the binary by double-clicking it in the local file system
+view. A copy should now appear in the remote file system.</div>
+</div>
+<img alt="../_images/image172.png" src="../_images/image172.png" />
+</li>
+<li><div class="line-block">
+<div class="line">By default, the file will not have any execute permissions defined
+and will not be executable. This can be fixed by right-clicking
+the remote copy of the file and selecting the <strong>File
+permissions…</strong> item from the context menu or directly from a shell
+using the <strong>chmod</strong> command.</div>
+</div>
+<img alt="../_images/image181.png" src="../_images/image181.png" />
+</li>
+<li><p>Close FileZilla.</p></li>
+<li><p>Open PuTTY.</p></li>
+<li><div class="line-block">
+<div class="line">Select a <strong>Connection type</strong> of <strong>SSH</strong> and enter the <strong>Host Name
+(or IP Address)</strong> of the target. Confirm that the <strong>Port</strong> field
+is set to <strong>22</strong> and then click <strong>Open.</strong></div>
+</div>
+<img alt="../_images/image191.png" src="../_images/image191.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Log into the target as the admin user.</div>
+</div>
+<img alt="../_images/image201.png" src="../_images/image201.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Change directories to the location of the deployed binary.</div>
+</div>
+<img alt="../_images/image213.png" src="../_images/image213.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Run the executable and confirm that it works properly.</div>
+</div>
+<img alt="../_images/image221.png" src="../_images/image221.png" />
+</li>
+</ol>
+</section>
+<section id="debugging-remotely-with-gdb">
+<h2><a class="toc-backref" href="#id9">Debugging Remotely with GDB</a><a class="headerlink" href="#debugging-remotely-with-gdb" title="Permalink to this headline">¶</a></h2>
+<p>By default, the Remote Server for the GNU Debugger (gdbserver) is
+included on all NI Linux Real-Time devices. A corresponding installation
+of the GNU Debugger is included with the NI Linux Real-Time GNU C/C++
+Cross Compile toolchain. This makes it easy to connect and debug
+executables running on the remote target from a Host system performing
+cross compilation.</p>
+<p>Visual Studio Code allows configurations for remote debugging through
+the properties set in the <em>launch.json</em> file for a given project. In
+this file, the remote target, gdbserver port, and executable to be
+debugged are defined before launching a connection to the remote debug
+server.</p>
+<section id="configuring-launch-json">
+<span id="configuring-launchjson"></span><h3><a class="toc-backref" href="#id10">Configuring <em>launch.json</em></a><a class="headerlink" href="#configuring-launch-json" title="Permalink to this headline">¶</a></h3>
+<p>The <em>launch.json</em> file contains the information necessary to allow
+Visual Studio Code to use a debugger such as the GNU Debugger (gdb). For
+more information on launch configurations and debugging in Visual Studio
+Code, refer to <a class="reference external" href="https://code.visualstudio.com/docs/cpp/launch-json-reference">Configuring C/C++
+debugging</a>.</p>
+<ol class="arabic">
+<li><p>In Visual Studio Code, open the <em>&lt;project
+folder&gt;/.vscode/launch.json</em> file. This file should have some
+information such as the <strong>miDebuggerPath</strong> completed already as part
+of the template project creation.</p></li>
+<li><div class="line-block">
+<div class="line">Complete <em>launch.json</em> for the “Hello, World!” application as shown
+below. Specifically, the <strong>program</strong> and <strong>miDebuggerServerAddress</strong>
+fields using the IP address of the remote NI Linux Real-Time device
+and the local binary build.</div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Use IntelliSense to learn about possible attributes.</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// Hover to view descriptions of existing attributes.</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.2.0&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;x64 (gdb) Launch&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cppdbg&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;launch&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;program&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${workspaceFolder}/build/bin/helloWorld&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;stopAtEntry&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;cwd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;showDisplayString&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;MIMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gdb&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/x64/sysroots/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;miDebuggerServerAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.2.110.136:9092&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>Save <em>launch.json</em></p></li>
+</ol>
+</section>
+<section id="debugging-the-remote-executable">
+<h3><a class="toc-backref" href="#id11">Debugging the Remote Executable</a><a class="headerlink" href="#debugging-the-remote-executable" title="Permalink to this headline">¶</a></h3>
+<p>Debugging the executable on the remote system requires launching
+gdbserver with the executable at the port specified in <em>launch.json</em>
+then run the launch profile defined in Visual Studio Code to connect the
+debugger. Once the debugger is connected, standard debugging tools such
+as breakpoints are available.</p>
+<ol class="arabic">
+<li><p>If not already connected to the remote NI Linux Real-Time device,
+open PuTTY and connect via SSH.</p></li>
+<li><div class="line-block">
+<div class="line">Change directories to the location of the debuggable binary.</div>
+</div>
+<img alt="../_images/image241.png" src="../_images/image241.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Launch gdbserver at the port defined in <em>launch.json</em>. This should
+result in gdbserver listening for any connections from a gdb
+connection at that port.</div>
+</div>
+<img alt="../_images/image251.png" src="../_images/image251.png" />
+</li>
+<li><p>In Visual Studio Code, open <em>helloWorld.c</em> in the editor.</p></li>
+<li><div class="line-block">
+<div class="line">Switch to the Debug view by clicking the <strong>Debug</strong> icon.</div>
+</div>
+<img alt="../_images/image261.png" src="../_images/image261.png" />
+</li>
+<li><div class="line-block">
+<div class="line">In the Debug view, ensure that the launch configuration defined is
+selected as the configuration.</div>
+</div>
+<img alt="../_images/image271.png" src="../_images/image271.png" />
+</li>
+<li><div class="line-block">
+<div class="line">In the <em>helloWorld.c</em> source file, click to the left of to the
+line that prints the “Hello, World!” message to place a
+breakpoint.</div>
+</div>
+<img alt="../_images/image281.png" src="../_images/image281.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Connect to the remote gdbserver by clicking the <strong>Start
+Debugging</strong> button.</div>
+</div>
+<img alt="../_images/image291.png" src="../_images/image291.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the program has stopped at the breakpoint and that
+the SSH session shows a debugger is connected.</div>
+</div>
+<img alt="../_images/image301.png" src="../_images/image301.png" />
+<img alt="../_images/image313.png" src="../_images/image313.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Use the debugging tools in Visual Studio Code to step through the
+source code and debug the application. Note the output of the
+program in the SSH session while stepping through the application.</div>
+</div>
+<img alt="../_images/image321.png" src="../_images/image321.png" />
+<img alt="../_images/image331.png" src="../_images/image331.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Complete execution of the program by click the <strong>Continue</strong> button
+or hitting <strong>F5</strong>. Note the exit status of the application in both
+the <strong>Debug Console</strong> in Visual Studio Code and the SSH Session.</div>
+</div>
+<img alt="../_images/image341.png" src="../_images/image341.png" />
+</li>
+</ol>
+<p><strong>Note:</strong> While debugging, not all symbols or source files for the Linux
+Kernel are available. If an attempt to step into that code is made,
+Visual Studio Code may be unable to open or find that certain source
+files. If this occurs, finish debugging with either <strong>Continue</strong> or
+<strong>Stop.</strong></p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-a-project">Creating a Project</a></li>
+<li><a class="reference internal" href="#creating-the-c-source-code">Creating the C Source Code</a></li>
+<li><a class="reference internal" href="#building-c-source-code-using-cmake-and-ninja">Building C Source Code using CMake and Ninja</a><ul>
+<li><a class="reference internal" href="#cmake-configuration">CMake Configuration</a></li>
+<li><a class="reference internal" href="#building">Building</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deploying-and-running-a-compiled-executable">Deploying and Running a Compiled Executable</a></li>
+<li><a class="reference internal" href="#debugging-remotely-with-gdb">Debugging Remotely with GDB</a><ul>
+<li><a class="reference internal" href="#configuring-launch-json">Configuring <em>launch.json</em></a></li>
+<li><a class="reference internal" href="#debugging-the-remote-executable">Debugging the Remote Executable</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="config_vs_code.html"
+                          title="previous chapter">Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="build_shared_library.html"
+                          title="next chapter">Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cross_compile/hello_world.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="build_shared_library.html" title="Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="config_vs_code.html" title="Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="cross_compile_index.html" >NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

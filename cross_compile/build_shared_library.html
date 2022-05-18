@@ -1,0 +1,355 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time &#8212; nilrt-docs 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time" href="call_shared_library.html" />
+    <link rel="prev" title="Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time" href="hello_world.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="call_shared_library.html" title="Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hello_world.html" title="Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="cross_compile_index.html" accesskey="U">NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-5-building-a-shared-library-with-visual-studio-code-and-ni-linux-real-time">
+<h1>Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time<a class="headerlink" href="#part-5-building-a-shared-library-with-visual-studio-code-and-ni-linux-real-time" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p>
+<ul>
+<li><p><a class="reference internal" href="#requirements" id="id2">Requirements</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#creating-a-project" id="id3">Creating a Project</a></p></li>
+<li><p><a class="reference internal" href="#creating-the-c-header-and-source" id="id4">Creating the C Header and Source</a></p></li>
+<li><p><a class="reference internal" href="#building-the-shared-library" id="id5">Building the Shared Library</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cmake-configuration" id="id6">CMake Configuration</a></p></li>
+<li><p><a class="reference internal" href="#building" id="id7">Building</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#next-steps" id="id8">Next Steps</a></p></li>
+</ul>
+</div>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The NI Linux Real-Time GNU C/C++ Compilers allow the creation of custom
+user libraries which can be shared, reused, and distributed across
+applications and systems. This tutorial walks through the creation of a
+simple shared library for use on a Linux Real-Time system.</p>
+<section id="requirements">
+<h3><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>This tutorial requires the following software and hardware:</p>
+<ul class="simple">
+<li><p>A development PC configured as described in Configuring a Development
+System with Visual Studio Code</p></li>
+<li><p>A project template as described in Configuring Visual Studio Code for
+Building NI Linux Real-Time C/C++ Code</p></li>
+</ul>
+<p><strong>Note:</strong> NI recommends completing “Hello, World!” with Visual Studio
+Code and NI Linux Real-Time before attempting this tutorial to ensure
+the template projects are correctly configured.</p>
+</section>
+</section>
+<section id="creating-a-project">
+<h2><a class="toc-backref" href="#id3">Creating a Project</a><a class="headerlink" href="#creating-a-project" title="Permalink to this headline">¶</a></h2>
+<p>This tutorial assumes that a template project for ARMv7 or x64 NI Linux
+Real-Time Targets has been created as detailed in Configuring Visual
+Studio Code for Building NI Linux Real-Time C/C++ Code. With a template
+created as described there, the following steps can be taken to create a
+new project:</p>
+<ol class="arabic">
+<li><p>Create a new directory to serve as the top-level project directory.</p></li>
+<li><div class="line-block">
+<div class="line">Copy the contents of the template project directory into this newly
+created directory.</div>
+</div>
+<img alt="../_images/image1.png" src="../_images/image1.png" />
+</li>
+<li><p>Open the folder in Visual Studio Code by doing one of the following:</p>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Right-click anywhere in the folder and select <strong>Open with Code</strong>.</div>
+</div>
+<img alt="../_images/image2.png" src="../_images/image2.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Launch Visual Studio Code, then select <strong>File &gt;&gt; Open Folder</strong>
+and choose the folder to open.</div>
+</div>
+<img alt="../_images/image3.png" src="../_images/image3.png" />
+</li>
+</ol>
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the folder opened properly in Visual Studio Code in the
+<strong>Explorer</strong>.</div>
+</div>
+<img alt="../_images/image4.png" src="../_images/image4.png" />
+</li>
+</ol>
+</section>
+<section id="creating-the-c-header-and-source">
+<h2><a class="toc-backref" href="#id4">Creating the C Header and Source</a><a class="headerlink" href="#creating-the-c-header-and-source" title="Permalink to this headline">¶</a></h2>
+<p>To compile a simple shared library, two files are typically required: a
+header and the source code for the library. The following section
+demonstrates how to create these required for a simple example shared
+library.</p>
+<ol class="arabic">
+<li><p>In the <em>src</em> directory of the project, create a new source file
+titled <em>myLib.h</em>. This will be the public header file for the shared
+library.</p></li>
+<li><div class="line-block">
+<div class="line">Complete <em>myLib.h</em> as shown below.</div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifndef _MYLIB_H_</span>
+<span class="cp">#define _MYLIB_H_</span>
+
+<span class="k">extern</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"></span>
+
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</li>
+<li><p>Save <em>myLib.h</em>.</p></li>
+<li><p>In the <em>src</em> directory of the project, create a new source file
+titled <em>myLib.c</em>. This will be the source code for the shared
+library.</p></li>
+<li><div class="line-block">
+<div class="line">Complete <em>myLib.c</em> as shown below.</div>
+</div>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;myLib.h&quot;</span><span class="cp"></span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</li>
+<li><p>Save <em>myLib.c</em>.</p></li>
+</ol>
+</section>
+<section id="building-the-shared-library">
+<h2><a class="toc-backref" href="#id5">Building the Shared Library</a><a class="headerlink" href="#building-the-shared-library" title="Permalink to this headline">¶</a></h2>
+<section id="cmake-configuration">
+<h3><a class="toc-backref" href="#id6">CMake Configuration</a><a class="headerlink" href="#cmake-configuration" title="Permalink to this headline">¶</a></h3>
+<p>CMake uses a <em>CMakeLists.txt</em> file for any build configuration.
+<em>CMakeLists.txt</em> defines one or more build targets and the
+configurations necessary for them. Only the project-specific
+configurations must be added as the template project already contains a
+<em>CMakeLists.txt</em> with the compiler and include configurations required
+for all NI Linux Real-Time compilations. For more information on these
+configurations, refer to the official <a class="reference external" href="https://cmake.org/cmake/help/latest/">CMake
+documentation</a>.</p>
+<ol class="arabic">
+<li><p>Open the <em>&lt;project directory&gt;/build/CMakeLists.txt</em> file in the
+Visual Studio Code editor.</p></li>
+<li><div class="line-block">
+<div class="line">Add the following lines to the end of the file.</div>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># project specific information</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.14</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">myLib</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_LIBRARY_OUTPUT_DIRECTORY</span><span class="w"> </span><span class="s">bin</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_BUILD_TYPE</span><span class="w"> </span><span class="s">Debug</span><span class="p">)</span>
+<span class="nb">add_library</span><span class="p">(</span><span class="s">myLib</span><span class="w"> </span><span class="s">SHARED</span><span class="w"> </span><span class="s">../src/myLib.c</span>
+<span class="w">  </span><span class="s">../src/myLib.h</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Save <em>CMakeLists.txt.</em></p></li>
+</ol>
+<p><strong>Note:</strong> If desired, the built binary and other files can be installed
+to a directory on the local system using the <a class="reference external" href="https://cmake.org/cmake/help/latest/command/install.html">CMake install
+command</a>.
+This can automate the process of copying shared libraries and their
+headers to directories on the development host system for future
+development use.</p>
+</section>
+<section id="building">
+<h3><a class="toc-backref" href="#id7">Building</a><a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h3>
+<p>With <em>CMakeLists.txt</em> completed, CMake now has all the information
+needed to create the build files for Ninja and then build the final
+binary. CMake and Ninja will be invoked via Tasks in Visual Studio Code
+as defined in the <em>tasks.json</em> file of the <em>.vscode</em> directory of the
+template used to create the project. Refer to the <a class="reference external" href="https://code.visualstudio.com/docs/editor/tasks">Integrate with
+External Tools via
+Tasks</a> for more
+information on creating and using tasks.</p>
+<ol class="arabic">
+<li><p>Run the custom task to invoke CMake. Open the command palette via
+<strong>Ctrl + Shift + P</strong> or <strong>View &gt;&gt; Command Palette…</strong></p></li>
+<li><div class="line-block">
+<div class="line">Search for and select <strong>Tasks: Run Task</strong> in the Command Palette.
+This will pull up a list of the custom tasks available in the
+project.</div>
+</div>
+<img alt="../_images/image8.png" src="../_images/image8.png" />
+</li>
+<li><div class="line-block">
+<div class="line">From the list of custom tasks, select <strong>CMake Generate Build
+Files</strong> or the equivalent task in the project’s <em>tasks.json</em> if a
+different name was used.</div>
+</div>
+<img alt="../_images/image9.png" src="../_images/image9.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the task runs and completes successfully in the
+Terminal window. There should be several new files in the <em>build/</em>
+directory of the project including a new <em>bin/</em> directory for the
+build output, <em>build.ninja,</em> and <em>CMakeCache.txt</em>.</div>
+</div>
+<img alt="../_images/image10.png" src="../_images/image10.png" />
+</li>
+<li><p>Run the build using Ninja using the task defined in <em>tasks.json</em>.
+Open the Command Palette and select <strong>Tasks: Run Task</strong> again.</p></li>
+<li><div class="line-block">
+<div class="line">Select <strong>Ninja</strong> or the name used for the Ninja build task in the
+project’s <em>tasks.json</em> file.</div>
+</div>
+<img alt="../_images/image11.png" src="../_images/image11.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Confirm that the build task runs successfully and that there is now
+a <em>libmyLib.so</em> binary in the <em>&lt;project folder&gt;/build/bin</em>
+directory.</div>
+</div>
+<img alt="../_images/image12.png" src="../_images/image12.png" />
+</li>
+</ol>
+</section>
+</section>
+<section id="next-steps">
+<h2><a class="toc-backref" href="#id8">Next Steps</a><a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>After building the shared library, it can be deployed for use in other
+C/C++ or LabVIEW applications. NI recommends manually deploying shared
+user libraries to <em>/usr/local/lib</em> and the corresponding headers to
+<em>/usr/local/include</em> or creating an *.ipk package file for use with the
+opkg package manager used on NI Linux Real-Time systems.</p>
+<p>For an example of how to call, deploy, and debug a shared library with
+an executable see Part 6: Calling a Shared Library with Visual Studio
+Code and NI Linux Real-Time.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-a-project">Creating a Project</a></li>
+<li><a class="reference internal" href="#creating-the-c-header-and-source">Creating the C Header and Source</a></li>
+<li><a class="reference internal" href="#building-the-shared-library">Building the Shared Library</a><ul>
+<li><a class="reference internal" href="#cmake-configuration">CMake Configuration</a></li>
+<li><a class="reference internal" href="#building">Building</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="hello_world.html"
+                          title="previous chapter">Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="call_shared_library.html"
+                          title="next chapter">Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cross_compile/build_shared_library.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="call_shared_library.html" title="Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hello_world.html" title="Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="cross_compile_index.html" >NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

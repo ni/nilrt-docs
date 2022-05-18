@@ -1,0 +1,434 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers &#8212; nilrt-docs 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code" href="config_vs_code.html" />
+    <link rel="prev" title="Part 1: Cross Compiling C/C++ Code for NI Linux Real-Time" href="introduction.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="config_vs_code.html" title="Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Part 1: Cross Compiling C/C++ Code for NI Linux Real-Time"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="cross_compile_index.html" accesskey="U">NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="part-2-configuring-a-development-system-with-visual-studio-code-and-the-ni-linux-real-time-c-c-compilers">
+<h1>Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers<a class="headerlink" href="#part-2-configuring-a-development-system-with-visual-studio-code-and-the-ni-linux-real-time-c-c-compilers" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#required-software" id="id2">Required Software</a></p></li>
+<li><p><a class="reference internal" href="#installing-visual-studio-code" id="id3">Installing Visual Studio Code</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installing-the-ide" id="id4">Installing the IDE</a></p></li>
+<li><p><a class="reference internal" href="#installing-extensions" id="id5">Installing Extensions</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#installing-the-c-c-cross-compile-toolchains" id="id6">Installing the C/C++ Cross Compile Toolchains</a></p></li>
+<li><p><a class="reference internal" href="#other-tools" id="id7">Other Tools</a></p>
+<ul>
+<li><p><a class="reference internal" href="#filezilla" id="id8">FileZilla</a></p></li>
+<li><p><a class="reference internal" href="#putty" id="id9">Putty</a></p></li>
+<li><p><a class="reference internal" href="#cmake" id="id10">CMake</a></p></li>
+<li><p><a class="reference internal" href="#ninja" id="id11">Ninja</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#next-steps" id="id12">Next Steps</a></p></li>
+</ul>
+</div>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The NI Linux Real-Time C/C++ Compiler toolchain provides the components
+needed to cross compile but does not include a specific development
+environment, deployment tool, build tool, or many other tools developers
+may use as part of a normal workflow. This document walks through the
+steps necessary to set up a basic configuration on a development
+computer for use with the NI Linux Real-Time C/C++ compiler including
+various third-party open-source software to fill these gaps.</p>
+</section>
+<section id="required-software">
+<h2><a class="toc-backref" href="#id2">Required Software</a><a class="headerlink" href="#required-software" title="Permalink to this headline">¶</a></h2>
+<p>The following tools are used for this series of tutorials. Note that
+these tutorials focus on the Windows version of the C/C++ toolchain but
+that the same could be accomplished on Linux Desktops with minor changes
+(e.g., using GNU Make instead of Ninja). This document briefly covers
+each tool and how to set it up.</p>
+<ul class="simple">
+<li><p>Visual Studio Code</p>
+<ul>
+<li><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++
+extension</a>
+– Microsoft extension which adds IntelliSense and debugging
+support for C/C++</p></li>
+</ul>
+</li>
+<li><p>One of the following compiler toolchains:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.ni.com/en-us/support/downloads/software-products/download.gnu-c---c---compile-tools-x64.html#338442">GNU C &amp; C++ Compilers for x64
+Linux</a>
+(Windows host) 2017 or later</p></li>
+<li><p><a class="reference external" href="https://www.ni.com/en-us/support/downloads/software-products/download.gnu-c---c---compile-tools-for-armv7.html#338448">GNU C &amp; C++ Compilers for ARMv7
+Linux</a>
+(Windows host) 2017 or later</p></li>
+</ul>
+</li>
+<li><p>FileZilla</p></li>
+<li><p>PuTTY</p></li>
+<li><p>CMake</p></li>
+<li><p>Ninja</p></li>
+</ul>
+<p>These tools are not the only options and are mainly used to demonstrate
+configuration and usage of the toolchain. Visual Studio Code allows
+completely different tooling with various extensions and command line
+tasks. For example, it’s possible to use build automation software other
+than CMake and Ninja or to use different sFTP or SSH clients. While NI
+recommends Visual Studio Code, it’s possible to use other development
+environments or editors as well.</p>
+</section>
+<section id="installing-visual-studio-code">
+<h2><a class="toc-backref" href="#id3">Installing Visual Studio Code</a><a class="headerlink" href="#installing-visual-studio-code" title="Permalink to this headline">¶</a></h2>
+<p>Visual Studio Code is a code editor created by Microsoft as a
+lightweight, stream-lined solution for common development operations.
+Thanks to its lightweight and open-source nature, Visual Studio Code
+makes an excellent environment for starting to work with various
+open-source build tools and compilers while providing many features
+users expect from modern code editors such as IntelliSense and
+debugging.</p>
+<p><strong>Note:</strong> Visual Studio Code frequently receives updates and
+improvements to appearance, usability, and functionality. This tutorial
+was created with version 1.38.1 of the environment. Other versions may
+differ in appearance.</p>
+<section id="installing-the-ide">
+<h3><a class="toc-backref" href="#id4">Installing the IDE</a><a class="headerlink" href="#installing-the-ide" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p>Navigate to the <a class="reference external" href="https://code.visualstudio.com">Visual Studio Code home
+page</a>.</p></li>
+<li><p>Download the IDE installer for your Operating System (e.g., Windows).</p></li>
+<li><p>Run the setup executable.</p></li>
+<li><div class="line-block">
+<div class="line">Follow the onscreen prompts to install, changing the settings as
+desired. The defaults will work but other options are available.</div>
+</div>
+<img alt="../_images/image110.png" src="../_images/image110.png" />
+</li>
+<li><p>Once finished, launch Visual Studio Code.</p></li>
+</ol>
+</section>
+<section id="installing-extensions">
+<h3><a class="toc-backref" href="#id5">Installing Extensions</a><a class="headerlink" href="#installing-extensions" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">In Visual Studio Code, open the <strong>Extensions</strong> pane by clicking the
+extensions icon on the left of the IDE.</div>
+</div>
+<img alt="../_images/image28.png" src="../_images/image28.png" />
+</li>
+<li><p>Search for and install each extension you want to use. Extensions
+will be automatically updated as new releases come out. For using
+with the NI Linux Real-Time Toolchain, the following extensions are
+recommended:</p>
+<ul>
+<li><div class="line-block">
+<div class="line"><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++
+extension</a>
+– Microsoft extension which adds IntelliSense and debugging
+support for C/C++</div>
+</div>
+<blockquote>
+<div><img alt="../_images/image38.png" src="../_images/image38.png" />
+</div></blockquote>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="installing-the-c-c-cross-compile-toolchains">
+<h2><a class="toc-backref" href="#id6">Installing the C/C++ Cross Compile Toolchains</a><a class="headerlink" href="#installing-the-c-c-cross-compile-toolchains" title="Permalink to this headline">¶</a></h2>
+<p>For the toolchain installation, NI recommends using the same directory
+structure for each version of the tools installed on a system. This is
+flexible as long as the cross compile configuration in the IDE points to
+the right location.</p>
+<ol class="arabic">
+<li><p>Navigate to the NI Website and download the Windows toolchains for
+ARMv7 or x64 depending on the Real-Time device and software versions
+used on the device. Each toolchain is a compressed collection of the
+required files rather than an installer. To check which toolchain is
+necessary for a given device, refer to <a class="reference external" href="https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html">Real-Time Controllers and
+Real-Time Operating System
+Compatibility.</a>
+<strong>Note:</strong> the steps below refer to the <em>toolchain version</em>.
+Typically, this corresponds to the first version that the toolchain
+supports. For example, the 2018-2019 toolchain is typically referred
+to as the 18.0 version.</p></li>
+<li><div class="line-block">
+<div class="line">If using an ARMv7 target, extract and copy the contents of the
+toolchain to <em>C:\build\&lt;toolchain version&gt;\arm\</em>. The resulting file
+structure should look as follows:</div>
+</div>
+<img alt="../_images/image42.png" src="../_images/image42.png" />
+</li>
+<li><div class="line-block">
+<div class="line">If using a x64 target, extract and copy the contents of the toolchain
+to <em>C:\build\&lt;toolchain version&gt;\x64\</em>. The resulting file structure
+should look as follows:</div>
+</div>
+<img alt="../_images/image51.png" src="../_images/image51.png" />
+</li>
+</ol>
+<p><strong>Note:</strong> Extracting the files may require extracting twice – once to
+unzip, and once to unpack the tar file. During these extractions there
+may be dialogs prompting the replacement of files or warnings. The
+warnings can be safely ignored.</p>
+</section>
+<section id="other-tools">
+<h2><a class="toc-backref" href="#id7">Other Tools</a><a class="headerlink" href="#other-tools" title="Permalink to this headline">¶</a></h2>
+<p>Since Visual Studio Code is meant to be flexible and is not tailored to
+a specific use case, much of the build and deployment process is
+decoupled from the IDE itself. This has the advantage that more advanced
+users can configure and use any third-party tools they want with many
+extensions enabling this further. Below are the options used in this
+series of tutorials and which should be installed to follow along with
+this tutorial series. Note that these options will mostly be used
+through Tasks in Visual Studio Code or separately from the environment
+but that various extensions may help integrate or better fulfil usage
+requirements.</p>
+<section id="filezilla">
+<h3><a class="toc-backref" href="#id8">FileZilla</a><a class="headerlink" href="#filezilla" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://filezilla-project.org/">FileZilla</a> is a free, cross-platform
+FTP application, consisting of FileZilla Client and FileZilla Server.
+FileZilla Client will be used as a sFTP client to transfer files to and
+from a NI Linux Real-Time system as needed. Note that this is not
+required if a system will only be used for compilation and not
+deployment.</p>
+<blockquote>
+<div><img alt="../_images/image61.png" src="../_images/image61.png" />
+</div></blockquote>
+<p><strong>Note:</strong> As an alternative to FileZilla, NI recommends the OpenSSH
+command line utilities included with Windows 10 as of the Autumn 2018
+release of that Operating System. Refer to the <a class="reference external" href="https://www.openssh.com/manual.html">official OpenSSH
+documentation</a> for information
+on its use.</p>
+</section>
+<section id="putty">
+<h3><a class="toc-backref" href="#id9">Putty</a><a class="headerlink" href="#putty" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://putty.org/">PuTTY</a> is a free and open-source terminal
+emulator, serial console and network file transfer application. In this
+use case, we’ll be using it as an SSH Client to interact with the remote
+system.</p>
+<img alt="../_images/image71.png" src="../_images/image71.png" />
+</section>
+<section id="cmake">
+<h3><a class="toc-backref" href="#id10">CMake</a><a class="headerlink" href="#cmake" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://cmake.org/download">CMake</a> is a cross-platform free and
+open-source software tool for managing the build process of software
+using a compiler-independent method. Essentially, CMake is a tool that
+generates the files needed for build tools such as Make or Ninja. It
+will allow configurable builds which, with some work, can be made cross
+platform friendly as well.</p>
+<p>This series of tutorials were created using CMake 3.14.4. For more
+information on using CMake and version difference, refer to the
+<a class="reference external" href="https://cmake.org/documentation/">official CMake documentation</a>.</p>
+<div class="line-block">
+<div class="line">NI recommends adding CMake to the system PATH during installation for
+ease of use:</div>
+</div>
+<img alt="../_images/image82.png" src="../_images/image82.png" />
+</section>
+<section id="ninja">
+<h3><a class="toc-backref" href="#id11">Ninja</a><a class="headerlink" href="#ninja" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://ninja-build.org">Ninja</a> is a small build system and one of
+the tools <a class="reference external" href="https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html">CMake can generate build files
+for</a>.
+These files allow Ninja to automate the build process for (in this case)
+C/C++ code like using GNU Make on a UNIX system. Since installing Ninja
+is a bit more involved than simply running a Windows installer, follow
+the below steps to ensure it’s configured correctly for the tutorials.</p>
+<ol class="arabic">
+<li><p>Download the Ninja binary files for Windows.</p></li>
+<li><div class="line-block">
+<div class="line">Extract and copy Ninja.exe to a suitable location (e.g.,
+<em>C:\Program Files\Ninja\</em>)</div>
+</div>
+<img alt="../_images/image92.png" src="../_images/image92.png" />
+</li>
+<li><div class="line-block">
+<div class="line">The executable can be added to the system PATH for easier use.
+Press <strong>Start+R</strong> to open the <strong>Run</strong> window, then type in
+<em>sysdm.cpl</em> and hit <strong>OK.</strong> This will launch the <strong>System
+Properties</strong> window.</div>
+</div>
+<img alt="../_images/image101.png" src="../_images/image101.png" />
+</li>
+<li><div class="line-block">
+<div class="line">In the <strong>System Properties</strong> window, navigate to the <strong>Advanced</strong>
+page and select <strong>Environment Variables…</strong> to open the
+<strong>Environment Variables</strong> window.</div>
+</div>
+<blockquote>
+<div><img alt="../_images/image111.png" src="../_images/image111.png" />
+</div></blockquote>
+</li>
+<li><div class="line-block">
+<div class="line">In the <strong>System variables</strong> section of the <strong>Environment
+Variables</strong> window, navigate to and select <strong>Path</strong> then click
+<strong>Edit…</strong></div>
+</div>
+<img alt="../_images/image121.png" src="../_images/image121.png" />
+</li>
+<li><div class="line-block">
+<div class="line">In the <strong>Edit environment variable</strong> window, click <strong>New</strong> to add a
+new path.</div>
+</div>
+<img alt="../_images/image132.png" src="../_images/image132.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Enter the path to the directory containing the ninja binary (e.g.,
+C:\Program Files\Ninja\). Click <strong>OK</strong>.</div>
+</div>
+<blockquote>
+<div><img alt="../_images/image141.png" src="../_images/image141.png" />
+</div></blockquote>
+</li>
+<li><p>Click <strong>OK</strong> twice more to exit the <strong>System Properties</strong> window.</p></li>
+<li><div class="line-block">
+<div class="line">Confirm that Ninja is now accessible in a new command prompt by
+running <em>ninja –version</em>. This</div>
+</div>
+<blockquote>
+<div><img alt="../_images/image151.png" src="../_images/image151.png" />
+</div></blockquote>
+</li>
+</ol>
+</section>
+</section>
+<section id="next-steps">
+<h2><a class="toc-backref" href="#id12">Next Steps</a><a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>With the software installed, it’s time to configure Visual Studio Code
+for a project using the NI Linux Real-Time compilers.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#required-software">Required Software</a></li>
+<li><a class="reference internal" href="#installing-visual-studio-code">Installing Visual Studio Code</a><ul>
+<li><a class="reference internal" href="#installing-the-ide">Installing the IDE</a></li>
+<li><a class="reference internal" href="#installing-extensions">Installing Extensions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-the-c-c-cross-compile-toolchains">Installing the C/C++ Cross Compile Toolchains</a></li>
+<li><a class="reference internal" href="#other-tools">Other Tools</a><ul>
+<li><a class="reference internal" href="#filezilla">FileZilla</a></li>
+<li><a class="reference internal" href="#putty">Putty</a></li>
+<li><a class="reference internal" href="#cmake">CMake</a></li>
+<li><a class="reference internal" href="#ninja">Ninja</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="introduction.html"
+                          title="previous chapter">Part 1: Cross Compiling C/C++ Code for NI Linux Real-Time</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="config_vs_code.html"
+                          title="next chapter">Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cross_compile/config_dev_system.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="config_vs_code.html" title="Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Part 1: Cross Compiling C/C++ Code for NI Linux Real-Time"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="cross_compile_index.html" >NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

@@ -1,8 +1,8 @@
 # nilrt-docs
-Repository for the https://ni.github.io/nilrt-docs documentation pages for NI Linux Real-Time. 
+Repository for the https://nilrt-docs.ni.com documentation pages for NI Linux Real-Time. 
 
 ## Introduction
-This project contains community sourced documentation for the NI Linux Real-Time Operating System. This documentation is hosted at https://ni.github.io/nilrt-docs.
+This project contains community sourced documentation for the NI Linux Real-Time Operating System. This documentation is hosted at https://nilrt-docs.ni.com.
 
 ## Building
 This documentation is built using Sphinx. To build:

@@ -2,18 +2,19 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>NI Linux Real-Time and opkg: Distributing Packages &#8212; nilrt-docs 0.1 documentation</title>
+    <title>NI Linux Real-Time and opkg: Distributing Packages &#8212; nilrt-docs 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,7 +38,7 @@
         <li class="right" >
           <a href="opkg_tutorials_index.html" title="Opkg Package System Tutorials"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="opkg_tutorials_index.html" accesskey="U">Opkg Package System Tutorials</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">NI Linux Real-Time and opkg: Distributing Packages</a></li> 
       </ul>
@@ -49,8 +50,8 @@
           <div class="body" role="main">
             
   <section id="ni-linux-real-time-and-opkg-distributing-packages">
-<h1>NI Linux Real-Time and opkg: Distributing Packages<a class="headerlink" href="#ni-linux-real-time-and-opkg-distributing-packages" title="Permalink to this headline">¶</a></h1>
-<div class="contents local topic" id="table-of-contents">
+<h1>NI Linux Real-Time and opkg: Distributing Packages<a class="headerlink" href="#ni-linux-real-time-and-opkg-distributing-packages" title="Permalink to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p>
@@ -79,15 +80,15 @@
 <li><p><a class="reference internal" href="#a-note-for-more-general-use-cases" id="id15">A Note for More General Use Cases</a></p></li>
 <li><p><a class="reference internal" href="#resources" id="id16">Resources</a></p></li>
 </ul>
-</div>
+</nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id1">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Oftentimes it can be desirable to extend the functionality provided by
 the Linux kernel and have access to other custom packages. This document
 will discuss how to create, package, and test loadable packages with NI
 Linux Real-Time.</p>
 <section id="a-note-on-support">
-<h3><a class="toc-backref" href="#id2">A Note on Support</a><a class="headerlink" href="#a-note-on-support" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">A Note on Support</a><a class="headerlink" href="#a-note-on-support" title="Permalink to this heading">¶</a></h3>
 <p>This document is meant as a walkthrough of general Linux concepts within
 NI Linux Real-Time. As these concepts are general to any Linux system
 and the open source software used, NI Support will not provide
@@ -103,7 +104,7 @@ other Linux discussion boards is the recommended way to get further
 guidance.</p>
 </section>
 <section id="requirements">
-<h3><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h3>
 <p>The following software and hardware are required to follow this
 tutorial:</p>
 <ul class="simple">
@@ -119,7 +120,7 @@ shared libraries.</p></li>
 </ul>
 </section>
 <section id="opkg">
-<h3><a class="toc-backref" href="#id4">Opkg</a><a class="headerlink" href="#opkg" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Opkg</a><a class="headerlink" href="#opkg" title="Permalink to this heading">¶</a></h3>
 <p>Opkg is a light-weight package manager which uses the *.ipk format to
 install and manage packages on a filesystem. While slightly different,
 *.ipks are very similar to *.deb packages and are based on that
@@ -134,7 +135,7 @@ information on opkg, refer to the official documentation.</p>
 </section>
 </section>
 <section id="configuring-the-system">
-<h2><a class="toc-backref" href="#id5">Configuring the System</a><a class="headerlink" href="#configuring-the-system" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Configuring the System</a><a class="headerlink" href="#configuring-the-system" title="Permalink to this heading">¶</a></h2>
 <p>Before starting, the required software and toolchains must be installed
 to the NI Linux Real-Time system used. This can be accomplished through
 console access to the device via a serial port, SSH, or direct access
@@ -161,7 +162,7 @@ creating *.ipks.
 </ol>
 </section>
 <section id="source-files">
-<h2><a class="toc-backref" href="#id6">Source Files</a><a class="headerlink" href="#source-files" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Source Files</a><a class="headerlink" href="#source-files" title="Permalink to this heading">¶</a></h2>
 <p>To demonstrate building and testing a package, this tutorial will use a
 simple “Hello, World!” example. While this same process will apply to
 any package, NI recommends walking through the process for this simple
@@ -174,7 +175,7 @@ files:</p>
 <li><p><em>debain-binary</em> - The debian-binary file</p></li>
 </ul>
 <section id="helloworld-c">
-<span id="helloworldc"></span><h3><a class="toc-backref" href="#id7">helloworld.c</a><a class="headerlink" href="#helloworld-c" title="Permalink to this headline">¶</a></h3>
+<span id="helloworldc"></span><h3><a class="toc-backref" href="#id7" role="doc-backlink">helloworld.c</a><a class="headerlink" href="#helloworld-c" title="Permalink to this heading">¶</a></h3>
 <p>This is C source code for a simple “Hello, World!” program.</p>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
@@ -199,14 +200,14 @@ sure to install the compile tools which will allow you to use gcc.</p>
 </section>
 </section>
 <section id="creating-the-package-file">
-<h2><a class="toc-backref" href="#id8">Creating the Package File</a><a class="headerlink" href="#creating-the-package-file" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Creating the Package File</a><a class="headerlink" href="#creating-the-package-file" title="Permalink to this heading">¶</a></h2>
 <p>With the source in hand, the next step is to package it into an *.ipk
 for redistribution. As mentioned previously, *.ipks are very similar to
 *.deb packages and are based on that standard. For more information on
 creating *.ipks and the options for doing so, NI recommends referring
 to the official documentation for opkg and opkg-build.</p>
 <section id="directory-structure">
-<h3><a class="toc-backref" href="#id9">Directory Structure</a><a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Directory Structure</a><a class="headerlink" href="#directory-structure" title="Permalink to this heading">¶</a></h3>
 <p>To create an *.ipk file, everything must be in the proper directory
 structure. For this tutorial the following directory structure will be
 used.</p>
@@ -242,7 +243,7 @@ recreate the file structure shown above on the NI Linux Real-Time system
 with the files provided for this tutorial.</p>
 </section>
 <section id="control-file">
-<h3><a class="toc-backref" href="#id10">Control File</a><a class="headerlink" href="#control-file" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Control File</a><a class="headerlink" href="#control-file" title="Permalink to this heading">¶</a></h3>
 <p>The control file describes the package’s dependencies, maintainer, name,
 version, and other information required by opkg to ensure proper
 installation. Much of this information will also be returned if the
@@ -259,7 +260,7 @@ installation. Much of this information will also be returned if the
 </div>
 </section>
 <section id="the-debian-binary-file">
-<h3><a class="toc-backref" href="#id11">The debian-binary File</a><a class="headerlink" href="#the-debian-binary-file" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">The debian-binary File</a><a class="headerlink" href="#the-debian-binary-file" title="Permalink to this heading">¶</a></h3>
 <p>This file should be a text file containing only the following line, as
 described by the *.ipk standard.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">2.0</span>
@@ -267,7 +268,7 @@ described by the *.ipk standard.</p>
 </div>
 </section>
 <section id="scripts">
-<h3><a class="toc-backref" href="#id12">Scripts</a><a class="headerlink" href="#scripts" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Scripts</a><a class="headerlink" href="#scripts" title="Permalink to this heading">¶</a></h3>
 <p>As mentioned previously, there are two optional scripts when creating
 *.ipk files for installing packages. These scripts handle the
 registration, installation, and removal of files during installation and
@@ -276,29 +277,29 @@ removal of the package.</p>
 privileges. To ensure that this is the case, run <strong>chmod a+x &lt;script&gt;</strong>
 before attempting to build a package.</p>
 <section id="preinst">
-<h4>preinst<a class="headerlink" href="#preinst" title="Permalink to this headline">¶</a></h4>
+<h4>preinst<a class="headerlink" href="#preinst" title="Permalink to this heading">¶</a></h4>
 <p>The preinst script will be run before the installation of the package
 files.</p>
 </section>
 <section id="postinst">
-<h4>postinst<a class="headerlink" href="#postinst" title="Permalink to this headline">¶</a></h4>
+<h4>postinst<a class="headerlink" href="#postinst" title="Permalink to this heading">¶</a></h4>
 <p>The postinst script will be run upon finishing the installation of the
 package files.</p>
 </section>
 <section id="premrm">
-<h4>premrm<a class="headerlink" href="#premrm" title="Permalink to this headline">¶</a></h4>
+<h4>premrm<a class="headerlink" href="#premrm" title="Permalink to this heading">¶</a></h4>
 <p>The <em>prerm</em> script will be run by opkg before any files are removed
 during package removal.</p>
 </section>
 <section id="postrm">
-<h4>postrm<a class="headerlink" href="#postrm" title="Permalink to this headline">¶</a></h4>
+<h4>postrm<a class="headerlink" href="#postrm" title="Permalink to this heading">¶</a></h4>
 <p>The <em>postrm</em> script will be run by opkg after files are removed during
 package removal.</p>
 </section>
 </section>
 </section>
 <section id="building-the-package">
-<h2><a class="toc-backref" href="#id13">Building the Package</a><a class="headerlink" href="#building-the-package" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Building the Package</a><a class="headerlink" href="#building-the-package" title="Permalink to this heading">¶</a></h2>
 <p>Once the directory structure is in place, all that’s necessary is to
 build them into an *.ipk package.</p>
 <ol class="arabic simple">
@@ -310,7 +311,7 @@ directory for the package. In this case, the directory containing the
 </ol>
 </section>
 <section id="building-the-feed">
-<h2><a class="toc-backref" href="#id14">Building the Feed</a><a class="headerlink" href="#building-the-feed" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Building the Feed</a><a class="headerlink" href="#building-the-feed" title="Permalink to this heading">¶</a></h2>
 <p>If you wish to turn the directory into a feed, you can perform the
 following step to generate Packages and Packages.gz files.</p>
 <ol class="arabic simple">
@@ -324,7 +325,7 @@ system used to create the *.ipk and installing from scratch. You can
 simply transfer the ipk to the target, and then install it using opkg.</p>
 </section>
 <section id="a-note-for-more-general-use-cases">
-<h2><a class="toc-backref" href="#id15">A Note for More General Use Cases</a><a class="headerlink" href="#a-note-for-more-general-use-cases" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">A Note for More General Use Cases</a><a class="headerlink" href="#a-note-for-more-general-use-cases" title="Permalink to this heading">¶</a></h2>
 <p>The tutorial above just walked through the steps for building an ipk
 that includes a Hello World executable. If you want to apply this to an
 ipk that will include various shared libraries, you can still follow the
@@ -345,7 +346,7 @@ it is best practice to install shared libraries to /usr/ directories. It
 is best practice to use /usr/local/ for things not managed by opkg</p>
 </section>
 <section id="resources">
-<h2><a class="toc-backref" href="#id16">Resources</a><a class="headerlink" href="#resources" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">Resources</a><a class="headerlink" href="#resources" title="Permalink to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://forums.ni.com/t5/NI-Linux-Real-Time/ct-p/7013?profile.language=en">NI Linux Real-Time Community and Discussion
 Forums</a></p></li>
@@ -432,7 +433,7 @@ Eclipse Edition</a></p></li>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -449,14 +450,14 @@ Eclipse Edition</a></p></li>
         <li class="right" >
           <a href="opkg_tutorials_index.html" title="Opkg Package System Tutorials"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="opkg_tutorials_index.html" >Opkg Package System Tutorials</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">NI Linux Real-Time and opkg: Distributing Packages</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.0.
     </div>
   </body>
 </html>

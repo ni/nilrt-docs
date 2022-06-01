@@ -2,18 +2,19 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code &#8212; nilrt-docs 0.1 documentation</title>
+    <title>Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code &#8212; nilrt-docs 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,7 +38,7 @@
         <li class="right" >
           <a href="config_dev_system.html" title="Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="cross_compile_index.html" accesskey="U">NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code</a></li> 
       </ul>
@@ -49,8 +50,8 @@
           <div class="body" role="main">
             
   <section id="part-3-configuring-visual-studio-code-for-building-ni-linux-real-time-c-c-code">
-<h1>Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code<a class="headerlink" href="#part-3-configuring-visual-studio-code-for-building-ni-linux-real-time-c-c-code" title="Permalink to this headline">¶</a></h1>
-<div class="contents local topic" id="table-of-contents">
+<h1>Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code<a class="headerlink" href="#part-3-configuring-visual-studio-code-for-building-ni-linux-real-time-c-c-code" title="Permalink to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p></li>
@@ -62,9 +63,9 @@
 <li><p><a class="reference internal" href="#expanding-on-the-template" id="id7">Expanding on the Template</a></p></li>
 <li><p><a class="reference internal" href="#next-steps" id="id8">Next Steps</a></p></li>
 </ul>
-</div>
+</nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id1">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>Creating code using Visual Studio Code and the NI Linux Real-Time C/C++
 Compiler toolchain starts with the creation and configuration of files
 that represent a project. As this process is similar for all types of
@@ -72,7 +73,7 @@ builds that the C/C++ compiler will perform, the initial setup done here
 can be considered a project template for all types of builds.</p>
 </section>
 <section id="creating-projects">
-<h2><a class="toc-backref" href="#id2">Creating Projects</a><a class="headerlink" href="#creating-projects" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Creating Projects</a><a class="headerlink" href="#creating-projects" title="Permalink to this heading">¶</a></h2>
 <p>Visual Studio Code does not use the idea of a “project” but rather acts
 on directories or folders and the files within them. That is, instead of
 opening a special project file Visual Studio Code opens a folder. In
@@ -120,7 +121,7 @@ HelloWorld folder using the <strong>New Folder</strong> button.</div>
 </ol>
 </section>
 <section id="creating-tasks-and-the-command-palette">
-<h2><a class="toc-backref" href="#id3">Creating Tasks and the Command Palette</a><a class="headerlink" href="#creating-tasks-and-the-command-palette" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Creating Tasks and the Command Palette</a><a class="headerlink" href="#creating-tasks-and-the-command-palette" title="Permalink to this heading">¶</a></h2>
 <p>Visual Studio Code allows execution of various commands through the
 <strong>Command Palette</strong> which is accessible via the <strong>Ctrl + Shift + P</strong>
 shortcut. This opens a list of the various commands and actions that are
@@ -206,7 +207,7 @@ output is notscanned for errors and terminal output needs reviewed.</p>
 </ol>
 </section>
 <section id="configuring-the-c-c-extension-for-intellisense">
-<h2><a class="toc-backref" href="#id4">Configuring the C/C++ Extension for IntelliSense</a><a class="headerlink" href="#configuring-the-c-c-extension-for-intellisense" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Configuring the C/C++ Extension for IntelliSense</a><a class="headerlink" href="#configuring-the-c-c-extension-for-intellisense" title="Permalink to this heading">¶</a></h2>
 <p>The C/C++ extension – while in pre-release at the time of writing – is a
 powerful extension from Microsoft that enables C/C++ IntelliSense
 features such as autocompletion as well as debugger support and simple
@@ -297,7 +298,7 @@ devices.</div>
 </ol>
 </section>
 <section id="creating-a-debugging-configuration">
-<h2><a class="toc-backref" href="#id5">Creating a Debugging Configuration</a><a class="headerlink" href="#creating-a-debugging-configuration" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Creating a Debugging Configuration</a><a class="headerlink" href="#creating-a-debugging-configuration" title="Permalink to this heading">¶</a></h2>
 <p>Visual Studio Code uses a configuration file called <em>launch.json</em> to
 configure the debugger for the environment. With the addition of the
 C/C++ extension, support for C/C++ debuggers such as the GNU Debugger is
@@ -380,7 +381,7 @@ that not all fields are currently completed.</p>
 </ol>
 </section>
 <section id="creating-a-cmake-build-configuration">
-<h2><a class="toc-backref" href="#id6">Creating a CMake Build Configuration</a><a class="headerlink" href="#creating-a-cmake-build-configuration" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Creating a CMake Build Configuration</a><a class="headerlink" href="#creating-a-cmake-build-configuration" title="Permalink to this heading">¶</a></h2>
 <p>CMake determines how to generate build files and what specific
 configurations to use for a given design through scripts called
 CMakeLists. These are text files with various variables and commands to
@@ -507,7 +508,7 @@ will need to be expanded upon when specifying a build target.</p></li>
 </ol>
 </section>
 <section id="expanding-on-the-template">
-<h2><a class="toc-backref" href="#id7">Expanding on the Template</a><a class="headerlink" href="#expanding-on-the-template" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Expanding on the Template</a><a class="headerlink" href="#expanding-on-the-template" title="Permalink to this heading">¶</a></h2>
 <p>While this document acts as a basic setup for cross-compiling for Linux
 Real-Time devices, Visual Studio Code’s inherent flexibility allows for
 greater improvements depending on the desired workflow. Some examples of
@@ -534,7 +535,7 @@ for more information on supported version control providers.</p></li>
 </ul>
 </section>
 <section id="next-steps">
-<h2><a class="toc-backref" href="#id8">Next Steps</a><a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Next Steps</a><a class="headerlink" href="#next-steps" title="Permalink to this heading">¶</a></h2>
 <p>With the template project created, it’s time to create a Hello World
 application and walk through building an executable.</p>
 </section>
@@ -590,7 +591,7 @@ application and walk through building an executable.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -607,14 +608,14 @@ application and walk through building an executable.</p>
         <li class="right" >
           <a href="config_dev_system.html" title="Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="cross_compile_index.html" >NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.0.
     </div>
   </body>
 </html>

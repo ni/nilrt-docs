@@ -2,18 +2,19 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time &#8212; nilrt-docs 0.1 documentation</title>
+    <title>Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time &#8212; nilrt-docs 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,7 +38,7 @@
         <li class="right" >
           <a href="build_shared_library.html" title="Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="cross_compile_index.html" accesskey="U">NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time</a></li> 
       </ul>
@@ -49,8 +50,8 @@
           <div class="body" role="main">
             
   <section id="part-6-calling-and-debugging-a-shared-library-with-visual-studio-code-and-ni-linux-real-time">
-<h1>Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time<a class="headerlink" href="#part-6-calling-and-debugging-a-shared-library-with-visual-studio-code-and-ni-linux-real-time" title="Permalink to this headline">¶</a></h1>
-<div class="contents local topic" id="table-of-contents">
+<h1>Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time<a class="headerlink" href="#part-6-calling-and-debugging-a-shared-library-with-visual-studio-code-and-ni-linux-real-time" title="Permalink to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p>
@@ -75,9 +76,9 @@
 </ul>
 </li>
 </ul>
-</div>
+</nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id1">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>In addition to creating standalone applications and custom user
 libraries, the NI Linux Real-Time GNU C/C++ toolchain allows the use of
 external libraries in applications or code. This tutorial walks through
@@ -86,7 +87,7 @@ Building a Shared Library with Visual Studio Code and NI Linux
 Real-Time. Note that with the proper adjustments, this process can be
 applied to any shared library.</p>
 <section id="requirements">
-<h3><a class="toc-backref" href="#id2">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h3>
 <p>This tutorial requires the following software and hardware:</p>
 <ul class="simple">
 <li><p>A development PC configured as described in Configuring a Development
@@ -103,7 +104,7 @@ used.</p></li>
 </section>
 </section>
 <section id="configuring-the-sysroot">
-<h2><a class="toc-backref" href="#id3">Configuring the Sysroot</a><a class="headerlink" href="#configuring-the-sysroot" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Configuring the Sysroot</a><a class="headerlink" href="#configuring-the-sysroot" title="Permalink to this heading">¶</a></h2>
 <p>For this tutorial the shared library will be dynamically linked. That
 is, the library will remain external to the application but will be
 loaded at run time by the final executable. For this to work the linker
@@ -182,7 +183,7 @@ directory.</div>
 </ol>
 </section>
 <section id="creating-a-project">
-<h2><a class="toc-backref" href="#id4">Creating a Project</a><a class="headerlink" href="#creating-a-project" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Creating a Project</a><a class="headerlink" href="#creating-a-project" title="Permalink to this heading">¶</a></h2>
 <p>This tutorial assumes that a template project for ARMv7 or x64 NI Linux
 Real-Time Targets has been created as detailed in Configuring Visual
 Studio Code for Building NI Linux Real-Time C/C++ Code. With a template
@@ -230,7 +231,7 @@ includes in that directory are found by IntelliSense.</div>
 </ol>
 </section>
 <section id="creating-the-c-source-code">
-<h2><a class="toc-backref" href="#id5">Creating the C Source Code</a><a class="headerlink" href="#creating-the-c-source-code" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Creating the C Source Code</a><a class="headerlink" href="#creating-the-c-source-code" title="Permalink to this heading">¶</a></h2>
 <p>To test the library, a simple C application will be used to call a
 function from that library. The example library only has one function,
 so this is straight forward.</p>
@@ -260,9 +261,9 @@ titled <em>callingSharedLibary.c.</em></p></li>
 </ol>
 </section>
 <section id="building-the-shared-library">
-<h2><a class="toc-backref" href="#id6">Building the Shared Library</a><a class="headerlink" href="#building-the-shared-library" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Building the Shared Library</a><a class="headerlink" href="#building-the-shared-library" title="Permalink to this heading">¶</a></h2>
 <section id="cmake-configuration">
-<h3><a class="toc-backref" href="#id7">CMake Configuration</a><a class="headerlink" href="#cmake-configuration" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">CMake Configuration</a><a class="headerlink" href="#cmake-configuration" title="Permalink to this heading">¶</a></h3>
 <p>CMake uses a <em>CMakeLists.txt</em> file for any build configuration. That is,
 the actual CMake program takes its instructions from a <em>CMakeLists.txt</em>
 file that defines one or more build targets and the configurations
@@ -316,7 +317,7 @@ C/C++ compiler.</p>
 </ol>
 </section>
 <section id="building">
-<h3><a class="toc-backref" href="#id8">Building</a><a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Building</a><a class="headerlink" href="#building" title="Permalink to this heading">¶</a></h3>
 <p>With a completed build configuration, Visual Studio Tasks will be used
 to build the output binaries. Refer to the <a class="reference external" href="https://code.visualstudio.com/docs/editor/tasks">Integrate with External
 Tools via Tasks</a> for
@@ -365,7 +366,7 @@ directory.</div>
 </section>
 </section>
 <section id="deploying-and-running-the-compiled-executable">
-<h2><a class="toc-backref" href="#id9">Deploying and Running the Compiled Executable</a><a class="headerlink" href="#deploying-and-running-the-compiled-executable" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Deploying and Running the Compiled Executable</a><a class="headerlink" href="#deploying-and-running-the-compiled-executable" title="Permalink to this heading">¶</a></h2>
 <p>For the built executable binary to run properly, the shared library and
 executable must both be deployed and given execute permissions. The
 steps required to accomplish this using FileZilla are below, but any
@@ -450,7 +451,7 @@ to enter input when prompted by the application.</div>
 </ol>
 </section>
 <section id="debugging-remotely-with-gdb">
-<h2><a class="toc-backref" href="#id10">Debugging Remotely with GDB</a><a class="headerlink" href="#debugging-remotely-with-gdb" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Debugging Remotely with GDB</a><a class="headerlink" href="#debugging-remotely-with-gdb" title="Permalink to this heading">¶</a></h2>
 <p>Debugging remotely with Visual Studio Code will allow debugging of both
 the shared object and the executable using the GNU Debugger. NI includes
 gdbserver on NI Linux Real-Time targets by default, while the NI Linux
@@ -462,7 +463,7 @@ this file, the remote target, gdbserver port, and executable to be
 debugged are defined before launching a connection to the remote debug
 server.</p>
 <section id="configuring-launch-json">
-<h3><a class="toc-backref" href="#id11">Configuring launch.json</a><a class="headerlink" href="#configuring-launch-json" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Configuring launch.json</a><a class="headerlink" href="#configuring-launch-json" title="Permalink to this heading">¶</a></h3>
 <p>The <em>launch.json</em> file contains the information necessary to allow
 Visual Studio Code to use a debugger such as the GNU Debugger (gdb). For
 more information on launch configurations and debugging in Visual Studio
@@ -514,7 +515,7 @@ correct file locations.</p></li>
 </ol>
 </section>
 <section id="debugging-the-remote-executable-and-shared-library">
-<h3><a class="toc-backref" href="#id12">Debugging the Remote Executable and Shared Library</a><a class="headerlink" href="#debugging-the-remote-executable-and-shared-library" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Debugging the Remote Executable and Shared Library</a><a class="headerlink" href="#debugging-the-remote-executable-and-shared-library" title="Permalink to this heading">¶</a></h3>
 <p>Debugging the executable on the remote system requires launching
 gdbserver with the executable at the port specified in <em>launch.json</em>
 then run the launch profile defined in Visual Studio Code to connect the
@@ -654,7 +655,7 @@ files. If this occurs, finish debugging with either <strong>Continue</strong> or
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -671,14 +672,14 @@ files. If this occurs, finish debugging with either <strong>Continue</strong> or
         <li class="right" >
           <a href="build_shared_library.html" title="Part 5: Building a Shared Library with Visual Studio Code and NI Linux Real-Time"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="cross_compile_index.html" >NI Linux Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile Toolchain with Visual Studio Code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Part 6: Calling and Debugging a Shared Library with Visual Studio Code and NI Linux Real-Time</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.0.
     </div>
   </body>
 </html>

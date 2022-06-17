@@ -158,7 +158,7 @@ function from that library. The example library only has one function,
 so this is straight forward.
 
 1. In the *src* directory of the project, create a new source file
-   titled *callingSharedLibary.c.*
+   titled *callingSharedLibrary.c.*
 
 2. Complete the source file as shown below.
 

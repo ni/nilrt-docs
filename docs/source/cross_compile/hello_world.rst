@@ -122,6 +122,7 @@ documentation <https://cmake.org/cmake/help/latest/>`__.
 1. Open the *<project directory>/build/CMakeLists.txt* file in the
    Visual Studio Code editor.
 2. Add the following lines to the end of the file.
+
    .. code:: cmake
 
       # project specific information
@@ -327,7 +328,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
             "environment": [],
             "showDisplayString": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:/build/18.0/x64/sysroots/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
+            "miDebuggerPath": "C:/build/18.0/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
             "miDebuggerServerAddress": "10.2.110.136:9092"
           }
         ]

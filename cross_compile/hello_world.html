@@ -192,16 +192,15 @@ documentation</a>.</p>
 <ol class="arabic">
 <li><p>Open the <em>&lt;project directory&gt;/build/CMakeLists.txt</em> file in the
 Visual Studio Code editor.</p></li>
-<li><p>Add the following lines to the end of the file.
-.. code:: cmake</p>
-<blockquote>
-<div><p># project specific information
-cmake_minimum_required(VERSION 3.14)
-project(helloWorld)
-set(EXECUTABLE_OUTPUT_PATH bin)
-set(CMAKE_BUILD_TYPE Debug)
-add_executable(helloWorld ../src/helloWorld.c)</p>
-</div></blockquote>
+<li><p>Add the following lines to the end of the file.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># project specific information</span>
+<span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.14</span><span class="p">)</span>
+<span class="nb">project</span><span class="p">(</span><span class="s">helloWorld</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">EXECUTABLE_OUTPUT_PATH</span><span class="w"> </span><span class="s">bin</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_BUILD_TYPE</span><span class="w"> </span><span class="s">Debug</span><span class="p">)</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">helloWorld</span><span class="w"> </span><span class="s">../src/helloWorld.c</span><span class="p">)</span>
+</pre></div>
+</div>
 </li>
 <li><p>Save <em>CMakeLists.txt.</em></p></li>
 </ol>
@@ -405,7 +404,7 @@ and the local binary build.</div>
 <span class="w">      </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;showDisplayString&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;MIMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gdb&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/x64/sysroots/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;miDebuggerServerAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.2.110.136:9092&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="p">]</span><span class="w"></span>

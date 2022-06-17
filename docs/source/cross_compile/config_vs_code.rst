@@ -195,7 +195,8 @@ includes and other necessary resources.
                  "--sysroot=${compilerSysroots}/core2-64-nilrt-linux/"
                ],
                "includePath": [
-                 "${workspaceFolder}/"
+                 "${workspaceFolder}/",
+                 "${workspaceFolder}/core2-64-nilrt-linux/usr/include/"
                ],
                "intelliSenseMode": "gcc-x64"
              }
@@ -219,7 +220,8 @@ includes and other necessary resources.
                  "--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/"
                ],
                "includePath": [
-                 "${workspaceFolder}/"
+                 "${workspaceFolder}/",
+                 "${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/"
                ],
                "intelliSenseMode": "gcc-x86"
              }

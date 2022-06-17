@@ -17,6 +17,9 @@ jobs:
       with:
         target_branch: 'gh-pages'
         documentation_path: './docs/source'
+    - name: Preserve Configuration Files
+      run: |
+        git checkout main -- CNAME CODEOWNERS
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4
       with:

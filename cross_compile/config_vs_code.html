@@ -242,12 +242,13 @@ reference</a>.</div>
 <span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NI Linux Real-Time x64&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;compilerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${compilerSysroots}/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;compilerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;compilerArgs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">        </span><span class="s2">&quot;--sysroot=${compilerSysroots}/core2-64-nilrt-linux/&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;includePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/core2-64-nilrt-linux/usr/include/&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;intelliSenseMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gcc-x64&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
@@ -267,12 +268,13 @@ reference</a>.</div>
 <span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NI Linux Real-Time ARMv7&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;compilerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${compilerSysroots}/i686-nilrtsdkmingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gcc&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;compilerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gcc.exe&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;compilerArgs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">        </span><span class="s2">&quot;--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;includePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;intelliSenseMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gcc-x86&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
@@ -341,7 +343,7 @@ that not all fields are currently completed.</p>
 <span class="w">      </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;showDisplayString&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;MIMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gdb&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/x64/sysroots/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;miDebuggerServerAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;serveraddress:port&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="p">]</span><span class="w"></span>
@@ -367,7 +369,7 @@ that not all fields are currently completed.</p>
 <span class="w">      </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;showDisplayString&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;MIMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gdb&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/arm/sysroots/i686-nilrtsdkmingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/arm/sysroots/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe&quot;</span><span class="p">,</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;miDebuggerServerAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;serveraddress:port&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="w">  </span><span class="p">]</span><span class="w"></span>
@@ -476,21 +478,19 @@ compiler flags.</p>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS_RELEASE</span><span class="w"> </span><span class="s2">&quot;-O3&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<ol class="arabic" start="2">
-<li><p>For NI Linux Real-Time ARM targets:
-.. code:: cmake</p>
-<blockquote>
-<div><p>set(CMAKE_SYSROOT ${toolchainpath}/cortexa9-vfpv3-nilrt-linux-gnueabi)
-set(CMAKE_&lt;LANG&gt;_STANDARD_INCLUDE_DIRECTORIES ${toolchainpath}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0 ${toolchainpath}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0/arm-nilrt-linux-gnueabi)
-set(CMAKE_&lt;LANG&gt;_FLAGS “-Wall -fmessage-length=0 -mfpu=vfpv3 -mfloat-abi=softfp”)
-set(CMAKE_&lt;LANG&gt;_FLAGS_DEBUG “-O0 -g3”)
-set(CMAKE_&lt;LANG&gt;_FLAGS_RELEASE “-O3”)</p>
-</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>For NI Linux Real-Time ARM targets:</p></li>
+</ol>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_SYSROOT</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/cortexa9-vfpv3-nilrt-linux-gnueabi</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_STANDARD_INCLUDE_DIRECTORIES</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0/arm-nilrt-linux-gnueabi</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS</span><span class="w"> </span><span class="s2">&quot;-Wall -fmessage-length=0 -mfpu=vfpv3 -mfloat-abi=softfp&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS_DEBUG</span><span class="w"> </span><span class="s2">&quot;-O0 -g3&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS_RELEASE</span><span class="w"> </span><span class="s2">&quot;-O3&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <p><strong>Note:</strong> NI recommends using the <strong>-mfpu=vfpv3
 -mfloat-abi=softfp</strong> flags for ARM targets to improve
 floating-point operation performance.</p>
-</li>
-</ol>
 </li>
 <li><p>Search behavior must be specified to ensure that the compiler doesn’t
 unnecessarily pull in includes from the host system’s paths. This

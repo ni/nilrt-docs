@@ -412,7 +412,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
             "environment": [],
             "showDisplayString": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:/build/18.0/x64/sysroots/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
+            "miDebuggerPath": "C:/build/18.0/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
             "miDebuggerServerAddress": "10.2.110.136:9092"
           }
         ]

@@ -190,7 +190,7 @@ includes and other necessary resources.
            "configurations": [
              {
                "name": "NI Linux Real-Time x64",
-               "compilerPath": "${compilerSysroots}/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc",
+               "compilerPath": "${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe",
                "compilerArgs": [
                  "--sysroot=${compilerSysroots}/core2-64-nilrt-linux/"
                ],
@@ -214,7 +214,7 @@ includes and other necessary resources.
            "configurations": [
              {
                "name": "NI Linux Real-Time ARMv7",
-               "compilerPath": "${compilerSysroots}/i686-nilrtsdkmingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gcc",
+               "compilerPath": "${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gcc.exe",
                "compilerArgs": [
                  "--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/"
                ],
@@ -285,7 +285,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
                "environment": [],
                "showDisplayString": true,
                "MIMode": "gdb",
-               "miDebuggerPath": "C:/build/18.0/x64/sysroots/i686-nilrtsdkmingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
+               "miDebuggerPath": "C:/build/18.0/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
                "miDebuggerServerAddress": "serveraddress:port"
              }
            ]
@@ -310,7 +310,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
                "environment": [],
                "showDisplayString": true,
                "MIMode": "gdb",
-               "miDebuggerPath": "C:/build/18.0/arm/sysroots/i686-nilrtsdkmingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe",
+               "miDebuggerPath": "C:/build/18.0/arm/sysroots/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe",
                "miDebuggerServerAddress": "serveraddress:port"
              }
            ]

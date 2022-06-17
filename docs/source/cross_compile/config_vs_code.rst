@@ -421,17 +421,19 @@ used.
       set(CMAKE_<LANG>_FLAGS_RELEASE "-O3")
 
    2. For NI Linux Real-Time ARM targets:
-      .. code:: cmake
 
-         set(CMAKE_SYSROOT ${toolchainpath}/cortexa9-vfpv3-nilrt-linux-gnueabi)
-         set(CMAKE_<LANG>_STANDARD_INCLUDE_DIRECTORIES ${toolchainpath}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0 ${toolchainpath}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0/arm-nilrt-linux-gnueabi)
-         set(CMAKE_<LANG>_FLAGS "-Wall -fmessage-length=0 -mfpu=vfpv3 -mfloat-abi=softfp")
-         set(CMAKE_<LANG>_FLAGS_DEBUG "-O0 -g3")
-         set(CMAKE_<LANG>_FLAGS_RELEASE "-O3")
+   .. code:: cmake
 
-      **Note:** NI recommends using the **-mfpu=vfpv3
-      -mfloat-abi=softfp** flags for ARM targets to improve
-      floating-point operation performance.
+      set(CMAKE_SYSROOT ${toolchainpath}/cortexa9-vfpv3-nilrt-linux-gnueabi)
+      set(CMAKE_<LANG>_STANDARD_INCLUDE_DIRECTORIES ${toolchainpath}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0 ${toolchainpath}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/include/c++/6.3.0/arm-nilrt-linux-gnueabi)
+      set(CMAKE_<LANG>_FLAGS "-Wall -fmessage-length=0 -mfpu=vfpv3 -mfloat-abi=softfp")
+      set(CMAKE_<LANG>_FLAGS_DEBUG "-O0 -g3")
+      set(CMAKE_<LANG>_FLAGS_RELEASE "-O3")
+
+
+   **Note:** NI recommends using the **-mfpu=vfpv3
+   -mfloat-abi=softfp** flags for ARM targets to improve
+   floating-point operation performance.
 
 6. Search behavior must be specified to ensure that the compiler doesn’t
    unnecessarily pull in includes from the host system’s paths. This

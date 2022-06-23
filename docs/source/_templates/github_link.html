@@ -1,0 +1,16 @@
+{# 
+    Template to show link to documentation GitHub source instead
+    of local rst source.
+#}
+
+{%- if show_source and has_source and sourcename %}
+  <div role="note" aria-label="source link">
+    <h3>{{ _('GitHub Source') }}</h3>
+    <ul class="this-page-menu">
+      <li><a href="{{ github_repo_url }}"
+            rel="nofollow">{{ _('Source on GitHub') }}</a></li>
+      <li><a href="{{ github_repo_url + 'blob/' + github_branch + github_src_path + pagename + '.rst' }}"
+            rel="nofollow">{{ _('Show Document Source') }}</a></li>
+    </ul>
+   </div>
+{%- endif %}

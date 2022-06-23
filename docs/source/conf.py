@@ -53,3 +53,15 @@ html_theme = 'bizstyle'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+html_context = {
+    'github_repo_url': 'https://github.com/ni/nilrt-docs/',
+    'github_branch': 'main/',
+    'github_src_path': 'docs/source/',
+}
+
+html_sourcelink_suffix = ''
+
+html_sidebars = {
+   '**': ['localtoc.html', 'relations.html', 'github_link.html', 'searchbox.html'],
+}

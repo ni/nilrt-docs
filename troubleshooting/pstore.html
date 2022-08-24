@@ -1,0 +1,128 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Obtaining Kernel Logs from a Prior System Crash Via pstore &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="NI Linux Real-Time Debug Documentation" href="troubleshooting_index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" accesskey="U">NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Obtaining Kernel Logs from a Prior System Crash Via pstore</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="obtaining-kernel-logs-from-a-prior-system-crash-via-pstore">
+<h1>Obtaining Kernel Logs from a Prior System Crash Via pstore<a class="headerlink" href="#obtaining-kernel-logs-from-a-prior-system-crash-via-pstore" title="Permalink to this heading">¶</a></h1>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
+<p>On Linux, the dmesg log (i.e., the log printed from the <cite>dmesg</cite> command) is the kernel message buffer. Any <cite>printk</cite> kernel message logs end up here. When the kernel crashes, a stack trace is printed to the kernel message buffer. Unfortunately, a crash typically means the system reboots which will wipe out any values in the kernel message buffer.</p>
+<p>On x64 platforms, the last lines of the kernel message buffer can be placed into EFI variable storage via the pstore mechanism when a kernel crash occurs; this allows them to be retrieved on next boot.</p>
+<p>As of NI Linux Real-Time 21.3, the system will automatically copy logs out of EFI storage into the <cite>/var/lib/pstore/[YYYYMMDD_hhmmss]/</cite> directory. Reconstructed dmesg information will be files named dmesg-001.txt, where 001 is the numeric count of the “oops” (it’s possible for there to be multiple “oops”es from different CPU cores).</p>
+<p>If a kernel crash occurred and dmesg information was reconstructed, messages will be printed to the kernel message buffer and system log of the current boot. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">admin</span><span class="nd">@NI</span><span class="o">-</span><span class="n">cRIO</span><span class="o">-</span><span class="mi">9035</span><span class="o">-</span><span class="mi">01234567</span><span class="p">:</span><span class="o">~</span><span class="c1"># cat /var/log/messages | grep pstore-save</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">19</span><span class="n">T20</span><span class="p">:</span><span class="mi">50</span><span class="p">:</span><span class="mf">04.921</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="n">NI</span><span class="o">-</span><span class="n">cRIO</span><span class="o">-</span><span class="mi">9035</span><span class="o">-</span><span class="mi">01234567</span> <span class="p">[</span>    <span class="mf">1.143127</span><span class="p">]</span> <span class="n">pstore</span><span class="o">-</span><span class="n">save</span><span class="p">:</span> <span class="n">Saving</span> <span class="n">prior</span> <span class="n">dmesg</span> <span class="kn">from</span> <span class="nn">crash</span> <span class="n">to</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">pstore</span><span class="o">/</span><span class="mi">20220819_204926</span>
+</pre></div>
+</div>
+<p>This implementation of saving logs from <cite>pstore</cite> is intended to mimic <cite>systemd-pstore</cite> on systems which have <cite>systemd</cite> enabled. However, this implementation is simpler and there may be differences in behavior.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Obtaining Kernel Logs from a Prior System Crash Via pstore</a><ul>
+<li><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="troubleshooting_index.html"
+                          title="previous chapter">NI Linux Real-Time Debug Documentation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/troubleshooting/pstore.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" >NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Obtaining Kernel Logs from a Prior System Crash Via pstore</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    </div>
+  </body>
+</html>

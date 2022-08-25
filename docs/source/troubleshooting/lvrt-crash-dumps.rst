@@ -1,0 +1,199 @@
+=====================================
+LabVIEW Core Dumps on Linux Real-Time 
+=====================================
+
+Introduction
+================
+
+At times while troubleshooting LabVIEW Real-Time crashes, NI Support may
+request a memory or core dump from the system at the time of the
+crash. These crash dumps may provide further insight into the type of
+crash or where the crash is occurring, as well as information about the
+system. However, it's important to keep in mind that crash dumps are not
+guaranteed to solve an issue or even provide useful insight. They are
+another troubleshooting tool which can be useful in narrowing down a
+problem or understanding things further. 
+
+| The more context given with a crash dump, the more likely it is to
+  have useful information. This can include:
+
+-  Logs of what the application is doing at the time of the
+   crash
+-  Simplified reproducing cases
+-  Context as to what changed when the crash started happening
+
+| Without this information, the likelihood that a dump file will provide
+  useful information decreases significantly. For example, a core dump
+  may show an access violation due to a bad refrence in the code but it
+  may not show what caused the reference to become bad in the first
+  place. That information can be used to narrow things down but will not
+  give a root cause on its own.
+
+| Additionally, reproducing a crash internally to NI is generally
+  preferred. A dump can be unwound externally, but without access to NI
+  symbols, it is unlikely to yield useful information. Additionally, if 
+  the issue is reproduced internally at NI, the same system can be used 
+  for both reproducing and unwinding the core dump ensuring that the 
+  software versions used for debugging the dump file are consistent.
+  
+
+Generating a Core Dump
+========================
+
+Configuring a Target for Core Dumps
+-----------------------------------
+
+| By default, NI Linux Real-Time targets have core dumps disabled. This
+  setting is to ensure that these files - which can be quite large - do
+  no take up valuable storage space on embedded devices when not
+  needed. To enable core dumps, follow the steps below.
+
+#. Ensure that the target has software installed, is in run-mode, and
+   will not reboot into safe mode upon reboot. This can be done by
+   verifying the following in NI MAX:
+
+   -  Verify that the **Status** of the target in
+      the **System Settings** tab is currently **Connected - Running.**
+   -  Verify that the **Force Safe Mode** checkbox is **not** checked in
+      the **System Settings** tab.
+
+#. On the **System Settings** tab in NI MAX, check the boxes
+   under **Startup Settings** for both **Enable Secure Shell Server
+   (sshd)** and **Enable Console Out.**
+
+#. Enable core dumps via one of the following methods:
+
+   #. Run the following command via a terminal (serial or SSH) on the target: 
+
+      .. code:: bash
+
+         sed -e 's|^[#[:space:]]*ulimit [[:space:]]*-c [[:space:]]*.*$|ulimit -c unlimited|' -i /etc/init.d/lvrt-wrapper
+
+   
+   #. Modify the ``/etc/init.d/lvrt-wrapper`` file in a text editor via FTP,
+      sFTP, WebDAV, or directly on the target. Uncomment the following
+      item in the file as described by the comments in the file:
+
+      .. code:: bash
+
+         # core file size
+         # uncomment to enable core dumps
+         #ulimit -c unlimited
+
+#. Navigate to the ``/var/local/natinst/log/`` directory either remotely or
+   via a terminal and remove any existing core dumps.
+
+   .. code:: bash
+
+      admin@NI-cRIO-9036-01D5AED5:~# cd /var/local/natinst/log
+      admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
+      SystemWebServer.log
+      core_dump.!usr!local!natinst!labview!lvrt
+      errlog.txt
+      lvlog01-20-20-21-27-51.txt
+      lvlog01-20-20-21-29-47.txt
+      lvlog01-20-20-21-35-13.txt
+      lvlog01-20-20-21-37-03.txt
+      lvrt_19.0_lvuser_cur.txt
+      lvrt_19.0_lvuser_log.txt
+      admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# rm core_dump.\!usr\!local\!natinst\!labview\!lvrt
+
+#. Restart the NI Linux Real-Time target to apply the change in settings.
+
+Saving a Core Dump
+--------------------
+
+#. With core dumps enabled, reproduce the crash.
+#. Confirm that a core dump is now present in ``/var/local/natinst/log/``.
+   The core dump should have a name similar
+   to ``core_dump.!usr!local!natinst!labview!lvrt``.
+
+   .. code:: bash
+
+      admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+      SystemWebServer.log
+      core_dump.!usr!local!natinst!labview!lvrt
+      errlog.txt
+      lvlog01-20-20-21-27-51.txt
+      lvlog01-20-20-21-29-47.txt
+      lvlog01-20-20-21-35-13.txt
+      lvlog01-20-20-21-37-03.txt
+      lvrt_19.0_lvuser_cur.txt
+      lvrt_19.0_lvuser_log.txt
+
+#. Archive the dump file.
+
+   .. code:: bash
+
+      admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# tar -czf myCoreDump.tar.gz core_dump.\!usr\!local\!natinst\!labview\!lvrt
+      admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
+      SystemWebServer.log
+      core_dump.!usr!local!natinst!labview!lvrt
+      errlog.txt
+      lvlog01-20-20-21-27-51.txt
+      lvlog01-20-20-21-29-47.txt
+      lvlog01-20-20-21-35-13.txt
+      lvlog01-20-20-21-37-03.txt
+      lvlog01-20-20-21-42-12.txt
+      lvlog01-20-20-21-42-33.txt
+      lvrt_19.0_lvuser_cur.txt
+      lvrt_19.0_lvuser_log.txt
+      myCoreDump.tar.gz
+      admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#
+
+#. Copy the core dump archive to a host system via a supported file
+   transfer method (FTP, sFTP, WebDAV, etc).
+#. Generate an NI MAX Technical Support Report and include this
+   when providing NI Support with the core dump.
+
+Confirming Core Dumps are Generated
+-----------------------------------
+
+| To confirm core dumps are properly configured, it's possible to
+  force a crash of the LabVIEW Real-Time process for testing purposes.
+
+#. Configure a target for Core Dumps as described above.
+#. Open a terminal on the target (SSH or Serial) and log in as the admin
+   user. 
+#. Run the following command:
+
+   .. code:: bash
+
+      killall -3 lvrt
+
+   This command will send a SIGSEGV to the lvrt process.
+#. Confirm that the lvrt process crashed by running the following
+   command:
+
+   .. code:: bash
+
+      ps -aux | grep lvrt
+
+   If lvrt crashed, there should be something similar to the following
+   result, noting the CRASHED_AND_RESTART message:
+
+   .. code:: bash
+
+      1707 admin      0:00 {lvrt-daemon} /bin/sh /etc/init.d/lvrt-daemon
+      2408 admin      0:00 /bin/su -- lvuser -l -c /etc/init.d/lvrt-wrapper CRASHED_AND_RESTART /var/run/lvrt_wrapper.pid false
+      2409 lvuser     0:00 {MainAppThread} ./lvrt
+      2473 admin      0:00 grep lvrt
+
+#. Confirm that a core dump is now present in ``/var/local/natinst/log/``.
+   The core dump should have a name similar
+   to ``core_dump.!usr!local!natinst!labview!lvrt``.
+
+   .. code:: bash
+
+      admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+      SystemWebServer.log
+      core_dump.!usr!local!natinst!labview!lvrt
+      errlog.txt
+      lvlog01-20-20-21-27-51.txt
+      lvlog01-20-20-21-29-47.txt
+      lvlog01-20-20-21-35-13.txt
+      lvlog01-20-20-21-37-03.txt
+      lvrt_19.0_lvuser_cur.txt
+      lvrt_19.0_lvuser_log.txt
+#. Remove the core dump before proceeding to reproduce the
+   actual crash. 

@@ -2,8 +2,6 @@
 Obtaining Kernel Logs from a Prior System Crash Via pstore
 ==========================================================
 
-Description
-============
 On Linux, the dmesg log (i.e., the log printed from the `dmesg` command) is the kernel message buffer. Any `printk` kernel message logs end up here. \
 When the kernel crashes, a stack trace is printed to the kernel message buffer. Unfortunately, a crash typically means the system reboots which will \
 wipe out any values in the kernel message buffer.

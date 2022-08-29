@@ -1,0 +1,329 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>LabVIEW Core Dumps on Linux Real-Time &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Obtaining Kernel Logs from a Prior System Crash Via pstore" href="pstore.html" />
+    <link rel="prev" title="NI Linux Real-Time Debug Documentation" href="troubleshooting_index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" accesskey="U">NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LabVIEW Core Dumps on Linux Real-Time</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="labview-core-dumps-on-linux-real-time">
+<h1>LabVIEW Core Dumps on Linux Real-Time<a class="headerlink" href="#labview-core-dumps-on-linux-real-time" title="Permalink to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>At times while troubleshooting LabVIEW Real-Time crashes, NI Support may
+request a memory or core dump from the system at the time of the
+crash. These crash dumps may provide further insight into the type of
+crash or where the crash is occurring, as well as information about the
+system. However, it’s important to keep in mind that crash dumps are not
+guaranteed to solve an issue or even provide useful insight. They are
+another troubleshooting tool which can be useful in narrowing down a
+problem or understanding things further.</p>
+<div class="line-block">
+<div class="line">The more context given with a crash dump, the more likely it is to
+have useful information. This can include:</div>
+</div>
+<ul class="simple">
+<li><p>Logs of what the application is doing at the time of the
+crash</p></li>
+<li><p>Simplified reproducing cases</p></li>
+<li><p>Context as to what changed when the crash started happening</p></li>
+</ul>
+<div class="line-block">
+<div class="line">Without this information, the likelihood that a dump file will provide
+useful information decreases significantly. For example, a core dump
+may show an access violation due to a bad refrence in the code but it
+may not show what caused the reference to become bad in the first
+place. That information can be used to narrow things down but will not
+give a root cause on its own.</div>
+</div>
+<div class="line-block">
+<div class="line">Additionally, reproducing a crash internally to NI is generally
+preferred. A dump can be unwound externally, but without access to NI
+symbols, it is unlikely to yield useful information. Additionally, if
+the issue is reproduced internally at NI, the same system can be used
+for both reproducing and unwinding the core dump ensuring that the
+software versions used for debugging the dump file are consistent.</div>
+</div>
+</section>
+<section id="generating-a-core-dump">
+<h2>Generating a Core Dump<a class="headerlink" href="#generating-a-core-dump" title="Permalink to this heading">¶</a></h2>
+<section id="configuring-a-target-for-core-dumps">
+<h3>Configuring a Target for Core Dumps<a class="headerlink" href="#configuring-a-target-for-core-dumps" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line">By default, NI Linux Real-Time targets have core dumps disabled. This
+setting is to ensure that these files - which can be quite large - do
+no take up valuable storage space on embedded devices when not
+needed. To enable core dumps, follow the steps below.</div>
+</div>
+<ol class="arabic">
+<li><p>Ensure that the target has software installed, is in run-mode, and
+will not reboot into safe mode upon reboot. This can be done by
+verifying the following in NI MAX:</p>
+<ul class="simple">
+<li><p>Verify that the <strong>Status</strong> of the target in
+the <strong>System Settings</strong> tab is currently <strong>Connected - Running.</strong></p></li>
+<li><p>Verify that the <strong>Force Safe Mode</strong> checkbox is <strong>not</strong> checked in
+the <strong>System Settings</strong> tab.</p></li>
+</ul>
+</li>
+<li><p>On the <strong>System Settings</strong> tab in NI MAX, check the boxes
+under <strong>Startup Settings</strong> for both <strong>Enable Secure Shell Server
+(sshd)</strong> and <strong>Enable Console Out.</strong></p></li>
+<li><p>Enable core dumps via one of the following methods:</p>
+<ol class="arabic">
+<li><p>Run the following command via a terminal (serial or SSH) on the target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sed -e <span class="s1">&#39;s|^[#[:space:]]*ulimit [[:space:]]*-c [[:space:]]*.*$|ulimit -c unlimited|&#39;</span> -i /etc/init.d/lvrt-wrapper
+</pre></div>
+</div>
+</li>
+<li><p>Modify the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/lvrt-wrapper</span></code> file in a text editor via FTP,
+sFTP, WebDAV, or directly on the target. Uncomment the following
+item in the file as described by the comments in the file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># core file size</span>
+<span class="c1"># uncomment to enable core dumps</span>
+<span class="c1">#ulimit -c unlimited</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+<li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> directory either remotely or
+via a terminal and remove any existing core dumps.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# <span class="nb">cd</span> /var/local/natinst/log
+admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
+SystemWebServer.log
+core_dump.!usr!local!natinst!labview!lvrt
+errlog.txt
+lvlog01-20-20-21-27-51.txt
+lvlog01-20-20-21-29-47.txt
+lvlog01-20-20-21-35-13.txt
+lvlog01-20-20-21-37-03.txt
+lvrt_19.0_lvuser_cur.txt
+lvrt_19.0_lvuser_log.txt
+admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# rm core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
+</pre></div>
+</div>
+</li>
+<li><p>Restart the NI Linux Real-Time target to apply the change in settings.</p></li>
+</ol>
+</section>
+<section id="saving-a-core-dump">
+<h3>Saving a Core Dump<a class="headerlink" href="#saving-a-core-dump" title="Permalink to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p>With core dumps enabled, reproduce the crash.</p></li>
+<li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>.
+The core dump should have a name similar
+to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+SystemWebServer.log
+core_dump.!usr!local!natinst!labview!lvrt
+errlog.txt
+lvlog01-20-20-21-27-51.txt
+lvlog01-20-20-21-29-47.txt
+lvlog01-20-20-21-35-13.txt
+lvlog01-20-20-21-37-03.txt
+lvrt_19.0_lvuser_cur.txt
+lvrt_19.0_lvuser_log.txt
+</pre></div>
+</div>
+</li>
+<li><p>Archive the dump file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# tar -czf myCoreDump.tar.gz core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
+admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
+SystemWebServer.log
+core_dump.!usr!local!natinst!labview!lvrt
+errlog.txt
+lvlog01-20-20-21-27-51.txt
+lvlog01-20-20-21-29-47.txt
+lvlog01-20-20-21-35-13.txt
+lvlog01-20-20-21-37-03.txt
+lvlog01-20-20-21-42-12.txt
+lvlog01-20-20-21-42-33.txt
+lvrt_19.0_lvuser_cur.txt
+lvrt_19.0_lvuser_log.txt
+myCoreDump.tar.gz
+admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#
+</pre></div>
+</div>
+</li>
+<li><p>Copy the core dump archive to a host system via a supported file
+transfer method (FTP, sFTP, WebDAV, etc).</p></li>
+<li><p>Generate an NI MAX Technical Support Report and include this
+when providing NI Support with the core dump.</p></li>
+</ol>
+</section>
+<section id="confirming-core-dumps-are-generated">
+<h3>Confirming Core Dumps are Generated<a class="headerlink" href="#confirming-core-dumps-are-generated" title="Permalink to this heading">¶</a></h3>
+<div class="line-block">
+<div class="line">To confirm core dumps are properly configured, it’s possible to
+force a crash of the LabVIEW Real-Time process for testing purposes.</div>
+</div>
+<ol class="arabic">
+<li><p>Configure a target for Core Dumps as described above.</p></li>
+<li><p>Open a terminal on the target (SSH or Serial) and log in as the admin
+user.</p></li>
+<li><p>Run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>killall -3 lvrt
+</pre></div>
+</div>
+<p>This command will send a SIGSEGV to the lvrt process.</p>
+</li>
+<li><p>Confirm that the lvrt process crashed by running the following
+command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps -aux <span class="p">|</span> grep lvrt
+</pre></div>
+</div>
+<p>If lvrt crashed, there should be something similar to the following
+result, noting the CRASHED_AND_RESTART message:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">1707</span> admin      <span class="m">0</span>:00 <span class="o">{</span>lvrt-daemon<span class="o">}</span> /bin/sh /etc/init.d/lvrt-daemon
+<span class="m">2408</span> admin      <span class="m">0</span>:00 /bin/su -- lvuser -l -c /etc/init.d/lvrt-wrapper CRASHED_AND_RESTART /var/run/lvrt_wrapper.pid <span class="nb">false</span>
+<span class="m">2409</span> lvuser     <span class="m">0</span>:00 <span class="o">{</span>MainAppThread<span class="o">}</span> ./lvrt
+<span class="m">2473</span> admin      <span class="m">0</span>:00 grep lvrt
+</pre></div>
+</div>
+</li>
+<li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>.
+The core dump should have a name similar
+to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+SystemWebServer.log
+core_dump.!usr!local!natinst!labview!lvrt
+errlog.txt
+lvlog01-20-20-21-27-51.txt
+lvlog01-20-20-21-29-47.txt
+lvlog01-20-20-21-35-13.txt
+lvlog01-20-20-21-37-03.txt
+lvrt_19.0_lvuser_cur.txt
+lvrt_19.0_lvuser_log.txt
+</pre></div>
+</div>
+</li>
+<li><p>Remove the core dump before proceeding to reproduce the
+actual crash.</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">LabVIEW Core Dumps on Linux Real-Time</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#generating-a-core-dump">Generating a Core Dump</a><ul>
+<li><a class="reference internal" href="#configuring-a-target-for-core-dumps">Configuring a Target for Core Dumps</a></li>
+<li><a class="reference internal" href="#saving-a-core-dump">Saving a Core Dump</a></li>
+<li><a class="reference internal" href="#confirming-core-dumps-are-generated">Confirming Core Dumps are Generated</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="troubleshooting_index.html"
+                          title="previous chapter">NI Linux Real-Time Debug Documentation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pstore.html"
+                          title="next chapter">Obtaining Kernel Logs from a Prior System Crash Via pstore</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/troubleshooting/lvrt-crash-dumps.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" >NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LabVIEW Core Dumps on Linux Real-Time</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    </div>
+  </body>
+</html>

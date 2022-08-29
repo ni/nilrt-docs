@@ -19,7 +19,7 @@
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="NI Linux Real-Time Debug Documentation" href="troubleshooting_index.html" />
+    <link rel="prev" title="LabVIEW Core Dumps on Linux Real-Time" href="lvrt-crash-dumps.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
@@ -32,7 +32,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+          <a href="lvrt-crash-dumps.html" title="LabVIEW Core Dumps on Linux Real-Time"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" accesskey="U">NI Linux Real-Time Debug Documentation</a> &#187;</li>
@@ -47,8 +47,6 @@
             
   <section id="obtaining-kernel-logs-from-a-prior-system-crash-via-pstore">
 <h1>Obtaining Kernel Logs from a Prior System Crash Via pstore<a class="headerlink" href="#obtaining-kernel-logs-from-a-prior-system-crash-via-pstore" title="Permalink to this heading">¶</a></h1>
-<section id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>On Linux, the dmesg log (i.e., the log printed from the <cite>dmesg</cite> command) is the kernel message buffer. Any <cite>printk</cite> kernel message logs end up here. When the kernel crashes, a stack trace is printed to the kernel message buffer. Unfortunately, a crash typically means the system reboots which will wipe out any values in the kernel message buffer.</p>
 <p>On x64 platforms, the last lines of the kernel message buffer can be placed into EFI variable storage via the pstore mechanism when a kernel crash occurs; this allows them to be retrieved on next boot.</p>
 <p>As of NI Linux Real-Time 21.3, the system will automatically copy logs out of EFI storage into the <cite>/var/lib/pstore/[YYYYMMDD_hhmmss]/</cite> directory. Reconstructed dmesg information will be files named dmesg-001.txt, where 001 is the numeric count of the “oops” (it’s possible for there to be multiple “oops”es from different CPU cores).</p>
@@ -59,7 +57,6 @@
 </div>
 <p>This implementation of saving logs from <cite>pstore</cite> is intended to mimic <cite>systemd-pstore</cite> on systems which have <cite>systemd</cite> enabled. However, this implementation is simpler and there may be differences in behavior.</p>
 </section>
-</section>
 
 
             <div class="clearer"></div>
@@ -69,19 +66,9 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
-    <ul>
-<li><a class="reference internal" href="#">Obtaining Kernel Logs from a Prior System Crash Via pstore</a><ul>
-<li><a class="reference internal" href="#description">Description</a></li>
-</ul>
-</li>
-</ul>
-
-  </div>
-  <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="troubleshooting_index.html"
-                          title="previous chapter">NI Linux Real-Time Debug Documentation</a></p>
+    <p class="topless"><a href="lvrt-crash-dumps.html"
+                          title="previous chapter">LabVIEW Core Dumps on Linux Real-Time</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>GitHub Source</h3>
@@ -113,7 +100,7 @@
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+          <a href="lvrt-crash-dumps.html" title="LabVIEW Core Dumps on Linux Real-Time"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" >NI Linux Real-Time Debug Documentation</a> &#187;</li>

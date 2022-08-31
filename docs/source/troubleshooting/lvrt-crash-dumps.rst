@@ -28,10 +28,10 @@ By default, NI Linux Real-Time targets have core dumps disabled. This setting is
 
 #. Ensure that the target has software installed, is in run-mode, and will not reboot into safe mode upon reboot. This can be done by verifying the following in NI MAX:
 
-	-  Verify that the **Status** of the target in the **System Settings** tab is currently **Connected - Running.**
-	-  Verify that the **Force Safe Mode** checkbox is **not** checked in the **System Settings** tab.
+	-  Verify that the ``Status`` of the target in the ``System Settings`` tab is currently ``Connected - Running.``
+	-  Verify that the ☐ ``Force Safe Mode`` checkbox is **not** checked in the ``System Settings`` tab.
 
-#. On the **System Settings** tab in NI MAX, check the boxes under **Startup Settings** for both **Enable Secure Shell Server (sshd)** and **Enable Console Out.**
+#. On the ``System Settings`` tab in NI MAX, check the boxes under ``Startup Settings`` for both ☑ ``Enable Secure Shell Server (sshd)`` and ☑ ``Enable Console Out.``
 
 #. Enable core dumps via one of the following methods:
 

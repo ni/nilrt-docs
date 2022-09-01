@@ -1,0 +1,10 @@
+Log Name,File Path,Description
+acpid.log,/var/log/acpid.log,"Logs any Advanced Configuration and Power Management Interface (ACPI) events, such as reboot through the power button on certain cRIO-903x."
+auth.log,/var/log/auth.log,System authorization information. User logins and corresponding authentication mechanism.
+boot,/var/log/boot,Console log of the boot process.
+cron.log,/var/log/cron.log,"Log of cron job related messages, such as when a cron job is run. Many Linux scripts rely on cron to run periodically."
+dmesg,/var/log/dmesg,Device driver message log. Can be printed to console via dmesg command.
+lastlog,/var/log/lastlog,Stores information about previous log in times in a binary format. Can only be read using lastlog command.
+messages,/var/log/messages,"General messages and info. Basically, catchall for all other logging processes on the system. Note: Some Linux systems use syslog instead of messages. These are oftentimes interchangeable."
+minion,/var/log/salt/minion,The NI-Salt Minion log. Used to log information about the salt-minion service. 
+wtmp,/var/log/wtmp,"Stores information about log ins, log outs, and shutdowns accessible via the last command."

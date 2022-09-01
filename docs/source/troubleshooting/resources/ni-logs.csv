@@ -1,0 +1,6 @@
+Log Name,Run Mode File Path, Safe Mode File Path,Description
+errlog.txt,/var/local/natinst/log,/mnt/userfs/var/local/natinst/log,"LabVIEW Real-Time (lvrt) process log, including any messages written to System Log from LabVIEW applications."
+LabVIEW logs, /var/local/natinst/log,/mnt/userfs/var/local/natinst/log,"Logs of what went wrong with LabVIEW Real-Time. There are both `lvlog*.txt` files and `lvrt*log.txt` files. A new lvlog should be created any time the `lvrt` process restarts with a new process ID."
+SystemWebServer.log,/var/local/natinst/log,/mnt/userfs/var/local/natinst/log,"Log anything of interest that happened with the SystemWebServer."
+kern.log,/var/local/natinst/log,/mnt/userfs/var/local/natinst/log,"What went wrong at the kernel level (Linux kernel log levels KERN_ERR to KERN_EMERG)"
+LabVIEW Core Dump,/var/local/natinst/log,/mnt/userfs/var/local/natinst/log,"If the LabVIEW process crashes with core dumps enabled, a disk file containing an image of the process's memory at termination (Core dump) will be stored on the target."

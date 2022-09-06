@@ -5,9 +5,9 @@ LabVIEW Core Dumps on Linux Real-Time
 Introduction
 ============
 
-At times while troubleshooting LabVIEW Real-Time crashes, NI Support may request a memory or core dump from the system at the time of the crash. These crash dumps may provide further insight into the type of crash or where the crash is occurring, as well as information about the system. However, it's important to keep in mind that crash dumps are not guaranteed to solve an issue or even provide useful insight. They are another troubleshooting tool which can be useful in narrowing down a problem or understanding things further.
+When troubleshooting LabVIEW Real-Time crashes, it is often helpful to understand the memory and instruction stack at the time of the crash. LVRT can be configured to dump this core context to disk when it crashes.
 
-The more context given with a crash dump, the more likely it is to have useful information. This can include:
+Note that core dumps are not gauaranteed to contain useful information about any particular problem. They are best evaluataed with other contextual information about the system state at the time of the crash. This can include:
 
 - logs of what the application is doing at the time of the crash.
 - simplified reproducing cases.
@@ -21,34 +21,12 @@ Additionally, reproducing a crash internally to NI is generally preferred. A dum
 Generating a Core Dump
 ========================
 
-Configuring a Target for Core Dumps
------------------------------------
-
-By default, NI Linux Real-Time targets have core dumps disabled. This setting is to ensure that these files - which can be quite large - do no take up valuable storage space on embedded devices when not needed. To enable core dumps, follow the steps below.
-
 #. Ensure that the target has software installed, is in run-mode, and will not reboot into safe mode upon reboot. This can be done by verifying the following in NI MAX:
 
 	-  Verify that the ``Status`` of the target in the ``System Settings`` tab is currently ``Connected - Running.``
 	-  Verify that the ☐ ``Force Safe Mode`` checkbox is **not** checked in the ``System Settings`` tab.
 
 #. On the ``System Settings`` tab in NI MAX, check the boxes under ``Startup Settings`` for both ☑ ``Enable Secure Shell Server (sshd)`` and ☑ ``Enable Console Out.``
-
-#. Enable core dumps via one of the following methods:
-
-	#. Run the following command via a terminal (serial or SSH) on the target: 
-
-		.. code:: bash
-
-			sed -e 's|^[#[:space:]]*ulimit [[:space:]]*-c [[:space:]]*.*$|ulimit -c unlimited|' -i /etc/init.d/lvrt-wrapper
-
-	
-	#. Modify the ``/etc/init.d/lvrt-wrapper`` file in a text editor via FTP, sFTP, WebDAV, or directly on the target. Uncomment the following item in the file as described by the comments in the file:
-
-		.. code:: bash
-
-			# core file size
-			# uncomment to enable core dumps
-			#ulimit -c unlimited
 
 #. Navigate to the ``/var/local/natinst/log/`` directory either remotely or via a terminal and remove any existing core dumps.
 
@@ -67,7 +45,45 @@ By default, NI Linux Real-Time targets have core dumps disabled. This setting is
 		lvrt_19.0_lvuser_log.txt
 		admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# rm core_dump.\!usr\!local\!natinst\!labview\!lvrt
 
-#. Restart the NI Linux Real-Time target to apply the change in settings.
+
+Configuring LVRT
+----------------
+
+LabVIEW Real-Time core dumps are disabled by default, as they can consume a substantial amount of disk space. You can enable them using the following methods.
+
+
+LVRT >= 23.1
+************
+
+Beginning with the LV 23.1 release, LVRT is configured to *not* produce core dumps unless the ``[LVRT]EnableCoreDumps`` `ni-rt.ini` token is set to ``true``; enable it with the following command.
+
+.. code:: bash
+
+	nirtcfg --set section=LVRT,token=EnableCoreDumps,value=true
+
+	nirtcfg --list | grep EnableCoreDumps  # confirm
+
+Restart the NI Linux Real-Time target to apply the change in settings.
+
+.. note:: The token value is tested by the `/etc/init.d/lvrt-wrapper` initscript during boot.
+
+On NILRT ARM distributions, the system-wide core dump ulimit is set to ``0``. Even after you enable the INI token above, you must then follow the `LVRT < 23.1`_ instructions below to enable ``unlimited`` core dumps.
+
+
+LVRT < 23.1
+***********
+
+Prior to LVRT 23.1, LVRT's core dump controls are entirely controlled using the ``/etc/init.d/lvrt-wrapper`` initscript.
+	
+Modify the ``/etc/init.d/lvrt-wrapper`` file in a text editor via FTP, sFTP, WebDAV, or directly on the target. Uncomment the following item in the file as described by the comments in the file:
+
+	.. code:: bash
+
+		# core file size
+		# uncomment to enable core dumps
+		#ulimit -c unlimited
+
+Restart the NI Linux Real-Time target to apply the change in settings.
 
 
 Saving a Core Dump

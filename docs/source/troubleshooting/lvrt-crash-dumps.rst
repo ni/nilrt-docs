@@ -65,7 +65,7 @@ Beginning with the LV 23.1 release, LVRT is configured to *not* produce core dum
 
 Restart the NI Linux Real-Time target to apply the change in settings.
 
-.. note:: The token value is tested by the `/etc/init.d/lvrt-wrapper` initscript during boot.
+.. note:: The token value is tested by the ``/etc/init.d/lvrt-wrapper`` initscript during boot.
 
 On NILRT ARM distributions, the system-wide core dump ulimit is set to ``0``. Even after you enable the INI token above, you must then follow the `LVRT < 23.1`_ instructions below to enable ``unlimited`` core dumps.
 

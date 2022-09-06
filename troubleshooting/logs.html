@@ -1,0 +1,359 @@
+
+
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Logs on NI Linux Real-Time Systems &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LabVIEW Core Dumps on Linux Real-Time" href="lvrt-crash-dumps.html" />
+    <link rel="prev" title="NI Linux Real-Time Debug Documentation" href="troubleshooting_index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lvrt-crash-dumps.html" title="LabVIEW Core Dumps on Linux Real-Time"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" accesskey="U">NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Logs on NI Linux Real-Time Systems</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="logs-on-ni-linux-real-time-systems">
+<h1>Logs on NI Linux Real-Time Systems<a class="headerlink" href="#logs-on-ni-linux-real-time-systems" title="Permalink to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>This document is an introduction to some of the common logs on Linux Real-Time Systems.</p>
+</section>
+<section id="useful-ni-linux-real-time-logs">
+<h2>Useful NI Linux Real-Time Logs<a class="headerlink" href="#useful-ni-linux-real-time-logs" title="Permalink to this heading">¶</a></h2>
+<section id="logs-in-var-log">
+<h3>Logs in <em>/var/log/</em><a class="headerlink" href="#logs-in-var-log" title="Permalink to this heading">¶</a></h3>
+<p>The Linux Operating System and many Linux utilities will write to <code class="docutils literal notranslate"><span class="pre">/var/log/</span></code> by default.
+For example, the general <code class="docutils literal notranslate"><span class="pre">messages</span></code> log (or``syslog`` depending on the system) is typically found here.</p>
+<p>NI Linux Real-Time Systems are designed as embedded, headless systems that need to be able to recover should issues occur.
+As such, the <code class="docutils literal notranslate"><span class="pre">/var/log/</span></code> directory is a symbolic link to <code class="docutils literal notranslate"><span class="pre">/var/volatile/log/</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">/var/volatile/log/</span></code> directory is mapped to RAM instead of the persistent device storage.
+This prevents the system’s device storage from filling with logs and causing other issues on devices with extremely limited storage but results in the logs not persisting through a reboot.
+To make these logs persist through a reboot, see the Remapping Volatile Logs section of this document.</p>
+<p><strong>Note:</strong> The <code class="docutils literal notranslate"><span class="pre">kern.log</span></code> file is traditionally stored here, but on NI Linux Real-Time systems is instead located at <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> to ensure it persists between reboots.</p>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-text">NI Linux RT Logs</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 27.3%" />
+<col style="width: 27.3%" />
+<col style="width: 45.5%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Log Name</p></th>
+<th class="head"><p>File Path</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>acpid.log</p></td>
+<td><p>/var/log/acpid.log</p></td>
+<td><p>Logs any Advanced Configuration and Power Management Interface (ACPI) events, such as reboot through the power button on certain cRIO-903x.</p></td>
+</tr>
+<tr class="row-odd"><td><p>auth.log</p></td>
+<td><p>/var/log/auth.log</p></td>
+<td><p>System authorization information. User logins and corresponding authentication mechanism.</p></td>
+</tr>
+<tr class="row-even"><td><p>boot</p></td>
+<td><p>/var/log/boot</p></td>
+<td><p>Console log of the boot process.</p></td>
+</tr>
+<tr class="row-odd"><td><p>cron.log</p></td>
+<td><p>/var/log/cron.log</p></td>
+<td><p>Log of cron job related messages, such as when a cron job is run. Many Linux scripts rely on cron to run periodically.</p></td>
+</tr>
+<tr class="row-even"><td><p>dmesg</p></td>
+<td><p>/var/log/dmesg</p></td>
+<td><p>Device driver message log. Can be printed to console via dmesg command.</p></td>
+</tr>
+<tr class="row-odd"><td><p>lastlog</p></td>
+<td><p>/var/log/lastlog</p></td>
+<td><p>Stores information about previous log in times in a binary format. Can only be read using lastlog command.</p></td>
+</tr>
+<tr class="row-even"><td><p>messages</p></td>
+<td><p>/var/log/messages</p></td>
+<td><p>General messages and info. Basically, catchall for all other logging processes on the system. Note: Some Linux systems use syslog instead of messages. These are oftentimes interchangeable.</p></td>
+</tr>
+<tr class="row-odd"><td><p>minion</p></td>
+<td><p>/var/log/salt/minion</p></td>
+<td><p>The NI-Salt Minion log. Used to log information about the salt-minion service.</p></td>
+</tr>
+<tr class="row-even"><td><p>wtmp</p></td>
+<td><p>/var/log/wtmp</p></td>
+<td><p>Stores information about log ins, log outs, and shutdowns accessible via the last command.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="logs-in-var-local-natinst-log">
+<h3>Logs in <em>/var/local/natinst/log/</em><a class="headerlink" href="#logs-in-var-local-natinst-log" title="Permalink to this heading">¶</a></h3>
+<p>Most NI Software will log to the <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> directory.
+The following logs will exist by default with LabVIEW Real-Time installed.
+Note that some of these logs (such as <code class="docutils literal notranslate"><span class="pre">kern.log</span></code>) are not created until something logs to them.
+Some of these logs can be seen in NI MAX using the <strong>View Error Log</strong> context menu option.</p>
+<table class="docutils align-default" id="id4">
+<caption><span class="caption-text">NI Sofware Logs</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 16.7%" />
+<col style="width: 27.8%" />
+<col style="width: 27.8%" />
+<col style="width: 27.8%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Log Name</p></th>
+<th class="head"><p>Run Mode File Path</p></th>
+<th class="head"><p>Safe Mode File Path</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>errlog.txt</p></td>
+<td><p>/var/local/natinst/log</p></td>
+<td><p>/mnt/userfs/var/local/natinst/log</p></td>
+<td><p>LabVIEW Real-Time (lvrt) process log, including any messages written to System Log from LabVIEW applications.</p></td>
+</tr>
+<tr class="row-odd"><td><p>LabVIEW logs</p></td>
+<td><p>/var/local/natinst/log</p></td>
+<td><p>/mnt/userfs/var/local/natinst/log</p></td>
+<td><p>Logs of what went wrong with LabVIEW Real-Time. There are both <cite>lvlog*.txt</cite> files and <cite>lvrt*log.txt</cite> files. A new lvlog should be created any time the <cite>lvrt</cite> process restarts with a new process ID.</p></td>
+</tr>
+<tr class="row-even"><td><p>SystemWebServer.log</p></td>
+<td><p>/var/local/natinst/log</p></td>
+<td><p>/mnt/userfs/var/local/natinst/log</p></td>
+<td><p>Log anything of interest that happened with the SystemWebServer.</p></td>
+</tr>
+<tr class="row-odd"><td><p>kern.log</p></td>
+<td><p>/var/local/natinst/log</p></td>
+<td><p>/mnt/userfs/var/local/natinst/log</p></td>
+<td><p>What went wrong at the kernel level (Linux kernel log levels KERN_ERR to KERN_EMERG)</p></td>
+</tr>
+<tr class="row-even"><td><p>LabVIEW Core Dump</p></td>
+<td><p>/var/local/natinst/log</p></td>
+<td><p>/mnt/userfs/var/local/natinst/log</p></td>
+<td><p>If the LabVIEW process crashes with core dumps enabled, a disk file containing an image of the process’s memory at termination (Core dump) will be stored on the target.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="logrotate">
+<h2>Logrotate<a class="headerlink" href="#logrotate" title="Permalink to this heading">¶</a></h2>
+<p>To prevent logs from growing too large, NI Linux Real-Time includes the <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> utility with some default configurations.
+This utility is run as a <code class="docutils literal notranslate"><span class="pre">cron</span></code> job on NI Linux Real-Time systems.
+For more information on the <code class="docutils literal notranslate"><span class="pre">cron</span></code> utility and <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> utility, refer to the third-party documentation available online for these common Linux utilities.</p>
+<p>The following describes the default configuration of <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> on a NI Linux Real-Time System.</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> utility is run every 5 minutes as <code class="docutils literal notranslate"><span class="pre">cron</span></code> job by default.
+This configuration is stored in <code class="docutils literal notranslate"><span class="pre">/etc/cron.d/logrotate</span></code> using the <code class="docutils literal notranslate"><span class="pre">crontab</span></code> file format.</p></li>
+<li><p>The main <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> configuration file (which defines defaults and settings for some logs) is stored at <code class="docutils literal notranslate"><span class="pre">/etc/logrotate.conf</span></code>.
+Configuration files for individual logs can be found in the <code class="docutils literal notranslate"><span class="pre">/etc/logrotate.d/</span></code> directory.</p>
+<ul>
+<li><p>For information on the format of <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> configuration files, refer to the publicly available manuals for the utility.</p></li>
+</ul>
+</li>
+<li><p>Per the default <code class="docutils literal notranslate"><span class="pre">logrotate.conf</span></code> file, logs are rotated daily with up to 4 copies archived.
+Older archives are deleted when a log is rotated if the maximum is hit.
+This configuration is overwritten by the configurations for individual files.</p>
+<ul>
+<li><p>For example, a configuration file might instead specify that the log is rotated hourly instead of the default setting.</p></li>
+</ul>
+</li>
+</ul>
+<p>When modifying these settings, keep in mind that many of the logs are stored in <em>/var/log</em> and are therefore stored in volatile memory by default.
+If the modified settings result in logs growing too large, it can result in the system running out of memory.
+Even for logs stored in the device’s physical storage, it’s important to ensure that the logs don’t accidentally file up the device storage completely.
+Use reasonable settings and consider rotating logs that grow quickly at specific file sizes whenever using non-default settings.</p>
+</section>
+<section id="logging-to-the-system-log-s">
+<h2>Logging to the System Log(s)<a class="headerlink" href="#logging-to-the-system-log-s" title="Permalink to this heading">¶</a></h2>
+<p>When logging status or event information, it may be desirable to write to one of the logs outlined above.
+The following list outlines some of the common logs and what methods are recommended for writing to them.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/errlog.txt</span></code></p>
+<ul>
+<li><p><cite>Write to System Log VI &lt;http://zone.ni.com/reference/en-XX/help/371361R-01/glang/write_to_system_log/&gt;</cite>
+- On Linux Real-Time Systems, this will write to the <code class="docutils literal notranslate"><span class="pre">errlog.txt</span></code> file.</p></li>
+<li><p><cite>RT Debug String VI &lt;http://zone.ni.com/reference/en-XX/help/370715P-01/lvrtvihelp/rt_debug_strings/&gt;</cite></p>
+<ul>
+<li><p>On Linux Real-Time Systems, when the <strong>Interface</strong> is set to <strong>Write to system log</strong>, the input string will be written to the <em>errlog.txt</em> file.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/log/messages</span></code></p>
+<ul>
+<li><p><cite>System Exec VI &lt;https://zone.ni.com/reference/en-XX/help/371361R-01/glang/system_exec/&gt;</cite></p>
+<ul>
+<li><p>Using the command <code class="docutils literal notranslate"><span class="pre">logger</span> <span class="pre">&lt;string&gt;</span></code> with the System Exec VI will write that string to the <code class="docutils literal notranslate"><span class="pre">messages</span></code> log.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>Note that when writing to these logs that it’s important to be aware of how they behave.
+For example, by default the <code class="docutils literal notranslate"><span class="pre">errlog.txt</span></code> file will persist across reboots but be rotated by <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> very quickly due to file size while the <code class="docutils literal notranslate"><span class="pre">messages</span></code> log will not persist across reboots but will be rotated less often.</p>
+</section>
+<section id="enabling-persistent-logs">
+<h2>Enabling Persistent Logs<a class="headerlink" href="#enabling-persistent-logs" title="Permalink to this heading">¶</a></h2>
+<p>By default, logs are stored in <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> which is a symlink to <code class="docutils literal notranslate"><span class="pre">/var/volatile/log</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">/var/volatile</span></code> location is a RAM-based tmpfs filesystem whose contents are lost on each reboot.
+This section explains how to make those logs persistent.</p>
+<p><strong>Warning:</strong> Performing the steps in this section can impact system performance.
+Normally these logs are stored in RAM, which is much quicker to read and write.
+By moving these logs to persistent storage, the CPU and disk performance may be impacted.
+Additionally, it is recommended that these steps only be used on PXI Linux Real-Time or x64 cRIOs unless specifically needed for troubleshooting.
+On ARM targets, the frequent logging to disk can have unintended impacts on system disk longevity.</p>
+<p>Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the <em>/var/log</em> location.
+Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto distributions that NI Linux Real-Time is based on.</p>
+<p>To modify these settings for the <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> location:</p>
+<ol class="arabic">
+<li><p>Modify <code class="docutils literal notranslate"><span class="pre">/etc/default/volatiles/00_core</span></code> as follows via either a console, sFTP, or your preferred method for editing configuration files on Linux Real-Time systems.</p>
+<ol class="arabic">
+<li><p>Find the entry in <code class="docutils literal notranslate"><span class="pre">00_core</span></code> for <code class="docutils literal notranslate"><span class="pre">/var/log</span></code>.
+It should be similar to the following:</p>
+<p><code class="docutils literal notranslate"><span class="pre">l</span> <span class="pre">root</span> <span class="pre">root</span> <span class="pre">0755</span> <span class="pre">/var/log</span> <span class="pre">/var/volatile/log</span></code></p>
+</li>
+<li><p>Modify the entry by removing the line or commenting it out.</p></li>
+<li><p>Save or otherwise apply the changed file to the system.</p></li>
+</ol>
+</li>
+<li><p>Once volatiles on the system on created, the configuration is cached via the <a href="#id1"><span class="problematic" id="id2">``</span></a>/etc/volatile.cache` file.
+To force regeneration of these volatiles via the new settings, delete that file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">/etc/volatile.cache</span></code></p>
+</li>
+<li><p>The existing symbolic link must also be removed.
+This can be done by deleting <code class="docutils literal notranslate"><span class="pre">/var/log</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">/var/log</span></code></p>
+<p><strong>Note:</strong> Do not add a trailing slash when removing the symlink.
+Doing so will not behave as intended.</p>
+</li>
+<li><p>Create a new <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> directory so that the location is present upon reboot.</p>
+<p><code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">/var/log</span></code></p>
+</li>
+<li><p>Reboot the NI Linux Real-Time system.</p></li>
+<li><p>Once the system has rebooted, you can check that the change has applied.
+Instead of the symbolic link information, you should instead see the files located in <code class="docutils literal notranslate"><span class="pre">/var/log</span></code>.
+Note that the image below may differ from your system depending on the software installed.
+<img alt="image0" src="../_images/logs_dir.png" /></p></li>
+</ol>
+<p><strong>Note:</strong> These settings will only persist until a format or software upgrade is made.
+Once that happens, the Linux Real-Time settings may revert to their defaults for that version.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Logs on NI Linux Real-Time Systems</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#useful-ni-linux-real-time-logs">Useful NI Linux Real-Time Logs</a><ul>
+<li><a class="reference internal" href="#logs-in-var-log">Logs in <em>/var/log/</em></a></li>
+<li><a class="reference internal" href="#logs-in-var-local-natinst-log">Logs in <em>/var/local/natinst/log/</em></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logrotate">Logrotate</a></li>
+<li><a class="reference internal" href="#logging-to-the-system-log-s">Logging to the System Log(s)</a></li>
+<li><a class="reference internal" href="#enabling-persistent-logs">Enabling Persistent Logs</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="troubleshooting_index.html"
+                          title="previous chapter">NI Linux Real-Time Debug Documentation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="lvrt-crash-dumps.html"
+                          title="next chapter">LabVIEW Core Dumps on Linux Real-Time</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/troubleshooting/logs.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="lvrt-crash-dumps.html" title="LabVIEW Core Dumps on Linux Real-Time"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" >NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Logs on NI Linux Real-Time Systems</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    </div>
+  </body>
+</html>

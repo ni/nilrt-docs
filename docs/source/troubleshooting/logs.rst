@@ -14,7 +14,7 @@ Logs in */var/log/*
 -------------------
 
 The Linux Operating System and many Linux utilities will write to ``/var/log/`` by default.
-For example, the general ``messages`` log (or``syslog`` depending on the system) is typically found here.
+For example, the general ``messages`` log (or ``syslog`` depending on the system) is typically found here.
 
 NI Linux Real-Time Systems are designed as embedded, headless systems that need to be able to recover should issues occur.
 As such, the ``/var/log/`` directory is a symbolic link to ``/var/volatile/log/``.
@@ -79,16 +79,16 @@ The following list outlines some of the common logs and what methods are recomme
 
 -  ``/var/local/natinst/log/errlog.txt``
 
-   -  `Write to System Log VI <http://zone.ni.com/reference/en-XX/help/371361R-01/glang/write_to_system_log/>`
+   -  `Write to System Log VI <http://zone.ni.com/reference/en-XX/help/371361R-01/glang/write_to_system_log/>`_
       - On Linux Real-Time Systems, this will write to the ``errlog.txt`` file.
 
-   -  `RT Debug String VI <http://zone.ni.com/reference/en-XX/help/370715P-01/lvrtvihelp/rt_debug_strings/>`
+   -  `RT Debug String VI <http://zone.ni.com/reference/en-XX/help/370715P-01/lvrtvihelp/rt_debug_strings/>`_
 
       - On Linux Real-Time Systems, when the **Interface** is set to **Write to system log**, the input string will be written to the *errlog.txt* file.
 
 -  ``/var/log/messages``
 
-   -  `System Exec VI <https://zone.ni.com/reference/en-XX/help/371361R-01/glang/system_exec/>`
+   -  `System Exec VI <https://zone.ni.com/reference/en-XX/help/371361R-01/glang/system_exec/>`_
 
       - Using the command ``logger <string>`` with the System Exec VI will write that string to the ``messages`` log.
 
@@ -104,10 +104,9 @@ This section explains how to make those logs persistent.
 **Warning:** Performing the steps in this section can impact system performance.
 Normally these logs are stored in RAM, which is much quicker to read and write.
 By moving these logs to persistent storage, the CPU and disk performance may be impacted.
-Additionally, it is recommended that these steps only be used on PXI Linux Real-Time or x64 cRIOs unless specifically needed for troubleshooting.
-On ARM targets, the frequent logging to disk can have unintended impacts on system disk longevity.
+Additionally, the frequent logging to disk may impact the disk's lifetime. 
 
-Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the */var/log* location.
+Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the ``/var/log`` location.
 Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto distributions that NI Linux Real-Time is based on.
 
 To modify these settings for the ``/var/log`` location:
@@ -123,7 +122,7 @@ To modify these settings for the ``/var/log`` location:
 
    3. Save or otherwise apply the changed file to the system.
 
-2. Once volatiles on the system on created, the configuration is cached via the ``/etc/volatile.cache` file.
+2. Once volatiles on the system have been created the first time, the configuration is cached via the ``/etc/volatile.cache`` file.
    To force regeneration of these volatiles via the new settings, delete that file.
 
    ``rm /etc/volatile.cache``

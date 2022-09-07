@@ -60,15 +60,15 @@
 <section id="logs-in-var-log">
 <h3>Logs in <em>/var/log/</em><a class="headerlink" href="#logs-in-var-log" title="Permalink to this heading">¶</a></h3>
 <p>The Linux Operating System and many Linux utilities will write to <code class="docutils literal notranslate"><span class="pre">/var/log/</span></code> by default.
-For example, the general <code class="docutils literal notranslate"><span class="pre">messages</span></code> log (or``syslog`` depending on the system) is typically found here.</p>
+For example, the general <code class="docutils literal notranslate"><span class="pre">messages</span></code> log (or <code class="docutils literal notranslate"><span class="pre">syslog</span></code> depending on the system) is typically found here.</p>
 <p>NI Linux Real-Time Systems are designed as embedded, headless systems that need to be able to recover should issues occur.
 As such, the <code class="docutils literal notranslate"><span class="pre">/var/log/</span></code> directory is a symbolic link to <code class="docutils literal notranslate"><span class="pre">/var/volatile/log/</span></code>.
 The <code class="docutils literal notranslate"><span class="pre">/var/volatile/log/</span></code> directory is mapped to RAM instead of the persistent device storage.
 This prevents the system’s device storage from filling with logs and causing other issues on devices with extremely limited storage but results in the logs not persisting through a reboot.
 To make these logs persist through a reboot, see the Remapping Volatile Logs section of this document.</p>
 <p><strong>Note:</strong> The <code class="docutils literal notranslate"><span class="pre">kern.log</span></code> file is traditionally stored here, but on NI Linux Real-Time systems is instead located at <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> to ensure it persists between reboots.</p>
-<table class="docutils align-default" id="id3">
-<caption><span class="caption-text">NI Linux RT Logs</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">NI Linux RT Logs</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 27.3%" />
 <col style="width: 27.3%" />
@@ -126,8 +126,8 @@ To make these logs persist through a reboot, see the Remapping Volatile Logs sec
 The following logs will exist by default with LabVIEW Real-Time installed.
 Note that some of these logs (such as <code class="docutils literal notranslate"><span class="pre">kern.log</span></code>) are not created until something logs to them.
 Some of these logs can be seen in NI MAX using the <strong>View Error Log</strong> context menu option.</p>
-<table class="docutils align-default" id="id4">
-<caption><span class="caption-text">NI Sofware Logs</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">NI Sofware Logs</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <colgroup>
 <col style="width: 16.7%" />
 <col style="width: 27.8%" />
@@ -206,9 +206,9 @@ The following list outlines some of the common logs and what methods are recomme
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/errlog.txt</span></code></p>
 <ul>
-<li><p><cite>Write to System Log VI &lt;http://zone.ni.com/reference/en-XX/help/371361R-01/glang/write_to_system_log/&gt;</cite>
+<li><p><a class="reference external" href="http://zone.ni.com/reference/en-XX/help/371361R-01/glang/write_to_system_log/">Write to System Log VI</a>
 - On Linux Real-Time Systems, this will write to the <code class="docutils literal notranslate"><span class="pre">errlog.txt</span></code> file.</p></li>
-<li><p><cite>RT Debug String VI &lt;http://zone.ni.com/reference/en-XX/help/370715P-01/lvrtvihelp/rt_debug_strings/&gt;</cite></p>
+<li><p><a class="reference external" href="http://zone.ni.com/reference/en-XX/help/370715P-01/lvrtvihelp/rt_debug_strings/">RT Debug String VI</a></p>
 <ul>
 <li><p>On Linux Real-Time Systems, when the <strong>Interface</strong> is set to <strong>Write to system log</strong>, the input string will be written to the <em>errlog.txt</em> file.</p></li>
 </ul>
@@ -217,7 +217,7 @@ The following list outlines some of the common logs and what methods are recomme
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">/var/log/messages</span></code></p>
 <ul>
-<li><p><cite>System Exec VI &lt;https://zone.ni.com/reference/en-XX/help/371361R-01/glang/system_exec/&gt;</cite></p>
+<li><p><a class="reference external" href="https://zone.ni.com/reference/en-XX/help/371361R-01/glang/system_exec/">System Exec VI</a></p>
 <ul>
 <li><p>Using the command <code class="docutils literal notranslate"><span class="pre">logger</span> <span class="pre">&lt;string&gt;</span></code> with the System Exec VI will write that string to the <code class="docutils literal notranslate"><span class="pre">messages</span></code> log.</p></li>
 </ul>
@@ -236,9 +236,8 @@ This section explains how to make those logs persistent.</p>
 <p><strong>Warning:</strong> Performing the steps in this section can impact system performance.
 Normally these logs are stored in RAM, which is much quicker to read and write.
 By moving these logs to persistent storage, the CPU and disk performance may be impacted.
-Additionally, it is recommended that these steps only be used on PXI Linux Real-Time or x64 cRIOs unless specifically needed for troubleshooting.
-On ARM targets, the frequent logging to disk can have unintended impacts on system disk longevity.</p>
-<p>Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the <em>/var/log</em> location.
+Additionally, the frequent logging to disk may impact the disk’s lifetime.</p>
+<p>Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> location.
 Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto distributions that NI Linux Real-Time is based on.</p>
 <p>To modify these settings for the <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> location:</p>
 <ol class="arabic">
@@ -252,7 +251,7 @@ It should be similar to the following:</p>
 <li><p>Save or otherwise apply the changed file to the system.</p></li>
 </ol>
 </li>
-<li><p>Once volatiles on the system on created, the configuration is cached via the <a href="#id1"><span class="problematic" id="id2">``</span></a>/etc/volatile.cache` file.
+<li><p>Once volatiles on the system have been created the first time, the configuration is cached via the <code class="docutils literal notranslate"><span class="pre">/etc/volatile.cache</span></code> file.
 To force regeneration of these volatiles via the new settings, delete that file.</p>
 <p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">/etc/volatile.cache</span></code></p>
 </li>

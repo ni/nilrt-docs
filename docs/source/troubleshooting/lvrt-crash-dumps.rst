@@ -147,7 +147,27 @@ To confirm core dumps are properly configured, it's possible to force a crash of
 
 	This command will send a SIGSEGV to the lvrt process.
 
-#. Confirm that the lvrt process crashed by running the following command:
+#. Confirm that the lvrt process crashed.
+
+	**LabVIEW Real-Time >= 23.1**
+
+	A message will be logged to the system log at `/var/log/messages` if a crash occurs.
+	Run the following command to confirm the crash was logged.
+
+	.. code:: bash
+
+		cat /var/log/messages | tail
+
+	This will show the last 10 messages logged.
+	If a crash occurred, the a message similer to the following should be present:
+
+	.. code:: bash
+
+		lvrt-daemon: The LabVIEW Real-Time Process has encountered an error. Check /var/local/natinst/log for error logs.
+
+	**LabVIEW Real-Time < 23.1**
+
+	Run the following command:
 
 	.. code:: bash
 

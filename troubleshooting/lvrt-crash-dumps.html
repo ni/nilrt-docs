@@ -53,86 +53,31 @@
 <h1>LabVIEW Core Dumps on Linux Real-Time<a class="headerlink" href="#labview-core-dumps-on-linux-real-time" title="Permalink to this heading">¶</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
-<p>At times while troubleshooting LabVIEW Real-Time crashes, NI Support may
-request a memory or core dump from the system at the time of the
-crash. These crash dumps may provide further insight into the type of
-crash or where the crash is occurring, as well as information about the
-system. However, it’s important to keep in mind that crash dumps are not
-guaranteed to solve an issue or even provide useful insight. They are
-another troubleshooting tool which can be useful in narrowing down a
-problem or understanding things further.</p>
-<div class="line-block">
-<div class="line">The more context given with a crash dump, the more likely it is to
-have useful information. This can include:</div>
-</div>
+<p>When troubleshooting LabVIEW Real-Time crashes, it is often helpful to understand the memory and instruction stack at the time of the crash. LVRT can be configured to dump this core context to disk when it crashes.</p>
+<p>Note that core dumps are not gauaranteed to contain useful information about any particular problem. They are best evaluataed with other contextual information about the system state at the time of the crash. This can include:</p>
 <ul class="simple">
-<li><p>Logs of what the application is doing at the time of the
-crash</p></li>
-<li><p>Simplified reproducing cases</p></li>
-<li><p>Context as to what changed when the crash started happening</p></li>
+<li><p>logs of what the application is doing at the time of the crash.</p></li>
+<li><p>simplified reproducing cases.</p></li>
+<li><p>context as to what changed when the crash started happening.</p></li>
 </ul>
-<div class="line-block">
-<div class="line">Without this information, the likelihood that a dump file will provide
-useful information decreases significantly. For example, a core dump
-may show an access violation due to a bad refrence in the code but it
-may not show what caused the reference to become bad in the first
-place. That information can be used to narrow things down but will not
-give a root cause on its own.</div>
-</div>
-<div class="line-block">
-<div class="line">Additionally, reproducing a crash internally to NI is generally
-preferred. A dump can be unwound externally, but without access to NI
-symbols, it is unlikely to yield useful information. Additionally, if
-the issue is reproduced internally at NI, the same system can be used
-for both reproducing and unwinding the core dump ensuring that the
-software versions used for debugging the dump file are consistent.</div>
-</div>
+<p>Without this information, the likelihood that a dump file will provide useful information decreases significantly. For example, a core dump may show an access violation due to a bad refrence in the code but it may not show what caused the reference to become bad in the first place. That information can be used to narrow things down but will not give a root cause on its own.</p>
+<p>Additionally, reproducing a crash internally to NI is generally preferred. A dump can be unwound externally, but without access to NI symbols, it is unlikely to yield useful information. If the issue is reproduced internally at NI, the same system can be used for both reproducing and unwinding the core dump ensuring that the software versions used for debugging the dump file are consistent.</p>
 </section>
 <section id="generating-a-core-dump">
 <h2>Generating a Core Dump<a class="headerlink" href="#generating-a-core-dump" title="Permalink to this heading">¶</a></h2>
-<section id="configuring-a-target-for-core-dumps">
-<h3>Configuring a Target for Core Dumps<a class="headerlink" href="#configuring-a-target-for-core-dumps" title="Permalink to this heading">¶</a></h3>
-<div class="line-block">
-<div class="line">By default, NI Linux Real-Time targets have core dumps disabled. This
-setting is to ensure that these files - which can be quite large - do
-no take up valuable storage space on embedded devices when not
-needed. To enable core dumps, follow the steps below.</div>
-</div>
 <ol class="arabic">
-<li><p>Ensure that the target has software installed, is in run-mode, and
-will not reboot into safe mode upon reboot. This can be done by
-verifying the following in NI MAX:</p>
-<ul class="simple">
-<li><p>Verify that the <strong>Status</strong> of the target in
-the <strong>System Settings</strong> tab is currently <strong>Connected - Running.</strong></p></li>
-<li><p>Verify that the <strong>Force Safe Mode</strong> checkbox is <strong>not</strong> checked in
-the <strong>System Settings</strong> tab.</p></li>
+<li><p>Ensure that the target has software installed, is in run-mode, and will not reboot into safe mode upon reboot. This can be done by verifying the following in NI MAX:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Verify that the <code class="docutils literal notranslate"><span class="pre">Status</span></code> of the target in the <code class="docutils literal notranslate"><span class="pre">System</span> <span class="pre">Settings</span></code> tab is currently <code class="docutils literal notranslate"><span class="pre">Connected</span> <span class="pre">-</span> <span class="pre">Running.</span></code></p></li>
+<li><p>Verify that the ☐ <code class="docutils literal notranslate"><span class="pre">Force</span> <span class="pre">Safe</span> <span class="pre">Mode</span></code> checkbox is <strong>not</strong> checked in the <code class="docutils literal notranslate"><span class="pre">System</span> <span class="pre">Settings</span></code> tab.</p></li>
 </ul>
+</div></blockquote>
 </li>
-<li><p>On the <strong>System Settings</strong> tab in NI MAX, check the boxes
-under <strong>Startup Settings</strong> for both <strong>Enable Secure Shell Server
-(sshd)</strong> and <strong>Enable Console Out.</strong></p></li>
-<li><p>Enable core dumps via one of the following methods:</p>
-<ol class="arabic">
-<li><p>Run the following command via a terminal (serial or SSH) on the target:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sed -e <span class="s1">&#39;s|^[#[:space:]]*ulimit [[:space:]]*-c [[:space:]]*.*$|ulimit -c unlimited|&#39;</span> -i /etc/init.d/lvrt-wrapper
-</pre></div>
-</div>
-</li>
-<li><p>Modify the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/lvrt-wrapper</span></code> file in a text editor via FTP,
-sFTP, WebDAV, or directly on the target. Uncomment the following
-item in the file as described by the comments in the file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># core file size</span>
-<span class="c1"># uncomment to enable core dumps</span>
-<span class="c1">#ulimit -c unlimited</span>
-</pre></div>
-</div>
-</li>
-</ol>
-</li>
-<li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> directory either remotely or
-via a terminal and remove any existing core dumps.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# <span class="nb">cd</span> /var/local/natinst/log
+<li><p>On the <code class="docutils literal notranslate"><span class="pre">System</span> <span class="pre">Settings</span></code> tab in NI MAX, check the boxes under <code class="docutils literal notranslate"><span class="pre">Startup</span> <span class="pre">Settings</span></code> for both ☑ <code class="docutils literal notranslate"><span class="pre">Enable</span> <span class="pre">Secure</span> <span class="pre">Shell</span> <span class="pre">Server</span> <span class="pre">(sshd)</span></code> and ☑ <code class="docutils literal notranslate"><span class="pre">Enable</span> <span class="pre">Console</span> <span class="pre">Out.</span></code></p></li>
+<li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> directory either remotely or via a terminal and remove any existing core dumps.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# <span class="nb">cd</span> /var/local/natinst/log
 admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
@@ -146,18 +91,48 @@ lvrt_19.0_lvuser_log.txt
 admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# rm core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
 </pre></div>
 </div>
+</div></blockquote>
 </li>
-<li><p>Restart the NI Linux Real-Time target to apply the change in settings.</p></li>
 </ol>
+<section id="configuring-lvrt">
+<h3>Configuring LVRT<a class="headerlink" href="#configuring-lvrt" title="Permalink to this heading">¶</a></h3>
+<p>LabVIEW Real-Time core dumps are disabled by default, as they can consume a substantial amount of disk space. You can enable them using the following methods.</p>
+<section id="lvrt-23-1">
+<h4>LVRT &gt;= 23.1<a class="headerlink" href="#lvrt-23-1" title="Permalink to this heading">¶</a></h4>
+<p>Beginning with the LV 23.1 release, LVRT is configured to <em>not</em> produce core dumps unless the <code class="docutils literal notranslate"><span class="pre">[LVRT]EnableCoreDumps</span></code> <cite>ni-rt.ini</cite> token is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>; enable it with the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nirtcfg --set <span class="nv">section</span><span class="o">=</span>LVRT,token<span class="o">=</span>EnableCoreDumps,value<span class="o">=</span><span class="nb">true</span>
+
+nirtcfg --list <span class="p">|</span> grep EnableCoreDumps  <span class="c1"># confirm</span>
+</pre></div>
+</div>
+<p>Restart the NI Linux Real-Time target to apply the change in settings.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The token value is tested by the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/lvrt-wrapper</span></code> initscript during boot.</p>
+</div>
+<p>On NILRT ARM distributions, the system-wide core dump ulimit is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Even after you enable the INI token above, you must then follow the <a class="reference internal" href="#id1">LVRT &lt; 23.1</a> instructions below to enable <code class="docutils literal notranslate"><span class="pre">unlimited</span></code> core dumps.</p>
+</section>
+<section id="id1">
+<h4>LVRT &lt; 23.1<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h4>
+<p>Prior to LVRT 23.1, LVRT’s core dump controls are entirely controlled using the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/lvrt-wrapper</span></code> initscript.</p>
+<p>Modify the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/lvrt-wrapper</span></code> file in a text editor via FTP, sFTP, WebDAV, or directly on the target. Uncomment the following item in the file as described by the comments in the file:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># core file size</span>
+<span class="c1"># uncomment to enable core dumps</span>
+<span class="c1">#ulimit -c unlimited</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Restart the NI Linux Real-Time target to apply the change in settings.</p>
+</section>
 </section>
 <section id="saving-a-core-dump">
 <h3>Saving a Core Dump<a class="headerlink" href="#saving-a-core-dump" title="Permalink to this heading">¶</a></h3>
 <ol class="arabic">
 <li><p>With core dumps enabled, reproduce the crash.</p></li>
-<li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>.
-The core dump should have a name similar
-to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+<li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>. The core dump should have a name similar to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
 errlog.txt
@@ -169,9 +144,11 @@ lvrt_19.0_lvuser_cur.txt
 lvrt_19.0_lvuser_log.txt
 </pre></div>
 </div>
+</div></blockquote>
 </li>
 <li><p>Archive the dump file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# tar -czf myCoreDump.tar.gz core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# tar -czf myCoreDump.tar.gz core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
 admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
@@ -188,47 +165,43 @@ myCoreDump.tar.gz
 admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#
 </pre></div>
 </div>
+</div></blockquote>
 </li>
-<li><p>Copy the core dump archive to a host system via a supported file
-transfer method (FTP, sFTP, WebDAV, etc).</p></li>
-<li><p>Generate an NI MAX Technical Support Report and include this
-when providing NI Support with the core dump.</p></li>
+<li><p>Copy the core dump archive to a host system via a supported file transfer method (FTP, sFTP, WebDAV, etc).</p></li>
+<li><p>Generate an NI MAX Technical Support Report and include this when providing NI Support with the core dump.</p></li>
 </ol>
 </section>
 <section id="confirming-core-dumps-are-generated">
 <h3>Confirming Core Dumps are Generated<a class="headerlink" href="#confirming-core-dumps-are-generated" title="Permalink to this heading">¶</a></h3>
-<div class="line-block">
-<div class="line">To confirm core dumps are properly configured, it’s possible to
-force a crash of the LabVIEW Real-Time process for testing purposes.</div>
-</div>
+<p>To confirm core dumps are properly configured, it’s possible to force a crash of the LabVIEW Real-Time process for testing purposes.</p>
 <ol class="arabic">
 <li><p>Configure a target for Core Dumps as described above.</p></li>
-<li><p>Open a terminal on the target (SSH or Serial) and log in as the admin
-user.</p></li>
+<li><p>Open a terminal on the target (SSH or Serial) and log in as the admin user.</p></li>
 <li><p>Run the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>killall -3 lvrt
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>killall -3 lvrt
 </pre></div>
 </div>
 <p>This command will send a SIGSEGV to the lvrt process.</p>
+</div></blockquote>
 </li>
-<li><p>Confirm that the lvrt process crashed by running the following
-command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps -aux <span class="p">|</span> grep lvrt
+<li><p>Confirm that the lvrt process crashed by running the following command:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps -aux <span class="p">|</span> grep lvrt
 </pre></div>
 </div>
-<p>If lvrt crashed, there should be something similar to the following
-result, noting the CRASHED_AND_RESTART message:</p>
+<p>If lvrt crashed, there should be something similar to the following result, noting the CRASHED_AND_RESTART message:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">1707</span> admin      <span class="m">0</span>:00 <span class="o">{</span>lvrt-daemon<span class="o">}</span> /bin/sh /etc/init.d/lvrt-daemon
 <span class="m">2408</span> admin      <span class="m">0</span>:00 /bin/su -- lvuser -l -c /etc/init.d/lvrt-wrapper CRASHED_AND_RESTART /var/run/lvrt_wrapper.pid <span class="nb">false</span>
 <span class="m">2409</span> lvuser     <span class="m">0</span>:00 <span class="o">{</span>MainAppThread<span class="o">}</span> ./lvrt
 <span class="m">2473</span> admin      <span class="m">0</span>:00 grep lvrt
 </pre></div>
 </div>
+</div></blockquote>
 </li>
-<li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>.
-The core dump should have a name similar
-to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+<li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>. The core dump should have a name similar to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
 errlog.txt
@@ -240,9 +213,9 @@ lvrt_19.0_lvuser_cur.txt
 lvrt_19.0_lvuser_log.txt
 </pre></div>
 </div>
+</div></blockquote>
 </li>
-<li><p>Remove the core dump before proceeding to reproduce the
-actual crash.</p></li>
+<li><p>Remove the core dump before proceeding to reproduce the actual crash.</p></li>
 </ol>
 </section>
 </section>
@@ -261,7 +234,11 @@ actual crash.</p></li>
 <li><a class="reference internal" href="#">LabVIEW Core Dumps on Linux Real-Time</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#generating-a-core-dump">Generating a Core Dump</a><ul>
-<li><a class="reference internal" href="#configuring-a-target-for-core-dumps">Configuring a Target for Core Dumps</a></li>
+<li><a class="reference internal" href="#configuring-lvrt">Configuring LVRT</a><ul>
+<li><a class="reference internal" href="#lvrt-23-1">LVRT &gt;= 23.1</a></li>
+<li><a class="reference internal" href="#id1">LVRT &lt; 23.1</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#saving-a-core-dump">Saving a Core Dump</a></li>
 <li><a class="reference internal" href="#confirming-core-dumps-are-generated">Confirming Core Dumps are Generated</a></li>
 </ul>

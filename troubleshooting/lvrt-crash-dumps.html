@@ -185,9 +185,22 @@ admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#
 <p>This command will send a SIGSEGV to the lvrt process.</p>
 </div></blockquote>
 </li>
-<li><p>Confirm that the lvrt process crashed by running the following command:</p>
+<li><p>Confirm that the lvrt process crashed.</p>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps -aux <span class="p">|</span> grep lvrt
+<div><p><strong>LabVIEW Real-Time &gt;= 23.1</strong></p>
+<p>A message will be logged to the system log at <cite>/var/log/messages</cite> if a crash occurs.
+Run the following command to confirm the crash was logged.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /var/log/messages <span class="p">|</span> tail
+</pre></div>
+</div>
+<p>This will show the last 10 messages logged.
+If a crash occurred, the a message similer to the following should be present:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lvrt-daemon: The LabVIEW Real-Time Process has encountered an error. Check /var/local/natinst/log <span class="k">for</span> error logs.
+</pre></div>
+</div>
+<p><strong>LabVIEW Real-Time &lt; 23.1</strong></p>
+<p>Run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps -aux <span class="p">|</span> grep lvrt
 </pre></div>
 </div>
 <p>If lvrt crashed, there should be something similar to the following result, noting the CRASHED_AND_RESTART message:</p>

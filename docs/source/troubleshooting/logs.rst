@@ -20,7 +20,7 @@ NI Linux Real-Time Systems are designed as embedded, headless systems that need 
 As such, the ``/var/log/`` directory is a symbolic link to ``/var/volatile/log/``.
 The ``/var/volatile/log/`` directory is mapped to RAM instead of the persistent device storage.
 This prevents the system’s device storage from filling with logs and causing other issues on devices with extremely limited storage but results in the logs not persisting through a reboot.
-To make these logs persist through a reboot, see the Remapping Volatile Logs section of this document.
+To make these logs persist through a reboot, see the Enabling Persistent Logs section of this document.
 
 **Note:** The ``kern.log`` file is traditionally stored here, but on NI Linux Real-Time systems is instead located at ``/var/local/natinst/log/`` to ensure it persists between reboots.
 

@@ -20,7 +20,7 @@ NI Linux Real-Time Systems are designed as embedded, headless systems that need 
 As such, the ``/var/log/`` directory is a symbolic link to ``/var/volatile/log/``.
 The ``/var/volatile/log/`` directory is mapped to RAM instead of the persistent device storage.
 This prevents the system’s device storage from filling with logs and causing other issues on devices with extremely limited storage but results in the logs not persisting through a reboot.
-To make these logs persist through a reboot, see the Remapping Volatile Logs section of this document.
+To make these logs persist through a reboot, see the Enabling Persistent Logs section of this document.
 
 **Note:** The ``kern.log`` file is traditionally stored here, but on NI Linux Real-Time systems is instead located at ``/var/local/natinst/log/`` to ensure it persists between reboots.
 
@@ -109,7 +109,22 @@ Additionally, the frequent logging to disk may impact the disk's lifetime.
 Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the ``/var/log`` location.
 Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto distributions that NI Linux Real-Time is based on.
 
+**Note:** These settings will only persist until a format or software upgrade is made.
+Once that happens, the Linux Real-Time settings may revert to their defaults for that version.
+
 To modify these settings for the ``/var/log`` location:
+
+NILRT >= 9.1
+------------
+
+1. At the command-line on the target, run ``nirtcfg --set section=SystemSettings,token=PersistentLogs.enabled,value="True"``.
+
+2. Reboot the NI Linux Real-Time system.
+
+To revert to using volatile logs, follow the same steps using ``value="False"`` in the ``nirtcfg`` command.
+
+NILRT < 9.1
+-----------
 
 1. Modify ``/etc/default/volatiles/00_core`` as follows via either a console, sFTP, or your preferred method for editing configuration files on Linux Real-Time systems.
 
@@ -141,12 +156,11 @@ To modify these settings for the ``/var/log`` location:
 
 5. Reboot the NI Linux Real-Time system.
 
-6. Once the system has rebooted, you can check that the change has applied.
-   Instead of the symbolic link information, you should instead see the files located in ``/var/log``. 
-   Note that the image below may differ from your system depending on the software installed.
-   |image0|
+----
 
-**Note:** These settings will only persist until a format or software upgrade is made.
-Once that happens, the Linux Real-Time settings may revert to their defaults for that version.
+Once the system has rebooted, you can check that the change has applied.
+Instead of the symbolic link information, you should instead see the files located in ``/var/log``. 
+Note that the image below may differ from your system depending on the software installed.
+|image0|
 
 .. |image0| image:: resources/logs_dir.png

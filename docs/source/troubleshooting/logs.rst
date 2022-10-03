@@ -119,7 +119,11 @@ NILRT >= 9.1
 
 1. At the command-line on the target, run ``nirtcfg --set section=SystemSettings,token=PersistentLogs.enabled,value="True"``.
 
-2. Reboot the NI Linux Real-Time system.
+2. **NILRT 9.1 only:** An additional step is required on NI Linux Real-Time 9.1.
+   This step is not required on NI Linux Real-Time 9.2 and later.
+   At the command-line on the target, run ``/etc/init.d/ni-configpersistentlogs``
+
+3. Reboot the NI Linux Real-Time system.
 
 To revert to using volatile logs, follow the same steps using ``value="False"`` in the ``nirtcfg`` command.
 

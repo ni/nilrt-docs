@@ -16,6 +16,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -246,6 +247,9 @@ Once that happens, the Linux Real-Time settings may revert to their defaults for
 <h3>NILRT &gt;= 9.1<a class="headerlink" href="#nilrt-9-1" title="Permalink to this heading">¶</a></h3>
 <ol class="arabic simple">
 <li><p>At the command-line on the target, run <code class="docutils literal notranslate"><span class="pre">nirtcfg</span> <span class="pre">--set</span> <span class="pre">section=SystemSettings,token=PersistentLogs.enabled,value=&quot;True&quot;</span></code>.</p></li>
+<li><p><strong>NILRT 9.1 only:</strong> An additional step is required on NI Linux Real-Time 9.1.
+This step is not required on NI Linux Real-Time 9.2 and later.
+At the command-line on the target, run <code class="docutils literal notranslate"><span class="pre">/etc/init.d/ni-configpersistentlogs</span></code></p></li>
 <li><p>Reboot the NI Linux Real-Time system.</p></li>
 </ol>
 <p>To revert to using volatile logs, follow the same steps using <code class="docutils literal notranslate"><span class="pre">value=&quot;False&quot;</span></code> in the <code class="docutils literal notranslate"><span class="pre">nirtcfg</span></code> command.</p>
@@ -368,7 +372,7 @@ Note that the image below may differ from your system depending on the software 
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
     </div>
   </body>
 </html>

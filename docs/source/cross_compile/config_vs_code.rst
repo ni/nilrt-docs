@@ -41,26 +41,31 @@ Visual Studio Code, follow the steps below.
    workspace. For example: *<My Documents>\\HelloWorld\\\* or *<My
    Documents>\\NI Linux Real-Time Template\\*.
 
-2. Launch VS Code.
+2. In a new command prompt, navigate to the toolchain folder and run the
+   environment-setup-core2-64-nilrt-linux.bat script.
 
-3. | In VS Code, select **Open folder…** from the landing page or **File
+3. Launch VS Code from the same command prompt, to ensure that the toolchain
+   environment is set up correctly. Hereafter, always launch VS Code for
+   cross-compilation after setting up the environment.
+
+4. | In VS Code, select **Open folder…** from the landing page or **File
      >> Open Folder…**
-   
+
    .. image:: media/config_vscode/image1.png
 
-4. Navigate to and select the folder created previously to open it in VS
+5. Navigate to and select the folder created previously to open it in VS
    Code.
 
-5. | In the VS Code Explorer, create the following folders in the
+6. | In the VS Code Explorer, create the following folders in the
      HelloWorld folder using the **New Folder** button.
-   
+
    .. image:: media/config_vscode/image2.png
 
    1. *src* – source code directory
    2. *build* – build files directory
 
-6. | Confirm that the directory structure looks as follows:
-   
+7. | Confirm that the directory structure looks as follows:
+
    .. image:: media/config_vscode/image3.png
 
 Creating Tasks and the Command Palette
@@ -90,7 +95,7 @@ these steps:
 
 2. | In the Command Palette, search for **Tasks: Configure Task** and
      select it.
-   
+
    .. image:: media/config_vscode/image4.png
 
 3. | Select **Create tasks.json file from template** then select
@@ -98,7 +103,7 @@ these steps:
      folder: the *.vscode* directory and that *tasks.json* file. The
      directory is the storage location for all project-specific
      configurations.
-   
+
    .. image:: media/config_vscode/image5.png
 
 4. The *tasks.json* file should open automatically, but if not open it
@@ -166,7 +171,7 @@ includes and other necessary resources.
 1. Open the Command Palette by hitting **Ctrl + Shift + P**.
 
 2. | Search for and select **C/C++: Edit Configurations (JSON)**.
-   
+
    .. image:: media/config_vscode/image7.png
 
 3. | This should automatically create a new file in the *.vscode*
@@ -174,13 +179,13 @@ includes and other necessary resources.
      the editor. For more information on *c_cpp_properties.json*, refer
      to the official documentation at `c_cpp_properties.json
      reference <https://code.visualstudio.com/docs/cpp/c-cpp-properties-schema-reference>`__.
-   
+
    .. image:: media/config_vscode/image8.png
 
 4. In the editor, modify the configuration for the compiler to be used.
 
    1. | For NI Linux Real-Time x64 devices, complete the file as follows:
-      
+
       .. code:: json
 
          {
@@ -205,7 +210,7 @@ includes and other necessary resources.
          }
 
    2. | For NI Linux Real-Time ARM devices, complete the file as follows:
-      
+
       .. code:: json
 
          {
@@ -237,7 +242,7 @@ includes and other necessary resources.
      example, the above configurations could be extended to create a
      configuration file that covers both ARM and x64 NI Linux Real-Time
      devices.
-   
+
    .. image:: media/config_vscode/image11.png
 
 Creating a Debugging Configuration
@@ -269,7 +274,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
    that not all fields are currently completed.
 
    1. | For NI Linux Real-Time x64 devices, complete the file as follows:
-      
+
       .. code:: json
 
          {
@@ -294,7 +299,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
          }
 
    2. | For NI Linux Real-Time ARM devices, complete the file as follows:
-      
+
       .. code:: json
 
          {

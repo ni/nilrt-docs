@@ -201,7 +201,7 @@ includes and other necessary resources.
                ],
                "includePath": [
                  "${workspaceFolder}/",
-                 "${workspaceFolder}/core2-64-nilrt-linux/usr/include/"
+                 "${compilerSysroots}/core2-64-nilrt-linux/usr/include/"
                ],
                "intelliSenseMode": "gcc-x64"
              }

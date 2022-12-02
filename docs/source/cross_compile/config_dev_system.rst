@@ -50,6 +50,8 @@ each tool and how to set it up.
 
 -  Ninja
 
+-  7-Zip (v22.01 or higher)
+
 These tools are not the only options and are mainly used to demonstrate
 configuration and usage of the toolchain. Visual Studio Code allows
 completely different tooling with various extensions and command line
@@ -130,13 +132,14 @@ the right location.
    Typically, this corresponds to the first version that the toolchain
    supports. For example, the 2018-2019 toolchain is typically referred
    to as the 18.0 version.
-2. | If using an ARMv7 target, extract and copy the contents of the
+2. Use 7-Zip to extract the contents of the toolchain.
+3. | If using an ARMv7 target, extract and copy the contents of the
      toolchain to *C:\\build\\<toolchain version>\\arm\\*. The resulting file
      structure should look as follows:
 
    .. image:: media/config_pc/image4.png
 
-3. | If using a x64 target, extract and copy the contents of the toolchain
+4. | If using a x64 target, extract and copy the contents of the toolchain
      to *C:\\build\\<toolchain version>\\x64\\*. The resulting file structure
      should look as follows:
 
@@ -223,26 +226,26 @@ the below steps to ensure it’s configured correctly for the tutorials.
 
 2. | Extract and copy Ninja.exe to a suitable location (e.g.,
      *C:\\Program Files\\Ninja\\*)
-   
+
    .. image:: media/config_pc/image9.png
 
 3. | The executable can be added to the system PATH for easier use.
      Press **Start+R** to open the **Run** window, then type in
      *sysdm.cpl* and hit **OK.** This will launch the **System
      Properties** window.
-   
+
    .. image:: media/config_pc/image10.png
 
 4. | In the **System Properties** window, navigate to the **Advanced**
      page and select **Environment Variables…** to open the
      **Environment Variables** window.
-   
+
       .. image:: media/config_pc/image11.png
 
 5. | In the **System variables** section of the **Environment
      Variables** window, navigate to and select **Path** then click
      **Edit…**
-   
+
    .. image:: media/config_pc/image12.png
 
 6. | In the **Edit environment variable** window, click **New** to add a
@@ -252,14 +255,14 @@ the below steps to ensure it’s configured correctly for the tutorials.
 
 7. | Enter the path to the directory containing the ninja binary (e.g.,
      C:\\Program Files\\Ninja\\). Click **OK**.
-   
+
       .. image:: media/config_pc/image14.png
 
 8. Click **OK** twice more to exit the **System Properties** window.
 
 9. | Confirm that Ninja is now accessible in a new command prompt by
      running *ninja --version*. This
-   
+
       .. image:: media/config_pc/image15.png
 
 Next Steps

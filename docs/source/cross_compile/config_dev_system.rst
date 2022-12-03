@@ -265,6 +265,15 @@ the below steps to ensure it’s configured correctly for the tutorials.
 
       .. image:: media/config_pc/image15.png
 
+7-Zip
+~~~~~
+
+`7-Zip <https://www.7-zip.org/download.html>`__ is a free and open-source
+file-archiver. In this case, use this tool to extract the toolchain
+downloaded from ni.com.
+
+.. image:: media/config_pc/image16.png
+
 Next Steps
 ----------
 

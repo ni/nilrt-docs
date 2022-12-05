@@ -95,7 +95,11 @@ Visual Studio Code, follow the steps below.</p>
 <li><p>Create a top-level directory to act as the Folder for a VS Code
 workspace. For example: <em>&lt;My Documents&gt;\HelloWorld\* or *&lt;My
 Documents&gt;\NI Linux Real-Time Template\</em>.</p></li>
-<li><p>Launch VS Code.</p></li>
+<li><p>In a new command prompt, navigate to the toolchain folder and run the
+environment-setup-core2-64-nilrt-linux.bat script.</p></li>
+<li><p>Launch VS Code from the same command prompt, to ensure that the toolchain
+environment is set up correctly. Hereafter, always launch VS Code for
+cross-compilation after setting up the environment.</p></li>
 <li><div class="line-block">
 <div class="line">In VS Code, select <strong>Open folder…</strong> from the landing page or <strong>File
 &gt;&gt; Open Folder…</strong></div>
@@ -249,7 +253,7 @@ reference</a>.</div>
 <span class="w">      </span><span class="p">],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;includePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">        </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/core2-64-nilrt-linux/usr/include/&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="s2">&quot;${compilerSysroots}/core2-64-nilrt-linux/usr/include/&quot;</span><span class="w"></span>
 <span class="w">      </span><span class="p">],</span><span class="w"></span>
 <span class="w">      </span><span class="nt">&quot;intelliSenseMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gcc-x64&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
@@ -408,7 +412,7 @@ used.</p>
 <ol class="arabic">
 <li><p>In the <em>build</em> directory of the project, create a new file using the
 <strong>New File</strong> button. Name the file <em>CMakeLists.txt</em>.</p>
-<img alt="../_images/image161.png" src="../_images/image161.png" />
+<img alt="../_images/image162.png" src="../_images/image162.png" />
 <img alt="../_images/image171.png" src="../_images/image171.png" />
 </li>
 <li><p>The first thing needed in the configuration is the specific compiler
@@ -618,7 +622,7 @@ application and walk through building an executable.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

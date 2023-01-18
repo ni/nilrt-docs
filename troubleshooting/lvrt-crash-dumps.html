@@ -12,9 +12,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
@@ -78,8 +75,8 @@
 <li><p>On the <code class="docutils literal notranslate"><span class="pre">System</span> <span class="pre">Settings</span></code> tab in NI MAX, check the boxes under <code class="docutils literal notranslate"><span class="pre">Startup</span> <span class="pre">Settings</span></code> for both ☑ <code class="docutils literal notranslate"><span class="pre">Enable</span> <span class="pre">Secure</span> <span class="pre">Shell</span> <span class="pre">Server</span> <span class="pre">(sshd)</span></code> and ☑ <code class="docutils literal notranslate"><span class="pre">Enable</span> <span class="pre">Console</span> <span class="pre">Out.</span></code></p></li>
 <li><p>Navigate to the <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> directory either remotely or via a terminal and remove any existing core dumps.</p>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# <span class="nb">cd</span> /var/local/natinst/log
-admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/local/natinst/log
+admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#<span class="w"> </span>ls
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
 errlog.txt
@@ -89,7 +86,7 @@ lvlog01-20-20-21-35-13.txt
 lvlog01-20-20-21-37-03.txt
 lvrt_19.0_lvuser_cur.txt
 lvrt_19.0_lvuser_log.txt
-admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# rm core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
+admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#<span class="w"> </span>rm<span class="w"> </span>core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
 </pre></div>
 </div>
 </div></blockquote>
@@ -101,9 +98,9 @@ admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# rm core_dump.<span class="se
 <section id="lvrt-23-1">
 <h4>LVRT &gt;= 23.1<a class="headerlink" href="#lvrt-23-1" title="Permalink to this heading">¶</a></h4>
 <p>Beginning with the LV 23.1 release, LVRT is configured to <em>not</em> produce core dumps unless the <code class="docutils literal notranslate"><span class="pre">[LVRT]EnableCoreDumps</span></code> <cite>ni-rt.ini</cite> token is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>; enable it with the following command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nirtcfg --set <span class="nv">section</span><span class="o">=</span>LVRT,token<span class="o">=</span>EnableCoreDumps,value<span class="o">=</span><span class="nb">true</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nirtcfg<span class="w"> </span>--set<span class="w"> </span><span class="nv">section</span><span class="o">=</span>LVRT,token<span class="o">=</span>EnableCoreDumps,value<span class="o">=</span><span class="nb">true</span>
 
-nirtcfg --list <span class="p">|</span> grep EnableCoreDumps  <span class="c1"># confirm</span>
+nirtcfg<span class="w"> </span>--list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>EnableCoreDumps<span class="w">  </span><span class="c1"># confirm</span>
 </pre></div>
 </div>
 <p>Restart the NI Linux Real-Time target to apply the change in settings.</p>
@@ -133,7 +130,7 @@ nirtcfg --list <span class="p">|</span> grep EnableCoreDumps  <span class="c1">#
 <li><p>With core dumps enabled, reproduce the crash.</p></li>
 <li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>. The core dump should have a name similar to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~#<span class="w"> </span>ls<span class="w"> </span>/var/local/natinst/log
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
 errlog.txt
@@ -149,8 +146,8 @@ lvrt_19.0_lvuser_log.txt
 </li>
 <li><p>Archive the dump file.</p>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# tar -czf myCoreDump.tar.gz core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
-admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log# ls
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#<span class="w"> </span>tar<span class="w"> </span>-czf<span class="w"> </span>myCoreDump.tar.gz<span class="w"> </span>core_dump.<span class="se">\!</span>usr<span class="se">\!</span>local<span class="se">\!</span>natinst<span class="se">\!</span>labview<span class="se">\!</span>lvrt
+admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#<span class="w"> </span>ls
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
 errlog.txt
@@ -180,7 +177,7 @@ admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#
 <li><p>Open a terminal on the target (SSH or Serial) and log in as the admin user.</p></li>
 <li><p>Run the following command:</p>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>killall -3 lvrt
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>killall<span class="w"> </span>-3<span class="w"> </span>lvrt
 </pre></div>
 </div>
 <p>This command will send a SIGSEGV to the lvrt process.</p>
@@ -191,31 +188,31 @@ admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#
 <div><p><strong>LabVIEW Real-Time &gt;= 23.1</strong></p>
 <p>A message will be logged to the system log at <cite>/var/log/messages</cite> if a crash occurs.
 Run the following command to confirm the crash was logged.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /var/log/messages <span class="p">|</span> tail
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>/var/log/messages<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail
 </pre></div>
 </div>
 <p>This will show the last 10 messages logged.
 If a crash occurred, the a message similer to the following should be present:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lvrt-daemon: The LabVIEW Real-Time Process has encountered an error. Check /var/local/natinst/log <span class="k">for</span> error logs.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>lvrt-daemon:<span class="w"> </span>The<span class="w"> </span>LabVIEW<span class="w"> </span>Real-Time<span class="w"> </span>Process<span class="w"> </span>has<span class="w"> </span>encountered<span class="w"> </span>an<span class="w"> </span>error.<span class="w"> </span>Check<span class="w"> </span>/var/local/natinst/log<span class="w"> </span><span class="k">for</span><span class="w"> </span>error<span class="w"> </span>logs.
 </pre></div>
 </div>
 <p><strong>LabVIEW Real-Time &lt; 23.1</strong></p>
 <p>Run the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps -aux <span class="p">|</span> grep lvrt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ps<span class="w"> </span>-aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>lvrt
 </pre></div>
 </div>
 <p>If lvrt crashed, there should be something similar to the following result, noting the CRASHED_AND_RESTART message:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">1707</span> admin      <span class="m">0</span>:00 <span class="o">{</span>lvrt-daemon<span class="o">}</span> /bin/sh /etc/init.d/lvrt-daemon
-<span class="m">2408</span> admin      <span class="m">0</span>:00 /bin/su -- lvuser -l -c /etc/init.d/lvrt-wrapper CRASHED_AND_RESTART /var/run/lvrt_wrapper.pid <span class="nb">false</span>
-<span class="m">2409</span> lvuser     <span class="m">0</span>:00 <span class="o">{</span>MainAppThread<span class="o">}</span> ./lvrt
-<span class="m">2473</span> admin      <span class="m">0</span>:00 grep lvrt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">1707</span><span class="w"> </span>admin<span class="w">      </span><span class="m">0</span>:00<span class="w"> </span><span class="o">{</span>lvrt-daemon<span class="o">}</span><span class="w"> </span>/bin/sh<span class="w"> </span>/etc/init.d/lvrt-daemon
+<span class="m">2408</span><span class="w"> </span>admin<span class="w">      </span><span class="m">0</span>:00<span class="w"> </span>/bin/su<span class="w"> </span>--<span class="w"> </span>lvuser<span class="w"> </span>-l<span class="w"> </span>-c<span class="w"> </span>/etc/init.d/lvrt-wrapper<span class="w"> </span>CRASHED_AND_RESTART<span class="w"> </span>/var/run/lvrt_wrapper.pid<span class="w"> </span><span class="nb">false</span>
+<span class="m">2409</span><span class="w"> </span>lvuser<span class="w">     </span><span class="m">0</span>:00<span class="w"> </span><span class="o">{</span>MainAppThread<span class="o">}</span><span class="w"> </span>./lvrt
+<span class="m">2473</span><span class="w"> </span>admin<span class="w">      </span><span class="m">0</span>:00<span class="w"> </span>grep<span class="w"> </span>lvrt
 </pre></div>
 </div>
 </div></blockquote>
 </li>
 <li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>. The core dump should have a name similar to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
 <blockquote>
-<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~# ls /var/local/natinst/log
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>admin@NI-cRIO-9036-01D5AED5:~#<span class="w"> </span>ls<span class="w"> </span>/var/local/natinst/log
 SystemWebServer.log
 core_dump.!usr!local!natinst!labview!lvrt
 errlog.txt
@@ -314,7 +311,7 @@ lvrt_19.0_lvuser_log.txt
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
   </body>
 </html>

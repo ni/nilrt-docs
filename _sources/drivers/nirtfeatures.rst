@@ -15,7 +15,7 @@ SysFS
 reset_source
 ------------
 
-The `reset_source` sysfs entry is read-only, ane exposes a single word which describes the state of the CPLD's `ProcResetSourceReg` register. Possible values are defined by the `nirtfeatures.c:nirtfeatures_reset_source_string <https://github.com/ni/linux/blob/81fc9e513b095c0008520d7a55dabc3ef3531539/drivers/misc/nirtfeatures.c#L230>`_ constant.
+The `reset_source` sysfs entry is read-only, and exposes a single word which describes the state of the CPLD's `ProcResetSourceReg` register. Possible values are defined by the `nirtfeatures.c:nirtfeatures_reset_source_string <https://github.com/ni/linux/blob/81fc9e513b095c0008520d7a55dabc3ef3531539/drivers/misc/nirtfeatures.c#L230>`_ constant.
 
 :button: The CPLD came out of reset due to someone toggling the front-panel reset button.
 :fpga: The CPLD came out of reset because the onboard FPGA received a reset signal.

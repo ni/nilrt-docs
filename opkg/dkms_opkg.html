@@ -12,9 +12,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/bizstyle.js"></script>
@@ -271,23 +268,23 @@ that document.</p>
 logging levels in the NI Linux Real-Time OS. That is, the <strong>printk</strong>
 functions have been modified to log at the KERN_NOTICE level rather than
 KERN_INFO level to more easily demonstrate logging functionality.</p>
-<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/module.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/kernel.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/init.h&gt;</span><span class="cp"></span>
+<div class="highlight-C notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/module.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/kernel.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/init.h&gt;</span>
 
-<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">hello_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">printk</span><span class="p">(</span><span class="n">KERN_NOTICE</span><span class="w"> </span><span class="s">&quot;Hello world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">hello_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">printk</span><span class="p">(</span><span class="n">KERN_NOTICE</span><span class="w"> </span><span class="s">&quot;Hello world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__exit</span><span class="w"> </span><span class="nf">hello_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="n">printk</span><span class="p">(</span><span class="n">KERN_NOTICE</span><span class="w"> </span><span class="s">&quot;Goodbye world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__exit</span><span class="w"> </span><span class="nf">hello_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="n">printk</span><span class="p">(</span><span class="n">KERN_NOTICE</span><span class="w"> </span><span class="s">&quot;Goodbye world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
 
-<span class="n">module_init</span><span class="p">(</span><span class="n">hello_init</span><span class="p">);</span><span class="w"></span>
-<span class="n">module_exit</span><span class="p">(</span><span class="n">hello_exit</span><span class="p">);</span><span class="w"></span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">hello_init</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">hello_exit</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -298,13 +295,13 @@ in the <a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/ht
 Guide</a>. More examples of
 kernel module makefiles and related options are covered in that
 document.</p>
-<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">obj-m</span> <span class="o">:=</span> hello.o
-<span class="nv">KVERSION</span> <span class="o">:=</span> <span class="k">$(</span>shell uname -r<span class="k">)</span>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">obj-m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>hello.o
+<span class="nv">KVERSION</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>shell<span class="w"> </span>uname<span class="w"> </span>-r<span class="k">)</span>
 
 <span class="nf">all</span><span class="o">:</span>
-  <span class="k">$(</span>MAKE<span class="k">)</span> -C /lib/modules/<span class="k">$(</span>KVERSION<span class="k">)</span>/build <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> modules
+<span class="w">  </span><span class="k">$(</span>MAKE<span class="k">)</span><span class="w"> </span>-C<span class="w"> </span>/lib/modules/<span class="k">$(</span>KVERSION<span class="k">)</span>/build<span class="w"> </span><span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span><span class="w"> </span>modules
 <span class="nf">clean</span><span class="o">:</span>
-  <span class="k">$(</span>MAKE<span class="k">)</span> -C /lib/modules/<span class="k">$(</span>KVERSION<span class="k">)</span>/build <span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span> clean
+<span class="w">  </span><span class="k">$(</span>MAKE<span class="k">)</span><span class="w"> </span>-C<span class="w"> </span>/lib/modules/<span class="k">$(</span>KVERSION<span class="k">)</span>/build<span class="w"> </span><span class="nv">M</span><span class="o">=</span><span class="k">$(</span>PWD<span class="k">)</span><span class="w"> </span>clean
 </pre></div>
 </div>
 </section>
@@ -462,25 +459,25 @@ Otherwise, it will print an error message. All versions of DKMS included
 with NI Linux Real-Time 2020 and later will support the
 <em>common.postinst</em> method.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
-<span class="nb">set</span> -e
+<span class="nb">set</span><span class="w"> </span>-e
 <span class="nv">DKMS_NAME</span><span class="o">=</span>hello
 <span class="nv">DKMS_PACKAGE_NAME</span><span class="o">=</span>hello
 <span class="nv">DKMS_VERSION</span><span class="o">=</span><span class="m">0</span>.1
-<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="k">in</span>
-  configure<span class="o">)</span>
-    <span class="k">if</span> <span class="o">[</span> -x /usr/lib/dkms/common.postinst <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-      /usr/lib/dkms/common.postinst <span class="nv">$DKMS_NAME</span> <span class="nv">$DKMS_VERSION</span> /usr/share/<span class="nv">$DKMS_PACKAGE_NAME</span>
-<span class="s2">&quot;&quot;</span> <span class="nv">$2</span>
-    <span class="k">else</span>
-      <span class="nb">echo</span> <span class="s2">&quot;ERROR: DKMS version is too old and </span><span class="nv">$DKMS_PACKAGE_NAME</span><span class="s2"> was not&quot;</span>
-      <span class="nb">echo</span> <span class="s2">&quot;built with legacy DKMS support.&quot;</span>
-      <span class="nb">echo</span> <span class="s2">&quot;You must either rebuild </span><span class="nv">$DKMS_PACKAGE_NAME</span><span class="s2"> with legacy postinst&quot;</span>
-      <span class="nb">echo</span> <span class="s2">&quot;support or upgrade DKMS to a more current version.&quot;</span>
-      <span class="nb">exit</span> <span class="m">1</span>
-    <span class="k">fi</span>
-  <span class="p">;;</span>
+<span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">  </span>configure<span class="o">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-x<span class="w"> </span>/usr/lib/dkms/common.postinst<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span>/usr/lib/dkms/common.postinst<span class="w"> </span><span class="nv">$DKMS_NAME</span><span class="w"> </span><span class="nv">$DKMS_VERSION</span><span class="w"> </span>/usr/share/<span class="nv">$DKMS_PACKAGE_NAME</span>
+<span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">$2</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;ERROR: DKMS version is too old and </span><span class="nv">$DKMS_PACKAGE_NAME</span><span class="s2"> was not&quot;</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;built with legacy DKMS support.&quot;</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;You must either rebuild </span><span class="nv">$DKMS_PACKAGE_NAME</span><span class="s2"> with legacy postinst&quot;</span>
+<span class="w">      </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;support or upgrade DKMS to a more current version.&quot;</span>
+<span class="w">      </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="p">;;</span>
 <span class="k">esac</span>
-<span class="nb">exit</span> <span class="m">0</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
 </pre></div>
 </div>
 </section>
@@ -491,17 +488,17 @@ during package removal. For DKMS-based packages, this will ensure that
 the kernel module is not registered or in use during removal and will
 clean up any files created for the module by DKMS during normal usage.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
-<span class="nb">set</span> -e
+<span class="nb">set</span><span class="w"> </span>-e
 <span class="nv">DKMS_NAME</span><span class="o">=</span>hello
 <span class="nv">DKMS_VERSION</span><span class="o">=</span><span class="m">0</span>.1
-<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="k">in</span>
-  remove<span class="p">|</span>upgrade<span class="p">|</span>deconfigure<span class="o">)</span>
-    <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="k">$(</span>dkms status -m <span class="nv">$DKMS_NAME</span> -v <span class="nv">$DKMS_VERSION</span><span class="k">)</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-      dkms remove -m <span class="nv">$DKMS_NAME</span> -v <span class="nv">$DKMS_VERSION</span> --all <span class="o">||</span> <span class="nb">true</span>
-    <span class="k">fi</span>
-  <span class="p">;;</span>
+<span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<span class="w">  </span>remove<span class="p">|</span>upgrade<span class="p">|</span>deconfigure<span class="o">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>dkms<span class="w"> </span>status<span class="w"> </span>-m<span class="w"> </span><span class="nv">$DKMS_NAME</span><span class="w"> </span>-v<span class="w"> </span><span class="nv">$DKMS_VERSION</span><span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">      </span>dkms<span class="w"> </span>remove<span class="w"> </span>-m<span class="w"> </span><span class="nv">$DKMS_NAME</span><span class="w"> </span>-v<span class="w"> </span><span class="nv">$DKMS_VERSION</span><span class="w"> </span>--all<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span><span class="k">fi</span>
+<span class="w">  </span><span class="p">;;</span>
 <span class="k">esac</span>
-<span class="nb">exit</span> <span class="m">0</span>
+<span class="nb">exit</span><span class="w"> </span><span class="m">0</span>
 </pre></div>
 </div>
 </section>
@@ -705,7 +702,7 @@ Eclipse Edition</a></p></li>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
   </body>
 </html>

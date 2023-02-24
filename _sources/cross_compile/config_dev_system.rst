@@ -36,7 +36,7 @@ each tool and how to set it up.
 -  One of the following compiler toolchains:
 
    -  `GNU C & C++ Compilers for x64
-      Linux <https://www.ni.com/en-us/support/downloads/software-products/download.gnu-c---c---compile-tools-x64.html#338442>`__
+      Linux <https://www.ni.com/en-us/support/downloads/software-products/download.gnu-c---c---compile-tools-x64.html#477802>`__
       (Windows host) 2017 or later
    -  `GNU C & C++ Compilers for ARMv7
       Linux <https://www.ni.com/en-us/support/downloads/software-products/download.gnu-c---c---compile-tools-for-armv7.html#338448>`__
@@ -141,7 +141,7 @@ the right location.
 
 4. | If using a x64 target, extract and copy the contents of the toolchain
      to *C:\\build\\<toolchain version>\\x64\\*. The resulting file structure
-     should look as follows:
+     should look similar to the following:
 
    .. image:: media/config_pc/image5.png
 

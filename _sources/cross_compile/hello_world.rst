@@ -305,9 +305,9 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
    information such as the **miDebuggerPath** completed already as part
    of the template project creation.
 2. | Complete *launch.json* for the “Hello, World!” application as shown
-     below. Specifically, the **program** and **miDebuggerServerAddress**
-     fields using the IP address of the remote NI Linux Real-Time device
-     and the local binary build.
+     in the example for 18.0 below. Specifically, the **program** and
+     **miDebuggerServerAddress** fields using the IP address of the remote
+     NI Linux Real-Time device and the local binary build.
 
    .. code:: json
 

@@ -239,7 +239,7 @@ reference</a>.</div>
 </div>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/x64/sysroots/&quot;</span>
+<span class="w">    </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/x64/sysroots/&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
@@ -259,13 +259,16 @@ reference</a>.</div>
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="line-block">
+<div class="line"><strong>Note:</strong> For toolchain versions 2023Q1 and later, the <cite>compilerPath</cite> is instead <cite>${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe</cite>.</div>
+</div>
 </li>
 <li><div class="line-block">
 <div class="line">For NI Linux Real-Time ARM devices, complete the file as follows:</div>
 </div>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/arm/sysroots/&quot;</span>
+<span class="w">    </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/arm/sysroots/&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
@@ -345,12 +348,15 @@ that not all fields are currently completed.</p>
 <span class="w">      </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">      </span><span class="nt">&quot;showDisplayString&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;MIMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gdb&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;miDebuggerServerAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;serveraddress:port&quot;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Note:</strong> For toolchain versions 2023Q1 and later, the <cite>miDebuggerPath</cite> is <cite>C:/build/&lt;toolchain version&gt;/x64/sysroots/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe</cite>.</div>
 </div>
 </li>
 <li><div class="line-block">
@@ -371,7 +377,7 @@ that not all fields are currently completed.</p>
 <span class="w">      </span><span class="nt">&quot;environment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">      </span><span class="nt">&quot;showDisplayString&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;MIMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gdb&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/18.0/arm/sysroots/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;miDebuggerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/arm/sysroots/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;miDebuggerServerAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;serveraddress:port&quot;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
@@ -439,13 +445,13 @@ typing out the full sysroot location each time.</p>
 <ol class="arabic simple">
 <li><p>For NI Linux Real-Time x64 targets:</p></li>
 </ol>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">C:/build/18.0/x64/sysroots</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">C:/build/&lt;toolchain</span><span class="w"> </span><span class="s">version&gt;/x64/sysroots</span><span class="p">)</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
 <li><p>For NI Linux Real-Time ARM targets:</p></li>
 </ol>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">C:/build/18.0/arm/sysroots</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">C:/build/&lt;toolchain</span><span class="w"> </span><span class="s">version&gt;/arm/sysroots</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -459,6 +465,7 @@ compiled for a given project.</p>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++.exe</span><span class="p">)</span>
 </pre></div>
 </div>
+<p><strong>Note:</strong> For toolchain versions 2023Q1 and later, replace <cite>i686-nilrtsdk-mingw32</cite> with <cite>x86_64-w64-mingw32</cite></p>
 <ol class="arabic simple" start="2">
 <li><p>For NI Linux Real-Time ARM targets:</p></li>
 </ol>
@@ -469,7 +476,10 @@ compiled for a given project.</p>
 </li>
 <li><p>The compiler flags, include directories, and sysroot should all be
 defined in the script as well. Note that these are the NI recommended
-compiler flags.</p>
+compiler flags. Note that the include directories will vary based on
+the version of the compiler toolchain and the gcc version included.
+For example, below is with the 18.0 toolchain which uses 6.3.0, but
+the 2023Q1 toolchain uses 10.3.0.</p>
 <ol class="arabic simple">
 <li><p>For NI Linux Real-Time x64 targets:</p></li>
 </ol>

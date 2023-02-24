@@ -190,7 +190,7 @@ includes and other necessary resources.
 
          {
            "env": {
-             "compilerSysroots": "C:/build/18.0/x64/sysroots/"
+             "compilerSysroots": "C:/build/<toolchain version>/x64/sysroots/"
            },
            "configurations": [
              {
@@ -209,13 +209,15 @@ includes and other necessary resources.
            "version": 4
          }
 
+      | **Note:** For toolchain versions 2023Q1 and later, the `compilerPath` is instead `${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe`.
+
    2. | For NI Linux Real-Time ARM devices, complete the file as follows:
 
       .. code:: json
 
          {
            "env": {
-             "compilerSysroots": "C:/build/18.0/arm/sysroots/"
+             "compilerSysroots": "C:/build/<toolchain version>/arm/sysroots/"
            },
            "configurations": [
              {
@@ -292,11 +294,13 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
                "environment": [],
                "showDisplayString": true,
                "MIMode": "gdb",
-               "miDebuggerPath": "C:/build/18.0/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
+               "miDebuggerPath": "C:/build/<toolchain version>/x64/sysroots/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe",
                "miDebuggerServerAddress": "serveraddress:port"
              }
            ]
          }
+
+      | **Note:** For toolchain versions 2023Q1 and later, the `miDebuggerPath` is `C:/build/<toolchain version>/x64/sysroots/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe`.
 
    2. | For NI Linux Real-Time ARM devices, complete the file as follows:
 
@@ -317,7 +321,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
                "environment": [],
                "showDisplayString": true,
                "MIMode": "gdb",
-               "miDebuggerPath": "C:/build/18.0/arm/sysroots/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe",
+               "miDebuggerPath": "C:/build/<toolchain version>/arm/sysroots/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe",
                "miDebuggerServerAddress": "serveraddress:port"
              }
            ]
@@ -387,13 +391,13 @@ used.
 
    .. code:: cmake
 
-      set(toolchainpath C:/build/18.0/x64/sysroots)
+      set(toolchainpath C:/build/<toolchain version>/x64/sysroots)
 
    2. For NI Linux Real-Time ARM targets:
 
    .. code:: cmake
 
-      set(toolchainpath C:/build/18.0/arm/sysroots)
+      set(toolchainpath C:/build/<toolchain version>/arm/sysroots)
 
 4. Next, configure the compilers for both C and C++. CMake will
    automatically decide which compiler to used based on the files being
@@ -406,6 +410,8 @@ used.
       set(CMAKE_C_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe)
       set(CMAKE_CXX_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++.exe)
 
+   **Note:** For toolchain versions 2023Q1 and later, replace `i686-nilrtsdk-mingw32` with `x86_64-w64-mingw32`
+
    2. For NI Linux Real-Time ARM targets:
 
    .. code:: cmake
@@ -415,7 +421,10 @@ used.
 
 5. The compiler flags, include directories, and sysroot should all be
    defined in the script as well. Note that these are the NI recommended
-   compiler flags.
+   compiler flags. Note that the include directories will vary based on
+   the version of the compiler toolchain and the gcc version included.
+   For example, below is with the 18.0 toolchain which uses 6.3.0, but
+   the 2023Q1 toolchain uses 10.3.0.
 
    1. For NI Linux Real-Time x64 targets:
 

@@ -264,9 +264,10 @@ documentation and `Configuring C/C++
 debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
 
 1. | Hit **Ctrl + Shift + P** to open the Command Palette, then search
-     for and select **Debug: Open launch.json.** Then, select **C/C++
-     (GDB)**. This will create a *launch.json* with the template
-     structure already present.
+     for and select **C/C++: Add Debug Configuration** (this option is
+     only present if a C/C++ file is open in the editor). Then, select one of
+     the options - e.g., **(gdb) Launch**. This will create a *launch.json*
+     with the template structure already present.
 
    .. image:: media/config_vscode/image12.png
 

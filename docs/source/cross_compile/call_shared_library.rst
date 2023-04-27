@@ -70,12 +70,12 @@ time as the built executable.
 
 1. | In a Windows Explorer window, navigate to the shared library to be
      used.
-   
+
    .. image:: media/call_so/image1.png
 
 2. | Right-click on the shared library and select **Copy** from the
      context menu.
-   
+
    .. image:: media/call_so/image2.png
 
 3. Navigate to the local copy of the sysroot for the NI Linux Real-Time
@@ -93,7 +93,7 @@ time as the built executable.
 4. | Paste the shared library in the sysroot directory by right-clicking
      anywhere in the directory and selecting **Paste** from the context
      menu.
-   
+
    .. image:: media/call_so/image3.png
 
 5. | Repeat steps 1 through 4 above with the header file for the shared
@@ -105,7 +105,7 @@ time as the built executable.
    | **Note:** The /usr/local/include directory may not exist in the
      sysroot by default. If it is not present, simply create the
      directory.
-   
+
    .. image:: media/call_so/image4.png
 
 Creating a Project
@@ -121,24 +121,24 @@ new project:
 
 2. | Copy the contents of the template project directory into this newly
      created directory.
-   
+
    .. image:: media/call_so/image5.png
 
 3. Open the folder in Visual Studio Code by doing one of the following:
 
    1. | Right-click anywhere in the folder and select **Open with
         Code**.
-      
+
       .. image:: media/call_so/image6.png
 
    2. | Launch Visual Studio Code, then select **File >> Open Folder**
         and choose the folder to open.
-      
+
       .. image:: media/call_so/image7.png
 
 4. | Confirm that the folder opened properly in Visual Studio Code in
      the **Explorer.**
-   
+
    .. image:: media/call_so/image8.png
 
 5. In the *.vscode* directory of the project, open
@@ -147,7 +147,7 @@ new project:
 6. | Add the */usr/local/include* directory from the **Configuring the
      Sysroot** portion of this document to the **includePath** to ensure
      includes in that directory are found by IntelliSense.
-   
+
    .. image:: media/call_so/image9.png
 
 Creating the C Source Code
@@ -158,7 +158,7 @@ function from that library. The example library only has one function,
 so this is straight forward.
 
 1. In the *src* directory of the project, create a new source file
-   titled *callingSharedLibrary.c.*
+   titled *callingSharedObject.c*.
 
 2. Complete the source file as shown below.
 
@@ -218,7 +218,7 @@ documentation <https://cmake.org/cmake/help/latest/>`__.
          set(EXECUTABLE_OUTPUT_PATH bin)
          set(CMAKE_BUILD_TYPE Debug)
          add_executable(callingSharedObject ../src/callingSharedObject.c)
-         include_directories(${toolchain_path}/core2-64-nilrtlinux/usr/local/include)
+         include_directories(${toolchainpath}/core2-64-nilrt-linux/usr/local/include)
          target_link_libraries(callingSharedObject myLib)
 
    2. | For ARMv7 NI Linux Real-Time devices:
@@ -231,7 +231,7 @@ documentation <https://cmake.org/cmake/help/latest/>`__.
            set(EXECUTABLE_OUTPUT_PATH bin)
            set(CMAKE_BUILD_TYPE Debug)
            add_executable(callingSharedObject ../src/callingSharedObject.c)
-           include_directories(${toolchain_path}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/local/include)
+           include_directories(${toolchainpath}/cortexa9-vfpv3-nilrt-linuxgnueabi/usr/local/include)
            target_link_libraries(callingSharedObject myLib)
 
 3. Save *CMakeLists.txt.*
@@ -250,20 +250,20 @@ more information on creating and using tasks.
 2. | Search for and select **Tasks: Run Task** in the Command Palette.
      This will pull up a list of the custom tasks available in the
      project.
-   
+
    .. image:: media/call_so/image13.png
 
 3. | From the list of custom tasks, select **CMake Generate Build
      Files** or the equivalent task in the project’s *tasks.json* if a
      different name was used.
-   
+
    .. image:: media/call_so/image14.png
 
 4. | Confirm that the task runs and completes successfully in the
      Terminal window. There should be several new files in the *build/*
      directory of the project including a new *bin/* directory for the
      build output, *build.ninja,* and *CMakeCache.txt*.
-   
+
    .. image:: media/call_so/image15.png
 
 5. Run the build using Ninja using the task defined in *tasks.json*.
@@ -277,7 +277,7 @@ more information on creating and using tasks.
 7. | Confirm that the build task runs successfully and that there is now
      a *callingSharedObject* binary in the *<project folder>/build/bin*
      directory.
-   
+
    .. image:: media/call_so/image17.png
 
 Deploying and Running the Compiled Executable
@@ -294,7 +294,7 @@ permissions can be used.
       Real-Time devices, this will be enabled by default once a System
       Image is installed. For other Linux Real-Time systems, SSH can be
       enabled in NI MAX in the **System Settings** for the device.
-    
+
     .. image:: media/call_so/image18.png
 
 2.  Launch FileZilla.
@@ -302,25 +302,25 @@ permissions can be used.
 3.  | In FileZilla, connect to the Linux Real-Time target using the IP
       Address or Hostname, admin account, and Port 22. Click
       **Quickconnect** to open the connection.
-    
+
     .. image:: media/call_so/image19.png
 
 4.  | In the **Remote site**, ensure that the directory location is
       */home/admin*. Create a new directory for the binary deployment
       with a descriptive name (e.g., *callingSharedLibrary/*).
-    
+
     .. image:: media/call_so/image20.png
 
 5.  Open the new directory in the **Remote site** side of FileZilla.
 
 6.  | On the **Local site** side, navigate to the location of the
       executable binary to be deployed.
-    
+
     .. image:: media/call_so/image21.png
 
 7.  | Copy the binary by double-clicking it in the local file system
       view. A copy should now appear in the remote file system.
-    
+
     .. image:: media/call_so/image22.png
 
 8.  | By default, the file will not have any execute permissions defined
@@ -328,7 +328,7 @@ permissions can be used.
       the remote copy of the file and selecting the **File
       permissions…** item from the context menu or directly from a shell
       using the **chmod** command.
-    
+
     .. image:: media/call_so/image23.png
 
 9.  Repeat steps 1-9 to deploy the shared library to the
@@ -343,20 +343,20 @@ permissions can be used.
 12. | Select a **Connection type** of **SSH** and enter the **Host Name
       (or IP Address)** of the target. Confirm that the **Port** field
       is set to **22** and then click **Open.**
-    
+
     .. image:: media/call_so/image24.png
 
 13. | Log into the target as the admin user.
-    
+
     .. image:: media/call_so/image25.png
 
 14. | Change directories to the location of the deployed binary.
-    
+
     .. image:: media/call_so/image26.png
 
 15. | Run the executable and confirm that it works properly. Make sure
       to enter input when prompted by the application.
-    
+
     .. image:: media/call_so/image27.png
 
 Debugging Remotely with GDB
@@ -442,55 +442,55 @@ as breakpoints are available.
     open PuTTY and connect via SSH.
 
 2.  | Change directories to the location of the debuggable binary.
-    
+
     .. image:: media/call_so/image29.png
 
 3.  | Launch gdbserver at the port defined in *launch.json*. This should
       result in gdbserver listening for any connections from a gdb
       connection at that port.
-    
+
     .. image:: media/call_so/image30.png
 
 4.  In Visual Studio Code, open *callingSharedObject.c* in the editor.
 
 5.  | Switch to the Debug view by clicking the **Debug** icon.
-    
+
     .. image:: media/call_so/image31.png
 
 6.  | In the Debug view, ensure that the launch configuration defined is
       selected as the configuration.
-    
+
     .. image:: media/call_so/image32.png
 
 7.  | In the *callingSharedObject.c* source file, click to the left of
       the function from the shared library to place a breakpoint and
       pause execution at that point.
-    
+
     .. image:: media/call_so/image33.png
 
 8.  | Connect to the remote gdbserver by clicking the **Start
       Debugging** button.
-    
+
     .. image:: media/call_so/image34.png
 
 9.  | Confirm that the program is now running in the SSH terminal
       window. Interact with the program to progress to the breakpoint.
       Confirm that the debugging view in Visual Studio Code now shows
       execution stopped at that point.
-    
+
     .. image:: media/call_so/image35.png
     .. image:: media/call_so/image36.png
 
 10. | Use the debugging tools in Visual Studio Code to debug the
       application and shared library. In particular, try stepping into
       the shared library function to debug the library call.
-    
+
     .. image:: media/call_so/image37.png
 
 11. | Complete execution of the program by click the **Continue** button
       or hitting **F5**. Note the exit status of the application in both
       the **Debug Console** in Visual Studio Code and the SSH Session.
-    
+
     .. image:: media/call_so/image39.png
     .. image:: media/call_so/image39.png
 

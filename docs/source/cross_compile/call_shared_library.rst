@@ -180,7 +180,7 @@ so this is straight forward.
         return EXIT_SUCCESS;
       }
 
-3. Save *callingSharedLibrary.c*.
+3. Save *callingSharedObject.c*.
 
 Building the Shared Library
 ---------------------------
@@ -307,7 +307,7 @@ permissions can be used.
 
 4.  | In the **Remote site**, ensure that the directory location is
       */home/admin*. Create a new directory for the binary deployment
-      with a descriptive name (e.g., *callingSharedLibrary/*).
+      with a descriptive name (e.g., *callingSharedObject/*).
 
     .. image:: media/call_so/image20.png
 

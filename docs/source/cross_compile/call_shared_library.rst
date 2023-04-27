@@ -350,11 +350,15 @@ permissions can be used.
 
     .. image:: media/call_so/image25.png
 
-14. | Change directories to the location of the deployed binary.
+14. | Run the ``ldconfig`` command. This command will refresh the links
+      and cache used by the system when searching for libraries. The
+      configuration for this utility can be found at ``/etc/ld.so.conf``.
+
+15. | Change directories to the location of the deployed binary.
 
     .. image:: media/call_so/image26.png
 
-15. | Run the executable and confirm that it works properly. Make sure
+16. | Run the executable and confirm that it works properly. Make sure
       to enter input when prompted by the application.
 
     .. image:: media/call_so/image27.png

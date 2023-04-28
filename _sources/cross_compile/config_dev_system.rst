@@ -133,6 +133,13 @@ the right location.
    supports. For example, the 2018-2019 toolchain is typically referred
    to as the 18.0 version.
 2. Use 7-Zip to extract the contents of the toolchain.
+
+.. note::
+   Extracting the toolchain requires the ability to create
+   symbolic links or the toolchain will not work properly. On Windows,
+   this requires that the current user have permissions to create
+   symbolic links or that 7-Zip be run as an administrator.
+
 3. | If using an ARMv7 target, extract and copy the contents of the
      toolchain to *C:\\build\\<toolchain version>\\arm\\*. The resulting file
      structure should look as follows:

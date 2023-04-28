@@ -24,9 +24,10 @@ This tutorial requires the following software and hardware:
 -  A project template as described in Configuring Visual Studio Code for
    Building NI Linux Real-Time C/C++ Code
 
-**Note:** NI recommends completing “Hello, World!” with Visual Studio
-Code and NI Linux Real-Time before attempting this tutorial to ensure
-the template projects are correctly configured.
+.. note::
+   NI recommends completing “Hello, World!” with Visual Studio
+   Code and NI Linux Real-Time before attempting this tutorial to ensure
+   the template projects are correctly configured.
 
 Creating a Project
 ------------------
@@ -130,12 +131,13 @@ documentation <https://cmake.org/cmake/help/latest/>`__.
 
 3. Save *CMakeLists.txt.*
 
-**Note:** If desired, the built binary and other files can be installed
-to a directory on the local system using the `CMake install
-command <https://cmake.org/cmake/help/latest/command/install.html>`__.
-This can automate the process of copying shared libraries and their
-headers to directories on the development host system for future
-development use.
+.. note::
+   If desired, the built binary and other files can be installed
+   to a directory on the local system using the `CMake install
+   command <https://cmake.org/cmake/help/latest/command/install.html>`__.
+   This can automate the process of copying shared libraries and their
+   headers to directories on the development host system for future
+   development use.
 
 Building
 ~~~~~~~~

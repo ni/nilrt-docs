@@ -151,10 +151,11 @@ these steps:
         ]
       }
 
-   **Note:** The “$gcc” problemMatcher value requires the C/C++
-   Extension and allows Visual Studio Code to report compilation errors
-   in the **Problems** view. A problemMatcher of [] means that the
-   output is notscanned for errors and terminal output needs reviewed.
+   .. note::
+      The “$gcc” problemMatcher value requires the C/C++
+      Extension and allows Visual Studio Code to report compilation errors
+      in the **Problems** view. A problemMatcher of [] means that the
+      output is notscanned for errors and terminal output needs reviewed.
 
 6. Save *tasks.json* and then close the file in the editor.
 
@@ -209,7 +210,7 @@ includes and other necessary resources.
            "version": 4
          }
 
-      | **Note:** For toolchain versions 2023Q1 and later, the `compilerPath` is instead `${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe`.
+      .. note:: For toolchain versions 2023Q1 and later, the `compilerPath` is instead `${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe`.
 
    2. | For NI Linux Real-Time ARM devices, complete the file as follows:
 
@@ -301,7 +302,7 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
            ]
          }
 
-      | **Note:** For toolchain versions 2023Q1 and later, the `miDebuggerPath` is `C:/build/<toolchain version>/x64/sysroots/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe`.
+      .. note:: For toolchain versions 2023Q1 and later, the `miDebuggerPath` is `C:/build/<toolchain version>/x64/sysroots/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe`.
 
    2. | For NI Linux Real-Time ARM devices, complete the file as follows:
 
@@ -352,9 +353,10 @@ required for cross compiling as documented in the CMake Wiki
 `CrossCompiling <https://gitlab.kitware.com/cmake/community/wikis/doc/cmake/CrossCompiling>`__
 document.
 
-**Note:** The below steps assume the 18.0 compiler toolchains and Linux
-Real-Time images. Paths may differ based on the toolchain and versions
-used.
+.. note::
+   The below steps assume the 18.0 compiler toolchains and Linux
+   Real-Time images. Paths may differ based on the toolchain and versions
+   used.
 
 1. In the *build* directory of the project, create a new file using the
    **New File** button. Name the file *CMakeLists.txt*.
@@ -411,7 +413,7 @@ used.
       set(CMAKE_C_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe)
       set(CMAKE_CXX_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++.exe)
 
-   **Note:** For toolchain versions 2023Q1 and later, replace `i686-nilrtsdk-mingw32` with `x86_64-w64-mingw32`
+   .. note:: For toolchain versions 2023Q1 and later, replace `i686-nilrtsdk-mingw32` with `x86_64-w64-mingw32`
 
    2. For NI Linux Real-Time ARM targets:
 
@@ -448,9 +450,10 @@ used.
       set(CMAKE_<LANG>_FLAGS_RELEASE "-O3")
 
 
-   **Note:** NI recommends using the **-mfpu=vfpv3
-   -mfloat-abi=softfp** flags for ARM targets to improve
-   floating-point operation performance.
+   .. note::
+      NI recommends using the **-mfpu=vfpv3
+      -mfloat-abi=softfp** flags for ARM targets to improve
+      floating-point operation performance.
 
 6. Search behavior must be specified to ensure that the compiler doesn’t
    unnecessarily pull in includes from the host system’s paths. This

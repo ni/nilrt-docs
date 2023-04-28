@@ -103,9 +103,10 @@ This debugger connects to the remotely running GNU Debugger Server
 (gdbserver) which is included by default on every NI Linux Real-Time
 distribution.
 
-**Note:** Even with the cross compile tools, debugging requires a system
-which can actually run the compiled code. That is, a system running NI
-Linux Real-Time is still necessary for debugging.
+.. note::
+   Even with the cross compile tools, debugging requires a system
+   which can actually run the compiled code. That is, a system running NI
+   Linux Real-Time is still necessary for debugging.
 
 Getting Started
 ---------------

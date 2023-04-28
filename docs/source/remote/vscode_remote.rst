@@ -20,9 +20,11 @@ Requirements
 -  Visual Studio Code with the `Remote – SSH
    Extension <https://code.visualstudio.com/docs/remote/ssh>`__
 -  `NI Linux Real-Time x64 System <https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html>`_
-   -  **Note:** The system should not be in safe mode and should have
-   software installed. ARMv7 NI Linux Real-Time devices are not
-   supported.
+
+   .. note::
+      The system should not be in safe mode and should have
+      software installed. ARMv7 NI Linux Real-Time devices are not
+      supported.
 
 A Note on Support
 -----------------
@@ -58,7 +60,7 @@ Real-Time. No cross compiling is necessary, and dependencies can be
 installed directly to the remote system without concern of linker errors
 when deploying.
 
-**Note:** For more information on cross compiling, refer to NI Linux
+For more information on cross compiling, refer to NI Linux
 Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile
 Toolchain with Visual Studio Code.
 
@@ -172,14 +174,16 @@ Visual Studio Code.
    .. image:: media/image8.png
 
 #. | Visual Studio Code will install the required remote components.
-   | **Note:** You may receive the following warning message:
 
-   .. image:: media/image9.png
+   .. note::
+      You may receive the following warning message:
 
-   This message can be safely ignored after confirming the proper
-   versions. Refer to `Remote host / container / WSL Linux
-   prerequisites <https://code.visualstudio.com/docs/remote/linux#_remote-host-container-wsl-linux-prerequisites>`__
-   for more information.
+      .. image:: media/image9.png
+
+      This message can be safely ignored after confirming the proper
+      versions. Refer to `Remote host / container / WSL Linux
+      prerequisites <https://code.visualstudio.com/docs/remote/linux#_remote-host-container-wsl-linux-prerequisites>`__
+      for more information.
 
 Adding Remote Visual Studio Code Extensions
 -------------------------------------------
@@ -211,11 +215,12 @@ Studio Code environment for remote development. To add this extension:
 
    .. image:: media/image12.png
 
-**Note:** Using the C/C++ extension will keep an IntelliSense cache on
-the remote target. This has the potential to get very large with larger
-projects. The
-`C_Cpp.intelliSenseCacheSize <https://code.visualstudio.com/docs/cpp/faq-cpp#_what-is-the-ipch-folder>`__
-property can be used to mitigate this.
+.. note::
+   Using the C/C++ extension will keep an IntelliSense cache on
+   the remote target. This has the potential to get very large with larger
+   projects. The
+   `C_Cpp.intelliSenseCacheSize <https://code.visualstudio.com/docs/cpp/faq-cpp#_what-is-the-ipch-folder>`__
+   property can be used to mitigate this.
 
 Building, Running, and Debugging a C/C++ “Hello, World!” Program
 ================================================================
@@ -239,9 +244,10 @@ C/C++ extension.
    .. image:: media/image13.png
 
 #. | In Visual Studio Code, open the folder by navigating to **File >>
-     Open Folder**, then entering the file path desired. **Note:** You
-     can also open local folders but doing so will close the SSH
-     Connection and revert VS Code to a local environment.
+     Open Folder**, then entering the file path desired.
+     .. note::
+        You can also open local folders but doing so will close the SSH
+        Connection and revert VS Code to a local environment.
    
    .. image:: media/image14.png
 

@@ -167,7 +167,7 @@ covered in the official opkg documentation, an \*.ipk requires a few
 things with the other items being optional:
 
 1. A *CONTROL* directory with a *control* file.
-   **Note:** Keep in mind that Linux is case sensitive.
+   .. note:: Keep in mind that Linux is case sensitive.
 2. The data files to be installed in their proper directory structure.
 
 The optional components required for a package are:
@@ -219,9 +219,10 @@ As mentioned previously, there are two optional scripts when creating
 registration, installation, and removal of files during installation and
 removal of the package.
 
-**Note:** In order to build a package, all scripts must have executable
-privileges. To ensure that this is the case, run **chmod a+x <script>**
-before attempting to build a package.
+.. note::
+   In order to build a package, all scripts must have executable
+   privileges. To ensure that this is the case, run **chmod a+x <script>**
+   before attempting to build a package.
 
 preinst
 ~~~~~~~

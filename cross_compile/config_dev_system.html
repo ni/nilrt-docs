@@ -187,7 +187,7 @@ support for C/C++</div>
 structure for each version of the tools installed on a system. This is
 flexible as long as the cross compile configuration in the IDE points to
 the right location.</p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><p>Navigate to the NI Website and download the Windows toolchains for
 ARMv7 or x64 depending on the Real-Time device and software versions
 used on the device. Each toolchain is a compressed collection of the
@@ -200,6 +200,15 @@ Typically, this corresponds to the first version that the toolchain
 supports. For example, the 2018-2019 toolchain is typically referred
 to as the 18.0 version.</p></li>
 <li><p>Use 7-Zip to extract the contents of the toolchain.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Extracting the toolchain requires the ability to create
+symbolic links or the toolchain will not work properly. On Windows,
+this requires that the current user have permissions to create
+symbolic links or that 7-Zip be run as an administrator.</p>
+</div>
+<ol class="arabic" start="3">
 <li><div class="line-block">
 <div class="line">If using an ARMv7 target, extract and copy the contents of the
 toolchain to <em>C:\build\&lt;toolchain version&gt;\arm\</em>. The resulting file

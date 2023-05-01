@@ -225,7 +225,7 @@ covered in the official opkg documentation, an *.ipk requires a few
 things with the other items being optional:</p>
 <ol class="arabic simple">
 <li><p>A <em>CONTROL</em> directory with a <em>control</em> file.
-<strong>Note:</strong> Keep in mind that Linux is case sensitive.</p></li>
+.. note:: Keep in mind that Linux is case sensitive.</p></li>
 <li><p>The data files to be installed in their proper directory structure.</p></li>
 </ol>
 <p>The optional components required for a package are:</p>
@@ -271,9 +271,12 @@ described by the *.ipk standard.</p>
 *.ipk files for installing packages. These scripts handle the
 registration, installation, and removal of files during installation and
 removal of the package.</p>
-<p><strong>Note:</strong> In order to build a package, all scripts must have executable
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In order to build a package, all scripts must have executable
 privileges. To ensure that this is the case, run <strong>chmod a+x &lt;script&gt;</strong>
 before attempting to build a package.</p>
+</div>
 <section id="preinst">
 <h4>preinst<a class="headerlink" href="#preinst" title="Permalink to this heading">¶</a></h4>
 <p>The preinst script will be run before the installation of the package
@@ -457,7 +460,7 @@ Eclipse Edition</a></p></li>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
     </div>
   </body>
 </html>

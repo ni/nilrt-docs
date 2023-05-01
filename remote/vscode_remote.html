@@ -87,14 +87,18 @@ Visual Studio Code Remote Development. It includes using CMake to create
 a simple “Hello, World!” application.</p>
 <section id="requirements">
 <h3><a class="toc-backref" href="#id2" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h3>
-<ul class="simple">
+<ul>
 <li><p>OpenSSH (included in Windows 10 as of autumn 2018)</p></li>
 <li><p>Visual Studio Code with the <a class="reference external" href="https://code.visualstudio.com/docs/remote/ssh">Remote – SSH
 Extension</a></p></li>
-<li><p><a class="reference external" href="https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html">NI Linux Real-Time x64 System</a>
--  <strong>Note:</strong> The system should not be in safe mode and should have
+<li><p><a class="reference external" href="https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html">NI Linux Real-Time x64 System</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The system should not be in safe mode and should have
 software installed. ARMv7 NI Linux Real-Time devices are not
-supported.</p></li>
+supported.</p>
+</div>
+</li>
 </ul>
 </section>
 <section id="a-note-on-support">
@@ -127,7 +131,7 @@ development, and debugging directly on a system running NI Linux
 Real-Time. No cross compiling is necessary, and dependencies can be
 installed directly to the remote system without concern of linker errors
 when deploying.</p>
-<p><strong>Note:</strong> For more information on cross compiling, refer to NI Linux
+<p>For more information on cross compiling, refer to NI Linux
 Real-Time Cross Compiling: Using the NI Linux Real-Time Cross Compile
 Toolchain with Visual Studio Code.</p>
 </section>
@@ -249,13 +253,16 @@ Visual Studio Code components.</div>
 </li>
 <li><div class="line-block">
 <div class="line">Visual Studio Code will install the required remote components.</div>
-<div class="line"><strong>Note:</strong> You may receive the following warning message:</div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may receive the following warning message:</p>
 <img alt="../_images/image95.png" src="../_images/image95.png" />
 <p>This message can be safely ignored after confirming the proper
 versions. Refer to <a class="reference external" href="https://code.visualstudio.com/docs/remote/linux#_remote-host-container-wsl-linux-prerequisites">Remote host / container / WSL Linux
 prerequisites</a>
 for more information.</p>
+</div>
 </li>
 </ol>
 </section>
@@ -290,11 +297,14 @@ option to restart Visual Studio Code with the extension.</div>
 <img alt="../_images/image124.png" src="../_images/image124.png" />
 </li>
 </ol>
-<p><strong>Note:</strong> Using the C/C++ extension will keep an IntelliSense cache on
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using the C/C++ extension will keep an IntelliSense cache on
 the remote target. This has the potential to get very large with larger
 projects. The
 <a class="reference external" href="https://code.visualstudio.com/docs/cpp/faq-cpp#_what-is-the-ipch-folder">C_Cpp.intelliSenseCacheSize</a>
 property can be used to mitigate this.</p>
+</div>
 </section>
 </section>
 <section id="building-running-and-debugging-a-c-c-hello-world-program">
@@ -318,9 +328,10 @@ the menu bar.</div>
 </li>
 <li><div class="line-block">
 <div class="line">In Visual Studio Code, open the folder by navigating to <strong>File &gt;&gt;
-Open Folder</strong>, then entering the file path desired. <strong>Note:</strong> You
-can also open local folders but doing so will close the SSH
-Connection and revert VS Code to a local environment.</div>
+Open Folder</strong>, then entering the file path desired.
+.. note::
+   You can also open local folders but doing so will close the SSH
+   Connection and revert VS Code to a local environment.</div>
 </div>
 <img alt="../_images/image143.png" src="../_images/image143.png" />
 </li>
@@ -648,7 +659,7 @@ output while the gdb output is printed to the Debug Console.</p></li>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
     </div>
   </body>
 </html>

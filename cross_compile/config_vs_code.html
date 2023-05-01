@@ -200,10 +200,13 @@ Visual Studio Code.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>Note:</strong> The “$gcc” problemMatcher value requires the C/C++
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The “$gcc” problemMatcher value requires the C/C++
 Extension and allows Visual Studio Code to report compilation errors
 in the <strong>Problems</strong> view. A problemMatcher of [] means that the
 output is notscanned for errors and terminal output needs reviewed.</p>
+</div>
 </li>
 <li><p>Save <em>tasks.json</em> and then close the file in the editor.</p></li>
 </ol>
@@ -259,8 +262,9 @@ reference</a>.</div>
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line"><strong>Note:</strong> For toolchain versions 2023Q1 and later, the <cite>compilerPath</cite> is instead <cite>${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe</cite>.</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For toolchain versions 2023Q1 and later, the <cite>compilerPath</cite> is instead <cite>${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe</cite>.</p>
 </div>
 </li>
 <li><div class="line-block">
@@ -356,8 +360,9 @@ that not all fields are currently completed.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="line-block">
-<div class="line"><strong>Note:</strong> For toolchain versions 2023Q1 and later, the <cite>miDebuggerPath</cite> is <cite>C:/build/&lt;toolchain version&gt;/x64/sysroots/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe</cite>.</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For toolchain versions 2023Q1 and later, the <cite>miDebuggerPath</cite> is <cite>C:/build/&lt;toolchain version&gt;/x64/sysroots/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gdb.exe</cite>.</p>
 </div>
 </li>
 <li><div class="line-block">
@@ -410,9 +415,12 @@ the version of CMake used on the system. Many of the variables set are
 required for cross compiling as documented in the CMake Wiki
 <a class="reference external" href="https://gitlab.kitware.com/cmake/community/wikis/doc/cmake/CrossCompiling">CrossCompiling</a>
 document.</p>
-<p><strong>Note:</strong> The below steps assume the 18.0 compiler toolchains and Linux
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The below steps assume the 18.0 compiler toolchains and Linux
 Real-Time images. Paths may differ based on the toolchain and versions
 used.</p>
+</div>
 <ol class="arabic">
 <li><p>In the <em>build</em> directory of the project, create a new file using the
 <strong>New File</strong> button. Name the file <em>CMakeLists.txt</em>.</p>
@@ -466,7 +474,10 @@ compiled for a given project.</p>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++.exe</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Note:</strong> For toolchain versions 2023Q1 and later, replace <cite>i686-nilrtsdk-mingw32</cite> with <cite>x86_64-w64-mingw32</cite></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For toolchain versions 2023Q1 and later, replace <cite>i686-nilrtsdk-mingw32</cite> with <cite>x86_64-w64-mingw32</cite></p>
+</div>
 <ol class="arabic simple" start="2">
 <li><p>For NI Linux Real-Time ARM targets:</p></li>
 </ol>
@@ -501,9 +512,12 @@ the 2023Q1 toolchain uses 10.3.0.</p>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS_RELEASE</span><span class="w"> </span><span class="s2">&quot;-O3&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Note:</strong> NI recommends using the <strong>-mfpu=vfpv3
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>NI recommends using the <strong>-mfpu=vfpv3
 -mfloat-abi=softfp</strong> flags for ARM targets to improve
 floating-point operation performance.</p>
+</div>
 </li>
 <li><p>Search behavior must be specified to ensure that the compiler doesn’t
 unnecessarily pull in includes from the host system’s paths. This
@@ -630,7 +644,7 @@ application and walk through building an executable.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
     </div>
   </body>
 </html>

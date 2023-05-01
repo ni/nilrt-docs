@@ -29,9 +29,10 @@ This tutorial requires the following software and hardware:
    software installed on this device should match the toolchain version
    used.
 
-**Note:** This tutorial uses a C source file, but the same steps and
-configurations apply to C++ code. CMake can differentiate between C and
-C++ files to ensure the proper compile commands are used.
+.. note::
+  This tutorial uses a C source file, but the same steps and
+  configurations apply to C++ code. CMake can differentiate between C and
+  C++ files to ensure the proper compile commands are used.
 
 Creating a Project
 ------------------
@@ -399,8 +400,9 @@ as breakpoints are available.
     
     .. image:: media/hello_world/image34.png
 
-**Note:** While debugging, not all symbols or source files for the Linux
-Kernel are available. If an attempt to step into that code is made,
-Visual Studio Code may be unable to open or find that certain source
-files. If this occurs, finish debugging with either **Continue** or
-**Stop.**
+.. note::
+  While debugging, not all symbols or source files for the Linux
+  Kernel are available. If an attempt to step into that code is made,
+  Visual Studio Code may be unable to open or find that certain source
+  files. If this occurs, finish debugging with either **Continue** or
+  **Stop.**

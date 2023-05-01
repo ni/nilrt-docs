@@ -71,10 +71,11 @@ open-source build tools and compilers while providing many features
 users expect from modern code editors such as IntelliSense and
 debugging.
 
-**Note:** Visual Studio Code frequently receives updates and
-improvements to appearance, usability, and functionality. This tutorial
-was created with version 1.38.1 of the environment. Other versions may
-differ in appearance.
+.. note::
+   Visual Studio Code frequently receives updates and
+   improvements to appearance, usability, and functionality. This tutorial
+   was created with version 1.38.1 of the environment. Other versions may
+   differ in appearance.
 
 Installing the IDE
 ~~~~~~~~~~~~~~~~~~
@@ -128,10 +129,13 @@ the right location.
    necessary for a given device, refer to `Real-Time Controllers and
    Real-Time Operating System
    Compatibility. <https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html>`__
-   **Note:** the steps below refer to the *toolchain version*.
+
+.. note:: 
+   The steps below refer to the *toolchain version*.
    Typically, this corresponds to the first version that the toolchain
    supports. For example, the 2018-2019 toolchain is typically referred
-   to as the 18.0 version.
+   to as the 18.0 version.`
+
 2. Use 7-Zip to extract the contents of the toolchain.
 
 .. note::
@@ -152,10 +156,11 @@ the right location.
 
    .. image:: media/config_pc/image5.png
 
-**Note:** Extracting the files may require extracting twice – once to
-unzip, and once to unpack the tar file. During these extractions there
-may be dialogs prompting the replacement of files or warnings. The
-warnings can be safely ignored.
+.. note::
+   Extracting the files may require extracting twice – once to
+   unzip, and once to unpack the tar file. During these extractions there
+   may be dialogs prompting the replacement of files or warnings. The
+   warnings can be safely ignored.
 
 Other Tools
 -----------
@@ -183,11 +188,12 @@ deployment.
 
    .. image:: media/config_pc/image6.png
 
-**Note:** As an alternative to FileZilla, NI recommends the OpenSSH
-command line utilities included with Windows 10 as of the Autumn 2018
-release of that Operating System. Refer to the `official OpenSSH
-documentation <https://www.openssh.com/manual.html>`__ for information
-on its use.
+.. note::
+   As an alternative to FileZilla, NI recommends the OpenSSH
+   command line utilities included with Windows 10 as of the Autumn 2018
+   release of that Operating System. Refer to the `official OpenSSH
+   documentation <https://www.openssh.com/manual.html>`__ for information
+   on its use.
 
 Putty
 ~~~~~

@@ -22,7 +22,7 @@ The ``/var/volatile/log/`` directory is mapped to RAM instead of the persistent 
 This prevents the system’s device storage from filling with logs and causing other issues on devices with extremely limited storage but results in the logs not persisting through a reboot.
 To make these logs persist through a reboot, see the Enabling Persistent Logs section of this document.
 
-**Note:** The ``kern.log`` file is traditionally stored here, but on NI Linux Real-Time systems is instead located at ``/var/local/natinst/log/`` to ensure it persists between reboots.
+.. note:: The ``kern.log`` file is traditionally stored here, but on NI Linux Real-Time systems is instead located at ``/var/local/natinst/log/`` to ensure it persists between reboots.
 
 .. csv-table:: NI Linux RT Logs
    :file: resources/nilrt-logs.csv
@@ -109,8 +109,9 @@ Additionally, the frequent logging to disk may impact the disk's lifetime.
 Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the ``/var/log`` location.
 Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto distributions that NI Linux Real-Time is based on.
 
-**Note:** These settings will only persist until a format or software upgrade is made.
-Once that happens, the Linux Real-Time settings may revert to their defaults for that version.
+.. note::
+   These settings will only persist until a format or software upgrade is made.
+   Once that happens, the Linux Real-Time settings may revert to their defaults for that version.
 
 To modify these settings for the ``/var/log`` location:
 
@@ -151,8 +152,9 @@ NILRT < 9.1
 
    ``rm /var/log``
 
-   **Note:** Do not add a trailing slash when removing the symlink.
-   Doing so will not behave as intended.
+   .. note::
+     Do not add a trailing slash when removing the symlink.
+     Doing so will not behave as intended.
 
 4. Create a new ``/var/log`` directory so that the location is present upon reboot.
 

@@ -94,9 +94,12 @@ with SSH access enabled for deployment and debugging. The versions of
 software installed on this device should match the toolchain version
 used.</p></li>
 </ul>
-<p><strong>Note:</strong> This tutorial uses a C source file, but the same steps and
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This tutorial uses a C source file, but the same steps and
 configurations apply to C++ code. CMake can differentiate between C and
 C++ files to ensure the proper compile commands are used.</p>
+</div>
 </section>
 </section>
 <section id="creating-a-project">
@@ -483,11 +486,14 @@ the <strong>Debug Console</strong> in Visual Studio Code and the SSH Session.</d
 <img alt="../_images/image341.png" src="../_images/image341.png" />
 </li>
 </ol>
-<p><strong>Note:</strong> While debugging, not all symbols or source files for the Linux
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While debugging, not all symbols or source files for the Linux
 Kernel are available. If an attempt to step into that code is made,
 Visual Studio Code may be unable to open or find that certain source
 files. If this occurs, finish debugging with either <strong>Continue</strong> or
 <strong>Stop.</strong></p>
+</div>
 </section>
 </section>
 </section>
@@ -577,7 +583,7 @@ files. If this occurs, finish debugging with either <strong>Continue</strong> or
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
     </div>
   </body>
 </html>

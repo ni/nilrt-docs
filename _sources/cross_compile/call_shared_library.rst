@@ -102,9 +102,11 @@ time as the built executable.
      *<toolchain root path>/sysroots/
      cortexa9-vfpv3-nilrt-linux-gnueabi/usr/local/include* directory
      depending on the toolchain used.
-   | **Note:** The /usr/local/include directory may not exist in the
-     sysroot by default. If it is not present, simply create the
-     directory.
+
+   .. note::
+      The /usr/local/include directory may not exist in the
+      sysroot by default. If it is not present, simply create the
+      directory.
 
    .. image:: media/call_so/image4.png
 
@@ -498,8 +500,9 @@ as breakpoints are available.
     .. image:: media/call_so/image39.png
     .. image:: media/call_so/image39.png
 
-**Note:** While debugging, not all symbols or source files for the Linux
-Kernel are available. If an attempt to step into that code is made,
-Visual Studio Code may be unable to open or find that certain source
-files. If this occurs, finish debugging with either **Continue** or
-**Stop.**
+.. note::
+   While debugging, not all symbols or source files for the Linux
+   Kernel are available. If an attempt to step into that code is made,
+   Visual Studio Code may be unable to open or find that certain source
+   files. If this occurs, finish debugging with either **Continue** or
+   **Stop.**

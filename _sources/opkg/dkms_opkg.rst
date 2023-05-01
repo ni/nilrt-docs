@@ -125,11 +125,12 @@ official documentation.
 Configuring the System
 ======================
 
-**Note:** DKMS will already be installed when using NI Linux Real-Time
-Operating System versions 8.0.0 and later or when using a PXI Linux
-Real-Time controller. When using older systems, running the
-**updateNIDriver** commands on non-\*.ipk systems can cause problems with
-DKMS.
+.. note::
+   DKMS will already be installed when using NI Linux Real-Time
+   Operating System versions 8.0.0 and later or when using a PXI Linux
+   Real-Time controller. When using older systems, running the
+   **updateNIDriver** commands on non-\*.ipk systems can cause problems with
+   DKMS.
 
 Before starting, the required software and toolchains must be installed
 to the NI Linux Real-Time system used. This can be accomplished through
@@ -327,7 +328,7 @@ covered in the official opkg documentation, an \*.ipk requires three
 things with the other items being optional:
 
 1. A *CONTROL* directory with a *control* file.
-   **Note:** Keep in mind that Linux is case sensitive.
+   .. note:: Keep in mind that Linux is case sensitive.
 2. The data files to be installed in their proper directory structure.
    In this tutorial, these files are the same as used when testing the
    DKMS module previously.
@@ -387,9 +388,10 @@ As mentioned previously, there are two scripts required when creating
 handle the registration, installation, and removal of modules from DKMS
 during installation and removal of the package.
 
-**Note:** In order to build a package, all scripts must have executable
-privileges. To ensure that this is the case, run **chmod a+x <script>**
-before attempting to build a package.
+.. note::
+   In order to build a package, all scripts must have executable
+   privileges. To ensure that this is the case, run **chmod a+x <script>**
+   before attempting to build a package.
 
 postinst
 ~~~~~~~~

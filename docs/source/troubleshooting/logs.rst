@@ -116,7 +116,7 @@ Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto
 To modify these settings for the ``/var/log`` location:
 
 .. note::
-   To find the version of NILRT installed on the target, run ``run cat /etc/os-release`` at the command-line.
+   To find the version of NILRT installed on the target, run ``cat /etc/os-release`` at the command-line.
 
 NILRT >= 9.1
 ------------

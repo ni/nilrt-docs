@@ -5,7 +5,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Logs on NI Linux Real-Time Systems &#8212; nilrt-docs 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -246,6 +246,10 @@ Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto
 Once that happens, the Linux Real-Time settings may revert to their defaults for that version.</p>
 </div>
 <p>To modify these settings for the <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> location:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To find the version of NILRT installed on the target, run <code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/etc/os-release</span></code> at the command-line.</p>
+</div>
 <section id="nilrt-9-1">
 <h3>NILRT &gt;= 9.1<a class="headerlink" href="#nilrt-9-1" title="Permalink to this heading">¶</a></h3>
 <ol class="arabic simple">
@@ -378,7 +382,7 @@ Note that the image below may differ from your system depending on the software 
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
   </body>
 </html>

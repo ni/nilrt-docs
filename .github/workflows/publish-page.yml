@@ -19,7 +19,7 @@ jobs:
         documentation_path: './docs/source'
     - name: Preserve Configuration Files
       run: |
-        git checkout main -- CODEOWNERS
+        echo "* @mike-petersen-ni" > CODEOWNERS
         git checkout gh-pages^ -- CNAME
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v4

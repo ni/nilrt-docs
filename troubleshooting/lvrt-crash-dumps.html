@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>LabVIEW Core Dumps on Linux Real-Time &#8212; nilrt-docs 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
     
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,9 +48,9 @@
           <div class="body" role="main">
             
   <section id="labview-core-dumps-on-linux-real-time">
-<h1>LabVIEW Core Dumps on Linux Real-Time<a class="headerlink" href="#labview-core-dumps-on-linux-real-time" title="Permalink to this heading">¶</a></h1>
+<h1>LabVIEW Core Dumps on Linux Real-Time<a class="headerlink" href="#labview-core-dumps-on-linux-real-time" title="Link to this heading">¶</a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>When troubleshooting LabVIEW Real-Time crashes, it is often helpful to understand the memory and instruction stack at the time of the crash. LVRT can be configured to dump this core context to disk when it crashes.</p>
 <p>Note that core dumps are not gauaranteed to contain useful information about any particular problem. They are best evaluataed with other contextual information about the system state at the time of the crash. This can include:</p>
 <ul class="simple">
@@ -62,7 +62,7 @@
 <p>Additionally, reproducing a crash internally to NI is generally preferred. A dump can be unwound externally, but without access to NI symbols, it is unlikely to yield useful information. If the issue is reproduced internally at NI, the same system can be used for both reproducing and unwinding the core dump ensuring that the software versions used for debugging the dump file are consistent.</p>
 </section>
 <section id="generating-a-core-dump">
-<h2>Generating a Core Dump<a class="headerlink" href="#generating-a-core-dump" title="Permalink to this heading">¶</a></h2>
+<h2>Generating a Core Dump<a class="headerlink" href="#generating-a-core-dump" title="Link to this heading">¶</a></h2>
 <ol class="arabic">
 <li><p>Ensure that the target has software installed, is in run-mode, and will not reboot into safe mode upon reboot. This can be done by verifying the following in NI MAX:</p>
 <blockquote>
@@ -93,10 +93,10 @@ admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#<span class="w"> </span>rm<sp
 </li>
 </ol>
 <section id="configuring-lvrt">
-<h3>Configuring LVRT<a class="headerlink" href="#configuring-lvrt" title="Permalink to this heading">¶</a></h3>
+<h3>Configuring LVRT<a class="headerlink" href="#configuring-lvrt" title="Link to this heading">¶</a></h3>
 <p>LabVIEW Real-Time core dumps are disabled by default, as they can consume a substantial amount of disk space. You can enable them using the following methods.</p>
 <section id="lvrt-23-1">
-<h4>LVRT &gt;= 23.1<a class="headerlink" href="#lvrt-23-1" title="Permalink to this heading">¶</a></h4>
+<h4>LVRT &gt;= 23.1<a class="headerlink" href="#lvrt-23-1" title="Link to this heading">¶</a></h4>
 <p>Beginning with the LV 23.1 release, LVRT is configured to <em>not</em> produce core dumps unless the <code class="docutils literal notranslate"><span class="pre">[LVRT]EnableCoreDumps</span></code> <cite>ni-rt.ini</cite> token is set to <code class="docutils literal notranslate"><span class="pre">true</span></code>; enable it with the following command.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>nirtcfg<span class="w"> </span>--set<span class="w"> </span><span class="nv">section</span><span class="o">=</span>LVRT,token<span class="o">=</span>EnableCoreDumps,value<span class="o">=</span><span class="nb">true</span>
 
@@ -111,7 +111,7 @@ nirtcfg<span class="w"> </span>--list<span class="w"> </span><span class="p">|</
 <p>On NILRT ARM distributions, the system-wide core dump ulimit is set to <code class="docutils literal notranslate"><span class="pre">0</span></code>. Even after you enable the INI token above, you must then follow the <a class="reference internal" href="#id1">LVRT &lt; 23.1</a> instructions below to enable <code class="docutils literal notranslate"><span class="pre">unlimited</span></code> core dumps.</p>
 </section>
 <section id="id1">
-<h4>LVRT &lt; 23.1<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h4>
+<h4>LVRT &lt; 23.1<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
 <p>Prior to LVRT 23.1, LVRT’s core dump controls are entirely controlled using the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/lvrt-wrapper</span></code> initscript.</p>
 <p>Modify the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/lvrt-wrapper</span></code> file in a text editor via FTP, sFTP, WebDAV, or directly on the target. Uncomment the following item in the file as described by the comments in the file:</p>
 <blockquote>
@@ -125,7 +125,7 @@ nirtcfg<span class="w"> </span>--list<span class="w"> </span><span class="p">|</
 </section>
 </section>
 <section id="saving-a-core-dump">
-<h3>Saving a Core Dump<a class="headerlink" href="#saving-a-core-dump" title="Permalink to this heading">¶</a></h3>
+<h3>Saving a Core Dump<a class="headerlink" href="#saving-a-core-dump" title="Link to this heading">¶</a></h3>
 <ol class="arabic">
 <li><p>With core dumps enabled, reproduce the crash.</p></li>
 <li><p>Confirm that a core dump is now present in <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code>. The core dump should have a name similar to <code class="docutils literal notranslate"><span class="pre">core_dump.!usr!local!natinst!labview!lvrt</span></code>.</p>
@@ -170,7 +170,7 @@ admin@NI-cRIO-9036-01D5AED5:/var/local/natinst/log#
 </ol>
 </section>
 <section id="confirming-core-dumps-are-generated">
-<h3>Confirming Core Dumps are Generated<a class="headerlink" href="#confirming-core-dumps-are-generated" title="Permalink to this heading">¶</a></h3>
+<h3>Confirming Core Dumps are Generated<a class="headerlink" href="#confirming-core-dumps-are-generated" title="Link to this heading">¶</a></h3>
 <p>To confirm core dumps are properly configured, it’s possible to force a crash of the LabVIEW Real-Time process for testing purposes.</p>
 <ol class="arabic">
 <li><p>Configure a target for Core Dumps as described above.</p></li>
@@ -310,8 +310,8 @@ lvrt_19.0_lvuser_log.txt
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

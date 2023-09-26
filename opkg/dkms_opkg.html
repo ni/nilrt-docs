@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules &#8212; nilrt-docs 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
     
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,7 +48,7 @@
           <div class="body" role="main">
             
   <section id="ni-linux-real-time-and-opkg-distributing-dkms-based-kernel-modules">
-<h1>NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules<a class="headerlink" href="#ni-linux-real-time-and-opkg-distributing-dkms-based-kernel-modules" title="Permalink to this heading">¶</a></h1>
+<h1>NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules<a class="headerlink" href="#ni-linux-real-time-and-opkg-distributing-dkms-based-kernel-modules" title="Link to this heading">¶</a></h1>
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
@@ -86,7 +86,7 @@
 </ul>
 </nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>Oftentimes it can be desirable to extend the functionality provided by
 the Linux kernel and have access to system resources at the kernel level
 instead of the user level. Examples of this include device drivers and
@@ -95,7 +95,7 @@ out-of-tree loadable kernel modules. This document will discuss how to
 create, package, and test loadable kernel modules with NI Linux
 Real-Time.</p>
 <section id="a-note-on-support">
-<h3><a class="toc-backref" href="#id2" role="doc-backlink">A Note on Support</a><a class="headerlink" href="#a-note-on-support" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id2" role="doc-backlink">A Note on Support</a><a class="headerlink" href="#a-note-on-support" title="Link to this heading">¶</a></h3>
 <p>This document is meant as a walkthrough of general Linux concepts within
 NI Linux Real-Time. As these concepts are general to any Linux system
 and the open source software used, NI Support will not provide
@@ -111,7 +111,7 @@ other Linux discussion boards is the recommended way to get further
 guidance.</p>
 </section>
 <section id="requirements">
-<h3><a class="toc-backref" href="#id3" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h3>
 <p>The following software and hardware are required to follow this
 tutorial:</p>
 <ul class="simple">
@@ -145,9 +145,9 @@ module</p></li>
 </section>
 </section>
 <section id="dkms-opkg-and-kernel-modules">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">DKMS, opkg, and Kernel Modules</a><a class="headerlink" href="#dkms-opkg-and-kernel-modules" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">DKMS, opkg, and Kernel Modules</a><a class="headerlink" href="#dkms-opkg-and-kernel-modules" title="Link to this heading">¶</a></h2>
 <section id="creating-kernel-modules">
-<h3><a class="toc-backref" href="#id5" role="doc-backlink">Creating Kernel Modules</a><a class="headerlink" href="#creating-kernel-modules" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Creating Kernel Modules</a><a class="headerlink" href="#creating-kernel-modules" title="Link to this heading">¶</a></h3>
 <p>As with other modern Linux distributions of kernel version 2.6 and
 later, NI Linux Real-Time uses loadable kernel modules as the basis for
 extending the functionality in the kernel. These are typically binary
@@ -160,7 +160,7 @@ Module Programming Guide</a>
 before attempting to create or modify a Linux kernel module.</p>
 </section>
 <section id="dkms">
-<h3><a class="toc-backref" href="#id6" role="doc-backlink">DKMS</a><a class="headerlink" href="#dkms" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">DKMS</a><a class="headerlink" href="#dkms" title="Link to this heading">¶</a></h3>
 <p>There are two ways to handle distribution of a loadable kernel module:
 Distribute the compiled binaries (i.e., the *.ko file) for a specific
 kernel version or distribute the source code to be compiled for the
@@ -183,7 +183,7 @@ these reasons, NI recommends using DKMS for managing any loadable kernel
 modules outside of the kernel source tree.</p>
 </section>
 <section id="opkg">
-<h3><a class="toc-backref" href="#id7" role="doc-backlink">Opkg</a><a class="headerlink" href="#opkg" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Opkg</a><a class="headerlink" href="#opkg" title="Link to this heading">¶</a></h3>
 <p>Opkg is a light-weight package manager which uses the *.ipk format to
 install and manage packages on a filesystem. While slightly different,
 *.ipks are very similar to *.deb packages and are based on that
@@ -199,7 +199,7 @@ official documentation.</p>
 </section>
 </section>
 <section id="configuring-the-system">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">Configuring the System</a><a class="headerlink" href="#configuring-the-system" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Configuring the System</a><a class="headerlink" href="#configuring-the-system" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>DKMS will already be installed when using NI Linux Real-Time
@@ -241,7 +241,7 @@ for creating *.ipks.</div>
 </ol>
 </section>
 <section id="source-files">
-<h2><a class="toc-backref" href="#id9" role="doc-backlink">Source Files</a><a class="headerlink" href="#source-files" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Source Files</a><a class="headerlink" href="#source-files" title="Link to this heading">¶</a></h2>
 <p>To demonstrate building and testing a package containing a kernel module
 this tutorial will use a <a class="reference download internal" download="" href="../_downloads/fdb0b25827205cd9e4da3ee7b88ebc08/dkms_opkg.tar.gz"><code class="xref download docutils literal notranslate"><span class="pre">simple</span> <span class="pre">“Hello,</span> <span class="pre">World!”</span> <span class="pre">module</span></code></a>. This module will
 print a kernel message when it loads and unloads to confirm that the
@@ -249,7 +249,7 @@ module is loaded. While this same process will apply to any kernel
 module, NI recommends walking through the process for this simple module
 before moving to more complex designs.</p>
 <section id="kernel-module-source">
-<h3><a class="toc-backref" href="#id10" role="doc-backlink">Kernel Module Source</a><a class="headerlink" href="#kernel-module-source" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Kernel Module Source</a><a class="headerlink" href="#kernel-module-source" title="Link to this heading">¶</a></h3>
 <p>The source for this “Hello, World!” module will consist of three main
 files:</p>
 <ul class="simple">
@@ -259,7 +259,7 @@ files:</p>
 “Hello, World!” module</p></li>
 </ul>
 <section id="hello-c">
-<h4>hello.c<a class="headerlink" href="#hello-c" title="Permalink to this heading">¶</a></h4>
+<h4>hello.c<a class="headerlink" href="#hello-c" title="Link to this heading">¶</a></h4>
 <p>This is C source code for a simple “Hello, World!” kernel module taken
 from the examples given in <a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/html/">The Linux Kernel Module Programming
 Guide</a>. Other simple kernel
@@ -292,7 +292,7 @@ KERN_INFO level to more easily demonstrate logging functionality.</p>
 </div>
 </section>
 <section id="makefile">
-<h4>Makefile<a class="headerlink" href="#makefile" title="Permalink to this heading">¶</a></h4>
+<h4>Makefile<a class="headerlink" href="#makefile" title="Link to this heading">¶</a></h4>
 <p>This makefile, as with the C source file, is based on the examples given
 in the <a class="reference external" href="https://www.tldp.org/LDP/lkmpg/2.6/html/">The Linux Kernel Module Programming
 Guide</a>. More examples of
@@ -309,7 +309,7 @@ document.</p>
 </div>
 </section>
 <section id="dkms-conf">
-<span id="dkmsconf"></span><h4>dkms.conf<a class="headerlink" href="#dkms-conf" title="Permalink to this heading">¶</a></h4>
+<span id="dkmsconf"></span><h4>dkms.conf<a class="headerlink" href="#dkms-conf" title="Link to this heading">¶</a></h4>
 <p>The DKMS configuration file (dkms.conf) defines how and where a module
 should be installed when using DKMS and is required for any DKMS-based
 kernel module. The provided dkms.conf for this tutorial includes the
@@ -330,7 +330,7 @@ page</a>.</p>
 </section>
 </section>
 <section id="testing-the-module-with-dkms">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Testing the Module with DKMS</a><a class="headerlink" href="#testing-the-module-with-dkms" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Testing the Module with DKMS</a><a class="headerlink" href="#testing-the-module-with-dkms" title="Link to this heading">¶</a></h3>
 <p>If desired, the module provided can be tested with DKMS prior to
 building it into a package. This can be done as follows.</p>
 <ol class="arabic">
@@ -365,14 +365,14 @@ sFTP, or scp.</div>
 </section>
 </section>
 <section id="creating-the-package-file">
-<h2><a class="toc-backref" href="#id12" role="doc-backlink">Creating the Package File</a><a class="headerlink" href="#creating-the-package-file" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Creating the Package File</a><a class="headerlink" href="#creating-the-package-file" title="Link to this heading">¶</a></h2>
 <p>With the source in hand, the next step is to package it into an *.ipk
 for redistribution. As mentioned previously, *.ipks are very similar to
 *.deb packages and are based on that standard. For more information on
 creating *.ipks and the options for doing so, NI recommends referring
 to the official documentation for opkg and opkg-build.</p>
 <section id="directory-structure">
-<h3><a class="toc-backref" href="#id13" role="doc-backlink">Directory Structure</a><a class="headerlink" href="#directory-structure" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Directory Structure</a><a class="headerlink" href="#directory-structure" title="Link to this heading">¶</a></h3>
 <p>To create an *.ipk file, everything must be in the proper directory
 structure. For this tutorial the following directory structure will be
 used.</p>
@@ -417,7 +417,7 @@ recreate the file structure shown above on the NI Linux Real-Time system
 with the files provided for this tutorial.</p>
 </section>
 <section id="control-file">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Control File</a><a class="headerlink" href="#control-file" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Control File</a><a class="headerlink" href="#control-file" title="Link to this heading">¶</a></h3>
 <p>The control file describes the package’s dependencies, maintainer, name,
 version, and other information required by opkg to ensure proper
 installation. Much of this information will also be returned if the
@@ -437,7 +437,7 @@ it.</p>
 </div>
 </section>
 <section id="the-debian-binary-file">
-<h3><a class="toc-backref" href="#id15" role="doc-backlink">The debian-binary File</a><a class="headerlink" href="#the-debian-binary-file" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">The debian-binary File</a><a class="headerlink" href="#the-debian-binary-file" title="Link to this heading">¶</a></h3>
 <p>This file should be a text file containing only the following line, as
 described by the *.ipk standard.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">2.0</span>
@@ -445,7 +445,7 @@ described by the *.ipk standard.</p>
 </div>
 </section>
 <section id="scripts">
-<h3><a class="toc-backref" href="#id16" role="doc-backlink">Scripts</a><a class="headerlink" href="#scripts" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Scripts</a><a class="headerlink" href="#scripts" title="Link to this heading">¶</a></h3>
 <p>As mentioned previously, there are two scripts required when creating
 *.ipk files for installing DKMS-based kernel-modules. These scripts
 handle the registration, installation, and removal of modules from DKMS
@@ -457,7 +457,7 @@ privileges. To ensure that this is the case, run <strong>chmod a+x &lt;script&gt
 before attempting to build a package.</p>
 </div>
 <section id="postinst">
-<h4>postinst<a class="headerlink" href="#postinst" title="Permalink to this heading">¶</a></h4>
+<h4>postinst<a class="headerlink" href="#postinst" title="Link to this heading">¶</a></h4>
 <p>The postinst script will be run upon finishing the installation of the
 package files. In this case, it will run the <em>common.postinst</em> script
 included with DKMS if the version of DKMS on the target supports it.
@@ -488,7 +488,7 @@ with NI Linux Real-Time 2020 and later will support the
 </div>
 </section>
 <section id="premrm">
-<h4>premrm<a class="headerlink" href="#premrm" title="Permalink to this heading">¶</a></h4>
+<h4>premrm<a class="headerlink" href="#premrm" title="Link to this heading">¶</a></h4>
 <p>The <em>prerm</em> script will be run by opkg before any files are removed
 during package removal. For DKMS-based packages, this will ensure that
 the kernel module is not registered or in use during removal and will
@@ -511,7 +511,7 @@ clean up any files created for the module by DKMS during normal usage.</p>
 </section>
 </section>
 <section id="building-the-package">
-<h2><a class="toc-backref" href="#id17" role="doc-backlink">Building the Package</a><a class="headerlink" href="#building-the-package" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Building the Package</a><a class="headerlink" href="#building-the-package" title="Link to this heading">¶</a></h2>
 <p>Once the directory structure is in place, all that’s necessary is to
 build them into an *.ipk package.</p>
 <ol class="arabic">
@@ -535,7 +535,7 @@ the <em>hello/</em> directory.</div>
 </ol>
 </section>
 <section id="testing-the-package-file">
-<h2><a class="toc-backref" href="#id18" role="doc-backlink">Testing the Package File</a><a class="headerlink" href="#testing-the-package-file" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Testing the Package File</a><a class="headerlink" href="#testing-the-package-file" title="Link to this heading">¶</a></h2>
 <p>With the *.ipk created, it’s now possible to test it by installing the
 file directly with opkg. This confirms that the package was built
 correctly and that the included scripts work.</p>
@@ -586,7 +586,7 @@ same testing described above can be used alongside any module-specific
 testing required by the loadable kernel module.</p>
 </section>
 <section id="resources">
-<h2><a class="toc-backref" href="#id19" role="doc-backlink">Resources</a><a class="headerlink" href="#resources" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Resources</a><a class="headerlink" href="#resources" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://forums.ni.com/t5/NI-Linux-Real-Time/ct-p/7013?profile.language=en">NI Linux Real-Time Community and Discussion
 Forums</a></p></li>
@@ -707,8 +707,8 @@ Eclipse Edition</a></p></li>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

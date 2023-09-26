@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Part 1: Cross Compiling C/C++ Code for NI Linux Real-Time &#8212; nilrt-docs 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
     
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,7 +48,7 @@
           <div class="body" role="main">
             
   <section id="part-1-cross-compiling-c-c-code-for-ni-linux-real-time">
-<h1>Part 1: Cross Compiling C/C++ Code for NI Linux Real-Time<a class="headerlink" href="#part-1-cross-compiling-c-c-code-for-ni-linux-real-time" title="Permalink to this heading">¶</a></h1>
+<h1>Part 1: Cross Compiling C/C++ Code for NI Linux Real-Time<a class="headerlink" href="#part-1-cross-compiling-c-c-code-for-ni-linux-real-time" title="Link to this heading">¶</a></h1>
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
@@ -69,7 +69,7 @@
 </ul>
 </nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>NI Linux Real-Time opens a wealth of possibilities for interfacing
 between the National Instruments and Linux ecosystems. With access to
 many common Linux utilities and libraries, it’s possible to create
@@ -80,7 +80,7 @@ Real-Time Cross Compile Toolchain for compiling C/C++ projects on NI
 Linux Real-Time.</p>
 </section>
 <section id="understanding-compilation-options">
-<h2><a class="toc-backref" href="#id2" role="doc-backlink">Understanding Compilation Options</a><a class="headerlink" href="#understanding-compilation-options" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Understanding Compilation Options</a><a class="headerlink" href="#understanding-compilation-options" title="Link to this heading">¶</a></h2>
 <p>To build C/C++ code for the NI Linux Real-Time operating system, there
 are two options:</p>
 <ol class="arabic simple">
@@ -101,7 +101,7 @@ than the one to be deployed to – known as cross compiling – will be the
 focus of this document and the tutorials which follow.</p>
 </section>
 <section id="cross-compiling-concepts">
-<h2><a class="toc-backref" href="#id3" role="doc-backlink">Cross Compiling Concepts</a><a class="headerlink" href="#cross-compiling-concepts" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Cross Compiling Concepts</a><a class="headerlink" href="#cross-compiling-concepts" title="Link to this heading">¶</a></h2>
 <p>NI Linux Real-Time C/C++ Compiler Tools consist of 3 main groups of
 tools or resources: The actual GNU C/C++ Compiler, the sysroot, and the
 debugger. NI ships two versions of these compiler tools: one for Intel
@@ -109,7 +109,7 @@ x64 Linux Real-Time devices and one for ARM 32-bit Linux Real-Time
 devices. Understanding the basics of these components is important to
 make development and the steps involved clearer.</p>
 <section id="gnu-c-c-compiler">
-<h3><a class="toc-backref" href="#id4" role="doc-backlink">GNU C/C++ Compiler</a><a class="headerlink" href="#gnu-c-c-compiler" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">GNU C/C++ Compiler</a><a class="headerlink" href="#gnu-c-c-compiler" title="Link to this heading">¶</a></h3>
 <p>The core of the NI Linux cross compiler toolchains is the GNU C/C++
 Compiler and its related tools such as the linker. In a cross compiler
 the compiler is an executable built for one system that builds code
@@ -121,7 +121,7 @@ system natively running NI Linux Real-Time but allows users to compile
 on Windows or Linux Desktop distributions.</p>
 </section>
 <section id="the-sysroot">
-<h3><a class="toc-backref" href="#id5" role="doc-backlink">The Sysroot</a><a class="headerlink" href="#the-sysroot" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">The Sysroot</a><a class="headerlink" href="#the-sysroot" title="Link to this heading">¶</a></h3>
 <p>In order to develop accurately and compile code that will run when
 deployed, developers need access to files that would normally be on the
 deployment system such as includes, headers, or third-party libraries.
@@ -147,7 +147,7 @@ the local sysroot as well. Otherwise the issues mentioned previously may
 be encountered.</p>
 </section>
 <section id="debugger">
-<h3><a class="toc-backref" href="#id6" role="doc-backlink">Debugger</a><a class="headerlink" href="#debugger" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Debugger</a><a class="headerlink" href="#debugger" title="Link to this heading">¶</a></h3>
 <p>In addition to the tooling required to create a binary, the cross
 compile tools include a version of the GNU Debugger (gdb) compiled to
 run on Windows for usage with the NI Linux Real-Time tools and sysroot.
@@ -163,9 +163,9 @@ Linux Real-Time is still necessary for debugging.</p>
 </section>
 </section>
 <section id="getting-started">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Getting Started</a><a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Getting Started</a><a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
 <section id="what-tools-and-why">
-<h3><a class="toc-backref" href="#id8" role="doc-backlink">What Tools and Why?</a><a class="headerlink" href="#what-tools-and-why" title="Permalink to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">What Tools and Why?</a><a class="headerlink" href="#what-tools-and-why" title="Link to this heading">¶</a></h3>
 <p>For these tutorials, Visual Studio Code and several open source
 third-party tools are used. Visual Studio Code, or VS Code, is a
 streamlined code editor created by Microsoft with support for
@@ -274,8 +274,8 @@ documents.</p>
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

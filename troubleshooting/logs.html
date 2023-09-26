@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Logs on NI Linux Real-Time Systems &#8212; nilrt-docs 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
     
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,15 +48,15 @@
           <div class="body" role="main">
             
   <section id="logs-on-ni-linux-real-time-systems">
-<h1>Logs on NI Linux Real-Time Systems<a class="headerlink" href="#logs-on-ni-linux-real-time-systems" title="Permalink to this heading">¶</a></h1>
+<h1>Logs on NI Linux Real-Time Systems<a class="headerlink" href="#logs-on-ni-linux-real-time-systems" title="Link to this heading">¶</a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>This document is an introduction to some of the common logs on Linux Real-Time Systems.</p>
 </section>
 <section id="useful-ni-linux-real-time-logs">
-<h2>Useful NI Linux Real-Time Logs<a class="headerlink" href="#useful-ni-linux-real-time-logs" title="Permalink to this heading">¶</a></h2>
+<h2>Useful NI Linux Real-Time Logs<a class="headerlink" href="#useful-ni-linux-real-time-logs" title="Link to this heading">¶</a></h2>
 <section id="logs-in-var-log">
-<h3>Logs in <em>/var/log/</em><a class="headerlink" href="#logs-in-var-log" title="Permalink to this heading">¶</a></h3>
+<h3>Logs in <em>/var/log/</em><a class="headerlink" href="#logs-in-var-log" title="Link to this heading">¶</a></h3>
 <p>The Linux Operating System and many Linux utilities will write to <code class="docutils literal notranslate"><span class="pre">/var/log/</span></code> by default.
 For example, the general <code class="docutils literal notranslate"><span class="pre">messages</span></code> log (or <code class="docutils literal notranslate"><span class="pre">syslog</span></code> depending on the system) is typically found here.</p>
 <p>NI Linux Real-Time Systems are designed as embedded, headless systems that need to be able to recover should issues occur.
@@ -69,7 +69,7 @@ To make these logs persist through a reboot, see the Enabling Persistent Logs se
 <p>The <code class="docutils literal notranslate"><span class="pre">kern.log</span></code> file is traditionally stored here, but on NI Linux Real-Time systems is instead located at <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> to ensure it persists between reboots.</p>
 </div>
 <table class="docutils align-default" id="id2">
-<caption><span class="caption-text">NI Linux RT Logs</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text">NI Linux RT Logs</span><a class="headerlink" href="#id2" title="Link to this table">¶</a></caption>
 <colgroup>
 <col style="width: 27.3%" />
 <col style="width: 27.3%" />
@@ -122,13 +122,13 @@ To make these logs persist through a reboot, see the Enabling Persistent Logs se
 </table>
 </section>
 <section id="logs-in-var-local-natinst-log">
-<h3>Logs in <em>/var/local/natinst/log/</em><a class="headerlink" href="#logs-in-var-local-natinst-log" title="Permalink to this heading">¶</a></h3>
+<h3>Logs in <em>/var/local/natinst/log/</em><a class="headerlink" href="#logs-in-var-local-natinst-log" title="Link to this heading">¶</a></h3>
 <p>Most NI Software will log to the <code class="docutils literal notranslate"><span class="pre">/var/local/natinst/log/</span></code> directory.
 The following logs will exist by default with LabVIEW Real-Time installed.
 Note that some of these logs (such as <code class="docutils literal notranslate"><span class="pre">kern.log</span></code>) are not created until something logs to them.
 Some of these logs can be seen in NI MAX using the <strong>View Error Log</strong> context menu option.</p>
 <table class="docutils align-default" id="id3">
-<caption><span class="caption-text">NI Sofware Logs</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<caption><span class="caption-text">NI Sofware Logs</span><a class="headerlink" href="#id3" title="Link to this table">¶</a></caption>
 <colgroup>
 <col style="width: 16.7%" />
 <col style="width: 27.8%" />
@@ -173,7 +173,7 @@ Some of these logs can be seen in NI MAX using the <strong>View Error Log</stron
 </section>
 </section>
 <section id="logrotate">
-<h2>Logrotate<a class="headerlink" href="#logrotate" title="Permalink to this heading">¶</a></h2>
+<h2>Logrotate<a class="headerlink" href="#logrotate" title="Link to this heading">¶</a></h2>
 <p>To prevent logs from growing too large, NI Linux Real-Time includes the <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> utility with some default configurations.
 This utility is run as a <code class="docutils literal notranslate"><span class="pre">cron</span></code> job on NI Linux Real-Time systems.
 For more information on the <code class="docutils literal notranslate"><span class="pre">cron</span></code> utility and <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> utility, refer to the third-party documentation available online for these common Linux utilities.</p>
@@ -201,7 +201,7 @@ Even for logs stored in the device’s physical storage, it’s important to ens
 Use reasonable settings and consider rotating logs that grow quickly at specific file sizes whenever using non-default settings.</p>
 </section>
 <section id="logging-to-the-system-log-s">
-<h2>Logging to the System Log(s)<a class="headerlink" href="#logging-to-the-system-log-s" title="Permalink to this heading">¶</a></h2>
+<h2>Logging to the System Log(s)<a class="headerlink" href="#logging-to-the-system-log-s" title="Link to this heading">¶</a></h2>
 <p>When logging status or event information, it may be desirable to write to one of the logs outlined above.
 The following list outlines some of the common logs and what methods are recommended for writing to them.</p>
 <ul class="simple">
@@ -230,7 +230,7 @@ The following list outlines some of the common logs and what methods are recomme
 For example, by default the <code class="docutils literal notranslate"><span class="pre">errlog.txt</span></code> file will persist across reboots but be rotated by <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> very quickly due to file size while the <code class="docutils literal notranslate"><span class="pre">messages</span></code> log will not persist across reboots but will be rotated less often.</p>
 </section>
 <section id="enabling-persistent-logs">
-<h2>Enabling Persistent Logs<a class="headerlink" href="#enabling-persistent-logs" title="Permalink to this heading">¶</a></h2>
+<h2>Enabling Persistent Logs<a class="headerlink" href="#enabling-persistent-logs" title="Link to this heading">¶</a></h2>
 <p>By default, logs are stored in <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> which is a symlink to <code class="docutils literal notranslate"><span class="pre">/var/volatile/log</span></code>.
 The <code class="docutils literal notranslate"><span class="pre">/var/volatile</span></code> location is a RAM-based tmpfs filesystem whose contents are lost on each reboot.
 This section explains how to make those logs persistent.</p>
@@ -251,7 +251,7 @@ Once that happens, the Linux Real-Time settings may revert to their defaults for
 <p>To find the version of NILRT installed on the target, run <code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/etc/os-release</span></code> at the command-line.</p>
 </div>
 <section id="nilrt-9-1">
-<h3>NILRT &gt;= 9.1<a class="headerlink" href="#nilrt-9-1" title="Permalink to this heading">¶</a></h3>
+<h3>NILRT &gt;= 9.1<a class="headerlink" href="#nilrt-9-1" title="Link to this heading">¶</a></h3>
 <ol class="arabic simple">
 <li><p>At the command-line on the target, run <code class="docutils literal notranslate"><span class="pre">nirtcfg</span> <span class="pre">--set</span> <span class="pre">section=SystemSettings,token=PersistentLogs.enabled,value=&quot;True&quot;</span></code>.</p></li>
 <li><p><strong>NILRT 9.1 only:</strong> An additional step is required on NI Linux Real-Time 9.1.
@@ -262,7 +262,7 @@ At the command-line on the target, run <code class="docutils literal notranslate
 <p>To revert to using volatile logs, follow the same steps using <code class="docutils literal notranslate"><span class="pre">value=&quot;False&quot;</span></code> in the <code class="docutils literal notranslate"><span class="pre">nirtcfg</span></code> command.</p>
 </section>
 <section id="id1">
-<h3>NILRT &lt; 9.1<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<h3>NILRT &lt; 9.1<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <ol class="arabic">
 <li><p>Modify <code class="docutils literal notranslate"><span class="pre">/etc/default/volatiles/00_core</span></code> as follows via either a console, sFTP, or your preferred method for editing configuration files on Linux Real-Time systems.</p>
 <ol class="arabic">
@@ -381,8 +381,8 @@ Note that the image below may differ from your system depending on the software 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

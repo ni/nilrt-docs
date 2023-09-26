@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>nirtfeatures &#8212; nilrt-docs 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
     
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -48,7 +48,7 @@
           <div class="body" role="main">
             
   <section id="nirtfeatures">
-<h1>nirtfeatures<a class="headerlink" href="#nirtfeatures" title="Permalink to this heading">¶</a></h1>
+<h1>nirtfeatures<a class="headerlink" href="#nirtfeatures" title="Link to this heading">¶</a></h1>
 <dl class="field-list simple">
 <dt class="field-odd">Source<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://github.com/ni/linux/blob/HEAD/drivers/misc/nirtfeatures.c">ni/linux.git:drivers/misc/nirtfeatures.c</a></p>
@@ -57,9 +57,9 @@
 <p>The <cite>nirtfeatures</cite> driver is a NILRT-specific, out-of-tree, ACPI driver which provides an API to interact with NI hardware devices equipped with supported CPLD devices.</p>
 <p>The <cite>nirtfeatures</cite> driver is built into all NILRT x64 kernels, but only systems which provide an ACPI device with device id NIC775D <a class="reference external" href="https://github.com/ni/linux/blob/81fc9e513b095c0008520d7a55dabc3ef3531539/drivers/misc/nirtfeatures.c#L1515">will be captured</a> by the driver. When the driver captures a device, it creates a symlink from <cite>/dev/nirtfeatures</cite> to the sysfs root.</p>
 <section id="sysfs">
-<h2>SysFS<a class="headerlink" href="#sysfs" title="Permalink to this heading">¶</a></h2>
+<h2>SysFS<a class="headerlink" href="#sysfs" title="Link to this heading">¶</a></h2>
 <section id="reset-source">
-<h3>reset_source<a class="headerlink" href="#reset-source" title="Permalink to this heading">¶</a></h3>
+<h3>reset_source<a class="headerlink" href="#reset-source" title="Link to this heading">¶</a></h3>
 <p>The <cite>reset_source</cite> sysfs entry is read-only, and exposes a single word which describes the state of the CPLD’s <cite>ProcResetSourceReg</cite> register. Possible values are defined by the <a class="reference external" href="https://github.com/ni/linux/blob/81fc9e513b095c0008520d7a55dabc3ef3531539/drivers/misc/nirtfeatures.c#L230">nirtfeatures.c:nirtfeatures_reset_source_string</a> constant.</p>
 <dl class="field-list simple">
 <dt class="field-odd">button<span class="colon">:</span></dt>
@@ -84,11 +84,11 @@
 </section>
 </section>
 <section id="user-space-tooling">
-<h2>User Space Tooling<a class="headerlink" href="#user-space-tooling" title="Permalink to this heading">¶</a></h2>
+<h2>User Space Tooling<a class="headerlink" href="#user-space-tooling" title="Link to this heading">¶</a></h2>
 <p>User space tooling for the <cite>nirtfeatures</cite> driver is provided by the <a class="reference external" href="https://github.com/ni/meta-nilrt/tree/4402ef086bb2d9b4fdfd47845dbcd0100dbfe211/recipes-ni/ni-rtfeatures">ni-rtfeatures</a> IPK. This IPK includes several initscripts for reporting and handling CPLD register states during system boot.</p>
 </section>
 <section id="logging">
-<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this heading">¶</a></h2>
+<h2>Logging<a class="headerlink" href="#logging" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 9.1.</span></p>
 </div>
@@ -173,8 +173,8 @@
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Obtaining Kernel Logs from a Prior System Crash Via pstore &#8212; nilrt-docs 1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
     
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -44,7 +44,7 @@
           <div class="body" role="main">
             
   <section id="obtaining-kernel-logs-from-a-prior-system-crash-via-pstore">
-<h1>Obtaining Kernel Logs from a Prior System Crash Via pstore<a class="headerlink" href="#obtaining-kernel-logs-from-a-prior-system-crash-via-pstore" title="Permalink to this heading">¶</a></h1>
+<h1>Obtaining Kernel Logs from a Prior System Crash Via pstore<a class="headerlink" href="#obtaining-kernel-logs-from-a-prior-system-crash-via-pstore" title="Link to this heading">¶</a></h1>
 <p>On Linux, the dmesg log (i.e., the log printed from the <cite>dmesg</cite> command) is the kernel message buffer. Any <cite>printk</cite> kernel message logs end up here. When the kernel crashes, a stack trace is printed to the kernel message buffer. Unfortunately, a crash typically means the system reboots which will wipe out any values in the kernel message buffer.</p>
 <p>On x64 platforms, the last lines of the kernel message buffer can be placed into EFI variable storage via the pstore mechanism when a kernel crash occurs; this allows them to be retrieved on next boot.</p>
 <p>As of NI Linux Real-Time 21.3, the system will automatically copy logs out of EFI storage into the <cite>/var/lib/pstore/[YYYYMMDD_hhmmss]/</cite> directory. Reconstructed dmesg information will be files named dmesg-001.txt, where 001 is the numeric count of the “oops” (it’s possible for there to be multiple “oops”es from different CPU cores).</p>
@@ -106,8 +106,8 @@
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

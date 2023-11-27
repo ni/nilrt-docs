@@ -16,4 +16,5 @@ NI Linux Real-Time Documentation and Tutorials
    cross_compile/cross_compile_index
    remote/vscode_remote_index
    opkg/opkg_tutorials_index
+   docker/docker
    troubleshooting/troubleshooting_index

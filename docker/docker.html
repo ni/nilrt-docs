@@ -1,0 +1,209 @@
+
+
+<!doctype html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>NI Linux Real-Time and Docker &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NI Linux Real-Time Debug Documentation" href="../troubleshooting/troubleshooting_index.html" />
+    <link rel="prev" title="NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules" href="../opkg/dkms_opkg.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../opkg/dkms_opkg.html" title="NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NI Linux Real-Time and Docker</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ni-linux-real-time-and-docker">
+<h1>NI Linux Real-Time and Docker<a class="headerlink" href="#ni-linux-real-time-and-docker" title="Link to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#installation" id="id2">Installation</a></p></li>
+<li><p><a class="reference internal" href="#starting-containers-with-host-networking" id="id3">Starting Containers with Host Networking</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference external" href="https://www.docker.com">Docker platform</a> helps with producing consistent environments and isolating the processes
+within them.
+Docker can be used on NI Linux Real-Time with NI hardware for test and measurement use cases.
+The document encompasses the basics of how to install Docker and run containers from an
+NI Linux Real-Time system.</p>
+</section>
+<section id="installation">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Installation</a><a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>To install Docker on an NI Linux Real-Time system, simply run the following command
+from your target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>opkg<span class="w"> </span>install<span class="w"> </span>docker-ce
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently Docker will not function correctly if you have LabVIEW RT installed.</p>
+</div>
+<p>Once installed, you can verify it was set up correctly by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>hello-world
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Unable to find image &#39;hello-world:latest&#39; locally
+latest: Pulling from library/hello-world
+719385e32844: Pull complete
+Digest: sha256:88ec0acaa3ec199d3b7eaf73588f4518c25f9d34f58ce9a0df68429c5af48e8d
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the &quot;hello-world&quot; image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+</pre></div>
+</div>
+</section>
+<section id="starting-containers-with-host-networking">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Starting Containers with Host Networking</a><a class="headerlink" href="#starting-containers-with-host-networking" title="Link to this heading">¶</a></h2>
+<p>By default, Docker containers will use bridged adapters, but this is not currently supported by
+NI Linux Real-Time.
+Thus, one must use host networking if they want access to the network from their container.</p>
+<p>To use host networking, create the Docker container with the <code class="docutils literal notranslate"><span class="pre">--network=host</span></code> or <code class="docutils literal notranslate"><span class="pre">--network</span> <span class="pre">host</span></code> arguments.</p>
+<p>See Docker’s documentation on <a class="reference external" href="https://docs.docker.com/network/drivers/host/">host networking</a> for details.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Host networking reduces the isolation of the container.</p>
+</div>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--network<span class="o">=</span>host<span class="w"> </span>ubuntu<span class="w"> </span>bash
+</pre></div>
+</div>
+<p>In the example, the command will start up an interactive bash prompt of Ubuntu with access to the
+host network.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also disable networking altogether via the <code class="docutils literal notranslate"><span class="pre">--network=none</span></code> or <code class="docutils literal notranslate"><span class="pre">--network</span> <span class="pre">none</span></code> arguments.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NI Linux Real-Time and Docker</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#starting-containers-with-host-networking">Starting Containers with Host Networking</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../opkg/dkms_opkg.html"
+                          title="previous chapter">NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../troubleshooting/troubleshooting_index.html"
+                          title="next chapter">NI Linux Real-Time Debug Documentation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/docker/docker.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../opkg/dkms_opkg.html" title="NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NI Linux Real-Time and Docker</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

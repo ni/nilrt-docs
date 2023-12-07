@@ -17,6 +17,8 @@ We encourage you to report security vulnerabilities to us privately so that we c
 
 To report security issues in our products or on ni.com, email <`security@ni.com`_> with sufficient details about how to reproduce the issue. You may use the `NI PGP key <https://www.ni.com/en/support/security/pgp.html>`_ to encrypt any sensitive communications you send to us. When you notify us of a potential security issue, our remediation process includes acknowledging receipt and coordinating any necessary response activities with you.
 
+If you are interested in reporting a security issue in an NI product other than NI LinuxRT, reference the company security page `here <https://ni.com/security>`_.
+
 
 Requesting CVE Exposure information
 -----------------------------------

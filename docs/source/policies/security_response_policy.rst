@@ -5,7 +5,7 @@ NI is committed to resolving major security vulnerabilities discovered in the x6
 
 The LinuxRT development team regularly monitors the `NIST National Vulnerability Database <https://nvd.nist.gov/>`_ for published vulnerabilities, and uses that information to audit the x64 NILRT distribution software. When a vulnerability is discovered, the team evaluates its impact to our products and our customers' supported workflows, and assigns the vulnerability a vendor severity score. In many cases, NI's vendor score agrees with the NIST-assigned score. But the team may downgrade a vulnerability if it does not affect the system in a supported configuration.
 
-Vulnerabilities which the team assesses as being high-severity are patched or otherwise fixed in the next release of the distribution. Critical-severity vulnerabilities may have their fixes backported to the latest distribution release, if it is similarly affected.
+Vulnerabilities which the team assesses as being high-severity will be patched or otherwise fixed in the following release of the distribution. Critical-severity vulnerabilities may have their fixes applied to the current release, as well.
 
 To ensure that your NI LinuxRT deployments remain free of vulnerabilities, it is best to schedule regular upgrades of your deployments' firmware and base system images.
 

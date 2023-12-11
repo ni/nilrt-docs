@@ -1,0 +1,127 @@
+
+
+<!doctype html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>NI LinuxRT Security Response Policy &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Obtaining Kernel Logs from a Prior System Crash Via pstore" href="../troubleshooting/pstore.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NI LinuxRT Security Response Policy</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ni-linuxrt-security-response-policy">
+<h1>NI LinuxRT Security Response Policy<a class="headerlink" href="#ni-linuxrt-security-response-policy" title="Link to this heading">¶</a></h1>
+<p>NI is committed to resolving major security vulnerabilities discovered in the x64 NI LinuxRT distribution images and core package feeds.</p>
+<p>The LinuxRT development team regularly monitors the <a class="reference external" href="https://nvd.nist.gov/">NIST National Vulnerability Database</a> for published vulnerabilities, and uses that information to audit the x64 NILRT distribution software. When a vulnerability is discovered, the team evaluates its impact to our products and our customers’ supported workflows, and assigns the vulnerability a vendor severity score. In many cases, NI’s vendor score agrees with the NIST-assigned score. But the team may downgrade a vulnerability if it does not affect the system in a supported configuration.</p>
+<p>Vulnerabilities which the team assesses as being high-severity will be patched or otherwise fixed in the following release of the distribution. Critical-severity vulnerabilities may have their fixes applied to the current release, as well.</p>
+<p>To ensure that your NI LinuxRT deployments remain free of vulnerabilities, it is best to schedule regular upgrades of your deployments’ firmware and base system images.</p>
+<section id="reporting-security-issues">
+<h2>Reporting Security Issues<a class="headerlink" href="#reporting-security-issues" title="Link to this heading">¶</a></h2>
+<p>We encourage you to report security vulnerabilities to us privately so that we can follow a coordinated disclosure process, allowing us time to thoroughly investigate security issues and publicly disclose them when appropriate.</p>
+<p>To report security issues in our products or on ni.com, email &lt;<a class="reference external" href="mailto:security&#37;&#52;&#48;ni&#46;com">security<span>&#64;</span>ni<span>&#46;</span>com</a>&gt; with sufficient details about how to reproduce the issue. You may use the <a class="reference external" href="https://www.ni.com/en/support/security/pgp.html">NI PGP key</a> to encrypt any sensitive communications you send to us. When you notify us of a potential security issue, our remediation process includes acknowledging receipt and coordinating any necessary response activities with you.</p>
+<p>If you are interested in reporting a security issue in an NI product other than NI LinuxRT, reference the company security page <a class="reference external" href="https://ni.com/security">here</a>.</p>
+</section>
+<section id="requesting-cve-exposure-information">
+<h2>Requesting CVE Exposure information<a class="headerlink" href="#requesting-cve-exposure-information" title="Link to this heading">¶</a></h2>
+<p>Vulnerabilities in community software packages are frequently fixed by patching the source code, without changing the package’s final version number. Because of this, vulnerability scanners sometimes erroneously flag a package as being vulnerable to exploits which have already been patched. To request a disposition about whether your deployed version of NILRT is exposed to a vulnerability, send an email to &lt;<a class="reference external" href="mailto:product-security&#37;&#52;&#48;ni&#46;com">product-security<span>&#64;</span>ni<span>&#46;</span>com</a>&gt; with information about your deployed system and the discrete set of interesting CVEs.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">NI LinuxRT Security Response Policy</a><ul>
+<li><a class="reference internal" href="#reporting-security-issues">Reporting Security Issues</a></li>
+<li><a class="reference internal" href="#requesting-cve-exposure-information">Requesting CVE Exposure information</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../troubleshooting/pstore.html"
+                          title="previous chapter">Obtaining Kernel Logs from a Prior System Crash Via pstore</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/policies/security_response_policy.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">NI LinuxRT Security Response Policy</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

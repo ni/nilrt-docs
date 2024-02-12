@@ -239,6 +239,56 @@ unzip, and once to unpack the tar file. During these extractions there
 may be dialogs prompting the replacement of files or warnings. The
 warnings can be safely ignored.</p>
 </div>
+<ol class="arabic" start="5">
+<li><div class="line-block">
+<div class="line">If using x64 toolchain versions 2023Q1 and later, follow these steps
+to setup <strong>PATH</strong>.</div>
+</div>
+<ol class="loweralpha">
+<li><div class="line-block">
+<div class="line">Press <strong>Start+R</strong> to open the <strong>Run</strong> window, then type in
+<em>sysdm.cpl</em> and hit <strong>OK.</strong> This will launch the <strong>System
+Properties</strong> window.</div>
+</div>
+<img alt="../_images/image101.png" src="../_images/image101.png" />
+</li>
+<li><div class="line-block">
+<div class="line">In the <strong>System Properties</strong> window, navigate to the <strong>Advanced</strong>
+page and select <strong>Environment Variables…</strong> to open the
+<strong>Environment Variables</strong> window.</div>
+</div>
+<blockquote>
+<div><img alt="../_images/image111.png" src="../_images/image111.png" />
+</div></blockquote>
+</li>
+<li><div class="line-block">
+<div class="line">In the <strong>System variables</strong> section of the <strong>Environment
+Variables</strong> window, navigate to and select <strong>Path</strong> then click
+<strong>Edit…</strong></div>
+</div>
+<img alt="../_images/image121.png" src="../_images/image121.png" />
+</li>
+<li><div class="line-block">
+<div class="line">In the <strong>Edit environment variable</strong> window, click <strong>New</strong> to add a
+new path.</div>
+</div>
+<img alt="../_images/image132.png" src="../_images/image132.png" />
+</li>
+<li><div class="line-block">
+<div class="line">Enter <em>C:\build\&lt;toolchain version&gt;\x64\sysroots\x86_64-w64-mingw32\usr\bin</em>.
+Click <strong>OK</strong>.</div>
+</div>
+<img alt="../_images/image171.png" src="../_images/image171.png" />
+</li>
+<li><p>Click <strong>OK</strong> twice more to exit the <strong>System Properties</strong> window.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If multiple toolchain versions are installed on the same system,
+update this PATH to the currently-in-use version.</p>
+</div>
+</li>
+</ol>
 </section>
 <section id="other-tools">
 <h2><a class="toc-backref" href="#id7" role="doc-backlink">Other Tools</a><a class="headerlink" href="#other-tools" title="Link to this heading">¶</a></h2>

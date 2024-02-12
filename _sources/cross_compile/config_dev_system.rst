@@ -162,6 +162,43 @@ the right location.
    may be dialogs prompting the replacement of files or warnings. The
    warnings can be safely ignored.
 
+5. | If using x64 toolchain versions 2023Q1 and later, follow these steps
+     to setup **PATH**.
+
+   a. | Press **Start+R** to open the **Run** window, then type in
+        *sysdm.cpl* and hit **OK.** This will launch the **System
+        Properties** window.
+
+      .. image:: media/config_pc/image10.png
+
+   b. | In the **System Properties** window, navigate to the **Advanced**
+        page and select **Environment Variables…** to open the
+        **Environment Variables** window.
+
+         .. image:: media/config_pc/image11.png
+
+   c. | In the **System variables** section of the **Environment
+        Variables** window, navigate to and select **Path** then click
+        **Edit…**
+
+      .. image:: media/config_pc/image12.png
+
+   d. | In the **Edit environment variable** window, click **New** to add a
+        new path.
+
+      .. image:: media/config_pc/image13.png
+
+   e. | Enter *C:\\build\\<toolchain version>\\x64\\sysroots\\x86_64-w64-mingw32\\usr\\bin*.
+        Click **OK**.
+
+      .. image:: media/config_pc/image17.png
+
+   f. Click **OK** twice more to exit the **System Properties** window.
+
+   .. note::
+      If multiple toolchain versions are installed on the same system,
+      update this PATH to the currently-in-use version.
+
 Other Tools
 -----------
 

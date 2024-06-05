@@ -18,6 +18,7 @@ NI Linux Real-Time Documentation and Tutorials
    opkg/opkg_tutorials_index
    docker/docker
    troubleshooting/troubleshooting_index
+   system_replication/system_replication
 
 .. toctree::
     :maxdepth: 2

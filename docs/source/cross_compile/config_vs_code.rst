@@ -41,10 +41,13 @@ Visual Studio Code, follow the steps below.
    workspace. For example: *<My Documents>\\HelloWorld\\\* or *<My
    Documents>\\NI Linux Real-Time Template\\*.
 
-2. In a new command prompt, navigate to the toolchain folder and run the
+2. (Windows) In a new command prompt, navigate to the toolchain folder and run the
    environment-setup-core2-64-nilrt-linux.bat script.
 
-3. Launch VS Code from the same command prompt, to ensure that the toolchain
+   (Linux) In a new terminal, navigate to the toolchain folder and run the
+   environment-setup-core2-64-nilrt-linux.sh script
+
+3. Launch VS Code from the same command prompt/terminal, to ensure that the toolchain
    environment is set up correctly. Hereafter, always launch VS Code for
    cross-compilation after setting up the environment.
 
@@ -117,6 +120,7 @@ these steps:
    .. code:: json
 
       {
+        // Windows
         // See https://go.microsoft.com/fwlink/?LinkId=733558
         // for the documentation about the tasks.json format
         "version": "2.0.0",
@@ -148,6 +152,36 @@ these steps:
             },
             "problemMatcher": []
           }
+        ]
+      }
+
+   .. code:: json
+
+      {
+        // Linux Desktop
+        // See https://go.microsoft.com/fwlink/?LinkId=733558
+        // for the documentation about the tasks.json format
+
+        "version": "2.0.0",
+        "tasks": [
+           {
+              "label": "CMake Generate Build Files",
+              "type": "shell",
+              "command": "cmake \"Unix Makefiles\" ${workspaceFolder}/build",
+              "options": {
+                "cwd": "${workspaceFolder}/build"
+              },
+              "problemMatcher": []
+           },
+           {
+              "label": "CMake Build",
+              "type": "shell",
+              "command": "cmake --build ${workspaceFolder}/build",
+              "options": {
+              "cwd": "${workspaceFolder}/build"
+              },
+              "problemMatcher": "$gcc"
+           }
         ]
       }
 
@@ -185,32 +219,59 @@ includes and other necessary resources.
 
 4. In the editor, modify the configuration for the compiler to be used.
 
-   1. | For NI Linux Real-Time x64 devices, complete the file as follows:
+   1. For NI Linux Real-Time x64 devices, complete the file as follows:
 
-      .. code:: json
+      1. | **Windows**
 
-         {
-           "env": {
-             "compilerSysroots": "C:/build/<toolchain version>/x64/sysroots/"
-           },
-           "configurations": [
-             {
-               "name": "NI Linux Real-Time x64",
-               "compilerPath": "${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe",
-               "compilerArgs": [
-                 "--sysroot=${compilerSysroots}/core2-64-nilrt-linux/"
-               ],
-               "includePath": [
-                 "${workspaceFolder}/",
-                 "${compilerSysroots}/core2-64-nilrt-linux/usr/include/"
-               ],
-               "intelliSenseMode": "gcc-x64"
-             }
-           ],
-           "version": 4
-         }
+         .. code:: json
 
-      .. note:: For toolchain versions 2023Q1 and later, the `compilerPath` is instead `${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe`.
+            {
+            "env": {
+               "compilerSysroots": "C:/build/<toolchain version>/x64/sysroots/"
+            },
+            "configurations": [
+               {
+                  "name": "NI Linux Real-Time x64",
+                  "compilerPath": "${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe",
+                  "compilerArgs": [
+                  "--sysroot=${compilerSysroots}/core2-64-nilrt-linux/"
+                  ],
+                  "includePath": [
+                  "${workspaceFolder}/",
+                  "${compilerSysroots}/core2-64-nilrt-linux/usr/include/"
+                  ],
+                  "intelliSenseMode": "gcc-x64"
+               }
+            ],
+            "version": 4
+            }
+
+         .. note:: For toolchain versions 2023Q1 and later, the `compilerPath` is instead `${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe`.
+
+      2. | **Linux**
+
+         .. code:: json
+
+            {
+            "env": {
+               "compilerSysroots": "/usr/local/oecore-x86_64/sysroots/"
+            },
+            "configurations": [
+               {
+                  "name": "NI Linux Real-Time x64",
+                  "compilerPath": "${compilerSysroots}x86_64-nilrtsdk-linux/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc",
+                  "compilerArgs": [
+                  "--sysroot=${compilerSysroots}/core2-64-nilrt-linux/"
+                  ],
+                  "includePath": [
+                  "${workspaceFolder}/",
+                  "${compilerSysroots}core2-64-nilrt-linux/usr/include"
+                  ],
+                  "intelliSenseMode": "gcc-x64"
+               }
+            ],
+            "version": 4
+            }
 
    2. | For NI Linux Real-Time ARM devices, complete the file as follows:
 
@@ -390,11 +451,15 @@ document.
    possible to use a variable. This is optional but saves the trouble of
    typing out the full sysroot location each time.
 
-   1. For NI Linux Real-Time x64 targets:
+   1. | For NI Linux Real-Time x64 targets:
 
    .. code:: cmake
 
+      # Windows
       set(toolchainpath C:/build/<toolchain version>/x64/sysroots)
+
+      # Linux
+      set(toolchainpath /usr/local/oecore-x86_64/sysroots)
 
    2. For NI Linux Real-Time ARM targets:
 
@@ -406,12 +471,17 @@ document.
    automatically decide which compiler to used based on the files being
    compiled for a given project.
 
-   1. For NI Linux Real-Time x64 targets:
+   1. | For NI Linux Real-Time x64 targets:
 
    .. code:: cmake
 
+      # Windows
       set(CMAKE_C_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe)
       set(CMAKE_CXX_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++.exe)
+
+      # Linux
+      set(CMAKE_C_COMPILER ${toolchainpath}/x86_64-nilrtsdk-linux/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc)
+      set(CMAKE_CXX_COMPILER ${toolchainpath}/x86_64-nilrtsdk-linux/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++)
 
    .. note:: For toolchain versions 2023Q1 and later, replace `i686-nilrtsdk-mingw32` with `x86_64-w64-mingw32`
 
@@ -429,12 +499,19 @@ document.
    For example, below is with the 18.0 toolchain which uses 6.3.0, but
    the 2023Q1 toolchain uses 10.3.0.
 
-   1. For NI Linux Real-Time x64 targets:
+   1. | For NI Linux Real-Time x64 targets:
 
    .. code:: cmake
 
+      # Windows
       set(CMAKE_SYSROOT ${toolchainpath}/core2-64-nilrt-linux)
       set(CMAKE_<LANG>_STANDARD_INCLUDE_DIRECTORIES ${toolchainpath}/core2-64-nilrtlinux/usr/include/c++/6.3.0 ${toolchainpath}/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux)
+
+      # Linux
+      set(CMAKE_SYSROOT ${toolchainpath}/core2-64-nilrt-linux)
+      set(CMAKE_<LANG>_STANDARD_INCLUDE_DIRECTORIES ${toolchainpath}/core2-64-nilrt-linux/usr/include/c++/11.3.0 ${toolchainpath}/core2-64-nilrt-linux/usr/include/c++/11.3.0/x86-64-nilrt-linux)
+
+      # Common
       set(CMAKE_<LANG>_FLAGS "-Wall -fmessage-length=0")
       set(CMAKE_<LANG>_FLAGS_DEBUG "-O0 -g3")
       set(CMAKE_<LANG>_FLAGS_RELEASE "-O3")

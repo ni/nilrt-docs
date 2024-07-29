@@ -220,6 +220,7 @@ includes and other necessary resources.
 4. In the editor, modify the configuration for the compiler to be used.
 
    1. For NI Linux Real-Time x64 devices, complete the file as follows:
+
       1. | **Windows**
 
          .. code:: json

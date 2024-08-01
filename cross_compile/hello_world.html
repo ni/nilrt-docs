@@ -1,6 +1,5 @@
 
-
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en" data-content_root="../">
   <head>
@@ -9,10 +8,10 @@
 
     <title>Part 4: “Hello, World!” with Visual Studio Code and NI Linux Real-Time &#8212; nilrt-docs 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=658d757c" />
     
     <script src="../_static/documentation_options.js?v=a681ed88"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -24,7 +23,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -115,7 +114,7 @@ create a new project:</p>
 <div class="line">Copy the contents of the template project directory into this newly
 created directory.</div>
 </div>
-<img alt="../_images/image114.png" src="../_images/image114.png" />
+<img alt="../_images/image113.png" src="../_images/image113.png" />
 </li>
 <li><p>Open the folder in Visual Studio Code by doing one of the following:</p>
 <ol class="arabic">
@@ -245,8 +244,8 @@ build output, <em>build.ninja,</em> and <em>CMakeCache.txt</em>.</div>
 <li><p>Run the build using Ninja using the task defined in <em>tasks.json</em>.
 Open the Command Palette and select <strong>Tasks: Run Task</strong> again.</p></li>
 <li><div class="line-block">
-<div class="line">Select <strong>Ninja</strong> or the name used for the Ninja build task in the
-project’s <em>tasks.json</em> file.</div>
+<div class="line">Select <strong>Ninja</strong> (Windows)/ <strong>CMake Build</strong> (Linux) or the name used
+for the build task in the project’s <em>tasks.json</em> file.</div>
 </div>
 <img alt="../_images/image102.png" src="../_images/image102.png" />
 </li>
@@ -255,13 +254,13 @@ project’s <em>tasks.json</em> file.</div>
 a <em>helloWorld</em> binary in the <em>&lt;project folder&gt;/build/bin</em>
 directory.</div>
 </div>
-<img alt="../_images/image115.png" src="../_images/image115.png" />
+<img alt="../_images/image114.png" src="../_images/image114.png" />
 </li>
 <li><div class="line-block">
 <div class="line"><strong>(Optional)</strong> Add a syntax error to the <em>helloWorld.c</em> source file
-and run the <strong>Ninja</strong> task again. Note that since a problem matcher
-has been specified in <em>tasks.json</em> for the Ninja task, the
-compilation errors introduced now appear in the <strong>Problems</strong> window
+and run the <strong>Ninja</strong> / <strong>CMake Build</strong> task again. Note that since a
+problem matcher has been specified in <em>tasks.json</em> for the Ninja task,
+the compilation errors introduced now appear in the <strong>Problems</strong> window
 within Visual Studio Code alongside any syntax errors flagged by
 the editor. Fix the error and rebuild.</div>
 </div>
@@ -503,7 +502,7 @@ files. If this occurs, finish debugging with either <strong>Continue</strong> or
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h3><a href="../index.html">Table of Contents</a></h3>
@@ -550,7 +549,7 @@ files. If this occurs, finish debugging with either <strong>Continue</strong> or
             rel="nofollow">Show Document Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -558,13 +557,13 @@ files. If this occurs, finish debugging with either <strong>Continue</strong> or
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -583,7 +582,7 @@ files. If this occurs, finish debugging with either <strong>Continue</strong> or
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
     </div>
   </body>
 </html>

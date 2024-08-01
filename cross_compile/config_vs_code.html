@@ -1,6 +1,5 @@
 
-
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en" data-content_root="../">
   <head>
@@ -9,10 +8,10 @@
 
     <title>Part 3: Configuring Visual Studio Code for Building NI Linux Real-Time C/C++ Code &#8212; nilrt-docs 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=658d757c" />
     
     <script src="../_static/documentation_options.js?v=a681ed88"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -24,7 +23,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -92,16 +91,19 @@ Visual Studio Code, follow the steps below.</p>
 <li><p>Create a top-level directory to act as the Folder for a VS Code
 workspace. For example: <em>&lt;My Documents&gt;\HelloWorld\* or *&lt;My
 Documents&gt;\NI Linux Real-Time Template\</em>.</p></li>
-<li><p>In a new command prompt, navigate to the toolchain folder and run the
-environment-setup-core2-64-nilrt-linux.bat script.</p></li>
-<li><p>Launch VS Code from the same command prompt, to ensure that the toolchain
+<li><p>(Windows) In a new command prompt, navigate to the toolchain folder and run the
+environment-setup-core2-64-nilrt-linux.bat script.</p>
+<p>(Linux) In a new terminal, navigate to the toolchain folder and run the
+environment-setup-core2-64-nilrt-linux.sh script</p>
+</li>
+<li><p>Launch VS Code from the same command prompt/terminal, to ensure that the toolchain
 environment is set up correctly. Hereafter, always launch VS Code for
 cross-compilation after setting up the environment.</p></li>
 <li><div class="line-block">
 <div class="line">In VS Code, select <strong>Open folder…</strong> from the landing page or <strong>File
 &gt;&gt; Open Folder…</strong></div>
 </div>
-<img alt="../_images/image112.png" src="../_images/image112.png" />
+<img alt="../_images/image110.png" src="../_images/image110.png" />
 </li>
 <li><p>Navigate to and select the folder created previously to open it in VS
 Code.</p></li>
@@ -165,6 +167,7 @@ task.</p></li>
 usage of the external utilities such as CMake and Ninja directly from
 Visual Studio Code.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Windows</span>
 <span class="w">  </span><span class="c1">// See https://go.microsoft.com/fwlink/?LinkId=733558</span>
 <span class="w">  </span><span class="c1">// for the documentation about the tasks.json format</span>
 <span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0.0&quot;</span><span class="p">,</span>
@@ -196,6 +199,35 @@ Visual Studio Code.</p>
 <span class="w">      </span><span class="p">},</span>
 <span class="w">      </span><span class="nt">&quot;problemMatcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
 <span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Linux Desktop</span>
+<span class="w">  </span><span class="c1">// See https://go.microsoft.com/fwlink/?LinkId=733558</span>
+<span class="w">  </span><span class="c1">// for the documentation about the tasks.json format</span>
+
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2.0.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CMake Generate Build Files&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shell&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cmake \&quot;Unix Makefiles\&quot; ${workspaceFolder}/build&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;cwd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${workspaceFolder}/build&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;problemMatcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">     </span><span class="p">},</span>
+<span class="w">     </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;label&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CMake Build&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;shell&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cmake --build ${workspaceFolder}/build&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;cwd&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${workspaceFolder}/build&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;problemMatcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$gcc&quot;</span>
+<span class="w">     </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </pre></div>
@@ -237,28 +269,30 @@ reference</a>.</div>
 </li>
 <li><p>In the editor, modify the configuration for the compiler to be used.</p>
 <ol class="arabic">
+<li><p>For NI Linux Real-Time x64 devices, complete the file as follows:</p>
+<ol class="arabic">
 <li><div class="line-block">
-<div class="line">For NI Linux Real-Time x64 devices, complete the file as follows:</div>
+<div class="line"><strong>Windows</strong></div>
 </div>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/x64/sysroots/&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
+<span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/x64/sysroots/&quot;</span>
+<span class="p">},</span>
+<span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">   </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NI Linux Real-Time x64&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;compilerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;compilerArgs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;--sysroot=${compilerSysroots}/core2-64-nilrt-linux/&quot;</span>
+<span class="w">      </span><span class="s2">&quot;--sysroot=${compilerSysroots}/core2-64-nilrt-linux/&quot;</span>
 <span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;includePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;${compilerSysroots}/core2-64-nilrt-linux/usr/include/&quot;</span>
+<span class="w">      </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;${compilerSysroots}/core2-64-nilrt-linux/usr/include/&quot;</span>
 <span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;intelliSenseMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gcc-x64&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">],</span>
+<span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -266,6 +300,34 @@ reference</a>.</div>
 <p class="admonition-title">Note</p>
 <p>For toolchain versions 2023Q1 and later, the <cite>compilerPath</cite> is instead <cite>${compilerSysroots}/x86_64-w64-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe</cite>.</p>
 </div>
+</li>
+<li><div class="line-block">
+<div class="line"><strong>Linux</strong></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/usr/local/oecore-x86_64/sysroots/&quot;</span>
+<span class="p">},</span>
+<span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">   </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NI Linux Real-Time x64&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;compilerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${compilerSysroots}x86_64-nilrtsdk-linux/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;compilerArgs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;--sysroot=${compilerSysroots}/core2-64-nilrt-linux/&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;includePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;${compilerSysroots}core2-64-nilrt-linux/usr/include&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;intelliSenseMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gcc-x64&quot;</span>
+<span class="w">   </span><span class="p">}</span>
+<span class="p">],</span>
+<span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ol>
 </li>
 <li><div class="line-block">
 <div class="line">For NI Linux Real-Time ARM devices, complete the file as follows:</div>
@@ -304,7 +366,7 @@ example, the above configurations could be extended to create a
 configuration file that covers both ARM and x64 NI Linux Real-Time
 devices.</div>
 </div>
-<img alt="../_images/image113.png" src="../_images/image113.png" />
+<img alt="../_images/image112.png" src="../_images/image112.png" />
 </li>
 </ol>
 </section>
@@ -451,10 +513,17 @@ match the output of “uname -p.”</p>
 <li><p>To make setting paths in other parts of the file easier, it’s
 possible to use a variable. This is optional but saves the trouble of
 typing out the full sysroot location each time.</p>
-<ol class="arabic simple">
-<li><p>For NI Linux Real-Time x64 targets:</p></li>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">For NI Linux Real-Time x64 targets:</div>
+</div>
+</li>
 </ol>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">C:/build/&lt;toolchain</span><span class="w"> </span><span class="s">version&gt;/x64/sysroots</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Windows</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">C:/build/&lt;toolchain</span><span class="w"> </span><span class="s">version&gt;/x64/sysroots</span><span class="p">)</span>
+
+<span class="c"># Linux</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">/usr/local/oecore-x86_64/sysroots</span><span class="p">)</span>
 </pre></div>
 </div>
 <ol class="arabic simple" start="2">
@@ -467,11 +536,19 @@ typing out the full sysroot location each time.</p>
 <li><p>Next, configure the compilers for both C and C++. CMake will
 automatically decide which compiler to used based on the files being
 compiled for a given project.</p>
-<ol class="arabic simple">
-<li><p>For NI Linux Real-Time x64 targets:</p></li>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">For NI Linux Real-Time x64 targets:</div>
+</div>
+</li>
 </ol>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Windows</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc.exe</span><span class="p">)</span>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/i686-nilrtsdk-mingw32/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++.exe</span><span class="p">)</span>
+
+<span class="c"># Linux</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/x86_64-nilrtsdk-linux/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-gcc</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/x86_64-nilrtsdk-linux/usr/bin/x86_64-nilrt-linux/x86_64-nilrt-linux-g++</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -492,11 +569,21 @@ compiler flags. Note that the include directories will vary based on
 the version of the compiler toolchain and the gcc version included.
 For example, below is with the 18.0 toolchain which uses 6.3.0, but
 the 2023Q1 toolchain uses 10.3.0.</p>
-<ol class="arabic simple">
-<li><p>For NI Linux Real-Time x64 targets:</p></li>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">For NI Linux Real-Time x64 targets:</div>
+</div>
+</li>
 </ol>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_SYSROOT</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/core2-64-nilrt-linux</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Windows</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_SYSROOT</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/core2-64-nilrt-linux</span><span class="p">)</span>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_STANDARD_INCLUDE_DIRECTORIES</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/core2-64-nilrtlinux/usr/include/c++/6.3.0</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux</span><span class="p">)</span>
+
+<span class="c"># Linux</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_SYSROOT</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/core2-64-nilrt-linux</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_STANDARD_INCLUDE_DIRECTORIES</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/core2-64-nilrt-linux/usr/include/c++/11.3.0</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/core2-64-nilrt-linux/usr/include/c++/11.3.0/x86-64-nilrt-linux</span><span class="p">)</span>
+
+<span class="c"># Common</span>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS</span><span class="w"> </span><span class="s2">&quot;-Wall -fmessage-length=0&quot;</span><span class="p">)</span>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS_DEBUG</span><span class="w"> </span><span class="s2">&quot;-O0 -g3&quot;</span><span class="p">)</span>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_&lt;LANG&gt;_FLAGS_RELEASE</span><span class="w"> </span><span class="s2">&quot;-O3&quot;</span><span class="p">)</span>
@@ -573,7 +660,7 @@ application and walk through building an executable.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h3><a href="../index.html">Table of Contents</a></h3>
@@ -611,7 +698,7 @@ application and walk through building an executable.</p>
             rel="nofollow">Show Document Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -619,13 +706,13 @@ application and walk through building an executable.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -644,7 +731,7 @@ application and walk through building an executable.</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
     </div>
   </body>
 </html>

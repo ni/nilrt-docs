@@ -20,11 +20,8 @@ various third-party open-source software to fill these gaps.
 Required Software
 -----------------
 
-The following tools are used for this series of tutorials. Note that
-these tutorials focus on the Windows version of the C/C++ toolchain but
-that the same could be accomplished on Linux Desktops with minor changes
-(e.g., using GNU Make instead of Ninja). This document briefly covers
-each tool and how to set it up.
+The following tools are used for this series of tutorials. This document
+briefly covers each tool and how to set it up.
 
 -  Visual Studio Code
 
@@ -83,16 +80,12 @@ Installing the IDE
 1. Navigate to the `Visual Studio Code home
    page <https://code.visualstudio.com>`__.
 
-2. Download the IDE installer for your Operating System (e.g., Windows).
+2. Download the IDE installer for your Operating System.
 
-3. Run the setup executable.
+3. Follow the platform-specific guide for `Setting up Visual
+   Studio Code <https://code.visualstudio.com/docs/setup/setup-overview>`__.
 
-4. | Follow the onscreen prompts to install, changing the settings as
-     desired. The defaults will work but other options are available.
-
-   .. image:: media/config_pc/image1.png
-
-5. Once finished, launch Visual Studio Code.
+4. Once finished, launch Visual Studio Code.
 
 Installing Extensions
 ~~~~~~~~~~~~~~~~~~~~~
@@ -117,26 +110,32 @@ Installing Extensions
 Installing the C/C++ Cross Compile Toolchains
 ---------------------------------------------
 
+Option 1: Extract the Toolchain
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 For the toolchain installation, NI recommends using the same directory
 structure for each version of the tools installed on a system. This is
 flexible as long as the cross compile configuration in the IDE points to
 the right location.
 
-1. Navigate to the NI Website and download the Windows toolchains for
-   ARMv7 or x64 depending on the Real-Time device and software versions
-   used on the device. Each toolchain is a compressed collection of the
-   required files rather than an installer. To check which toolchain is
-   necessary for a given device, refer to `Real-Time Controllers and
-   Real-Time Operating System
+1. Navigate to the `ni.com/downloads <https://ni.com/downloads>` page and
+   download the **GNU C & C++ Compile Tools** for ARMv7 or x64, depending
+   on the Real-Time device and software versions used on the device. Each
+   toolchain is a compressed collection of the required files rather than
+   an installer. To check which toolchain is necessary for a given device,
+   refer to `Real-Time Controllers and Real-Time Operating System
    Compatibility. <https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html>`__
 
-.. note:: 
+Windows
+^^^^^^^
+
+.. note::
    The steps below refer to the *toolchain version*.
    Typically, this corresponds to the first version that the toolchain
    supports. For example, the 2018-2019 toolchain is typically referred
    to as the 18.0 version.`
 
-2. Use 7-Zip to extract the contents of the toolchain.
+1. Use 7-Zip to extract the contents of the toolchain.
 
 .. note::
    Extracting the toolchain requires the ability to create
@@ -144,13 +143,13 @@ the right location.
    this requires that the current user have permissions to create
    symbolic links or that 7-Zip be run as an administrator.
 
-3. | If using an ARMv7 target, extract and copy the contents of the
+2. | If using an ARMv7 target, extract and copy the contents of the
      toolchain to *C:\\build\\<toolchain version>\\arm\\*. The resulting file
      structure should look as follows:
 
    .. image:: media/config_pc/image4.png
 
-4. | If using a x64 target, extract and copy the contents of the toolchain
+3. | If using a x64 target, extract and copy the contents of the toolchain
      to *C:\\build\\<toolchain version>\\x64\\*. The resulting file structure
      should look similar to the following:
 
@@ -162,7 +161,7 @@ the right location.
    may be dialogs prompting the replacement of files or warnings. The
    warnings can be safely ignored.
 
-5. | If using x64 toolchain versions 2023Q1 and later, follow these steps
+4. | If using x64 toolchain versions 2023Q1 and later, follow these steps
      to setup **PATH**.
 
    a. | Press **Start+R** to open the **Run** window, then type in
@@ -198,6 +197,73 @@ the right location.
    .. note::
       If multiple toolchain versions are installed on the same system,
       update this PATH to the currently-in-use version.
+
+Linux
+^^^^^
+
+1. Open a terminal and navigate to the directory where the toolchain was
+   downloaded.
+
+2. | Modify the script permissions to enable execution:
+
+   .. code:: bash
+
+      chmod +x <toolchain>.sh
+
+3. | Run the script to extract the toolchain:
+
+   .. code:: bash
+
+      sudo ./<toolchain>.sh
+      # Options:
+      # -y: Automatic yes to all prompts
+      # -d <dir>: Install the SDK to <dir>
+      #  Default dir: /usr/local/oecore-x86_64
+
+4. | Update the PATH environment variable to include the toolchain path, by modifying *~/.profile* or *~/.bashrc*, adding:
+
+   .. code:: bash
+
+      export PATH="$PATH:/usr/local/oecore-x86_64/sysroots/x86_64-nilrtsdk-linux/usr/bin"
+
+      source ~/.profile
+      # or
+      source ~/.bashrc
+
+Option 2: Install the Toolchain (x64 Only)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Windows
+^^^^^^^
+
+1. | Download the **NILRT CrossCompile Toolchain** installer from ni.com/downloads. Refer to **Installing, Updating, Repairing, and Removing NI Software** using Package Manager on ni.com/docs.
+
+   .. note::
+      The **NILRT CrossCompile Toolchain** will install to *C:\\build\\<toolchain version>\\x64*.
+
+Linux
+^^^^^
+
+1. Follow the instructions for `Installing NI Drivers and Software on Linux Desktop <https://www.ni.com/docs/en-US/bundle/ni-platform-on-linux-desktop/page/installing-ni-drivers-and-software-on-linux-desktop.html>`
+
+2. | Use the system package manager to install NI LinuxRT Toolchain.
+
+   .. code:: bash
+
+      sudo apt-get install ni-linuxrt-toolchain
+      sudo zypper install ni-linuxrt-toolchain
+      sudo yum install ni-linuxrt-toolchain
+
+
+3. | Update the PATH environment variable to include the toolchain path, by modifying *~/.profile* or *~/.bashrc*, adding:
+
+   .. code:: bash
+
+      export PATH="$PATH:/usr/local/oecore-x86_64/sysroots/x86_64-nilrtsdk-linux/usr/bin"
+
+      source ~/.profile
+      # or
+      source ~/.bashrc
 
 Other Tools
 -----------
@@ -235,6 +301,9 @@ deployment.
 Putty
 ~~~~~
 
+.. note::
+   Windows only application
+
 `PuTTY <https://putty.org/>`__ is a free and open-source terminal
 emulator, serial console and network file transfer application. In this
 use case, we’ll be using it as an SSH Client to interact with the remote
@@ -252,6 +321,10 @@ generates the files needed for build tools such as Make or Ninja. It
 will allow configurable builds which, with some work, can be made cross
 platform friendly as well.
 
+.. note::
+   On Linux Desktop, you have the option of installing CMAKE via
+   the system package manager. eg: *sudo zypper install cmake*
+
 This series of tutorials were created using CMake 3.14.4. For more
 information on using CMake and version difference, refer to the
 `official CMake documentation <https://cmake.org/documentation/>`__.
@@ -263,6 +336,9 @@ information on using CMake and version difference, refer to the
 
 Ninja
 ~~~~~
+
+.. note::
+   Recommended only for Windows. For Linux Desktop use GNU Make
 
 `Ninja <https://ninja-build.org>`__ is a small build system and one of
 the tools `CMake can generate build files
@@ -315,8 +391,33 @@ the below steps to ensure it’s configured correctly for the tutorials.
 
       .. image:: media/config_pc/image15.png
 
+GNU Make
+~~~~~~~~
+
+.. note::
+   Recommended only for Linux Desktop
+
+1. | Use the system package manager to install GNU Make.
+
+   .. code:: bash
+
+      sudo apt-get install make
+      sudo zypper install make
+      sudo yum install make
+
+2. | Optional: Install development tools that come with your distribution.
+
+   .. code:: bash
+
+      sudo apt-get install build-essential
+      sudo zypper install -t pattern devel_basis
+      sudo yum groupinstall "Development Tools"
+
 7-Zip
 ~~~~~
+
+.. note::
+   Recommended only for Windows
 
 `7-Zip <https://www.7-zip.org/download.html>`__ is a free and open-source
 file-archiver. In this case, use this tool to extract the toolchain

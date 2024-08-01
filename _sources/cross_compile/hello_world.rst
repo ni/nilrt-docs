@@ -47,19 +47,19 @@ create a new project:
 
 2. | Copy the contents of the template project directory into this newly
      created directory.
-   
+
    .. image:: media/hello_world/image1.png
 
 3. Open the folder in Visual Studio Code by doing one of the following:
 
    1. | Right-click anywhere in the folder and select **Open with
         Code**.
-      
+
       .. image:: media/hello_world/image2.png
 
    2. | Launch Visual Studio Code, then select **File >> Open Folder**
         and choose the folder to open.
-      
+
       .. image:: media/hello_world/image3.png
 
 4. | Confirm that the folder opened properly in Visual Studio Code in the
@@ -80,7 +80,7 @@ IntelliSense functionality in Visual Studio Code.
 2. Save the file.
 3. | Complete the file as shown below, noting the IntelliSense
      autocompletion and error highlighting.
-   
+
    .. code:: c
 
       #include <stdio.h>
@@ -154,43 +154,43 @@ information on creating and using tasks.
 2. | Search for and select **Tasks: Run Task** in the Command Palette.
      This will pull up a list of the custom tasks available in the
      project.
-   
+
    .. image:: media/hello_world/image7.png
 
 3. | From the list of custom tasks, select **CMake Generate Build
      Files** or the equivalent task in the project’s *tasks.json* if a
      different name was used.
-   
+
    .. image:: media/hello_world/image8.png
 
 4. | Confirm that the task runs and completes successfully in the
      Terminal window. There should be several new files in the *build/*
      directory of the project including a new *bin/* directory for the
      build output, *build.ninja,* and *CMakeCache.txt*.
-   
+
    .. image:: media/hello_world/image9.png
 
 5. Run the build using Ninja using the task defined in *tasks.json*.
    Open the Command Palette and select **Tasks: Run Task** again.
 
-6. | Select **Ninja** or the name used for the Ninja build task in the
-     project’s *tasks.json* file.
+6. | Select **Ninja** (Windows)/ **CMake Build** (Linux) or the name used
+     for the build task in the project’s *tasks.json* file.
 
    .. image:: media/hello_world/image10.png
 
 7. | Confirm that the build task runs successfully and that there is now
      a *helloWorld* binary in the *<project folder>/build/bin*
      directory.
-   
+
    .. image:: media/hello_world/image11.png
 
 8. | **(Optional)** Add a syntax error to the *helloWorld.c* source file
-     and run the **Ninja** task again. Note that since a problem matcher
-     has been specified in *tasks.json* for the Ninja task, the
-     compilation errors introduced now appear in the **Problems** window
+     and run the **Ninja** / **CMake Build** task again. Note that since a
+     problem matcher has been specified in *tasks.json* for the Ninja task,
+     the compilation errors introduced now appear in the **Problems** window
      within Visual Studio Code alongside any syntax errors flagged by
      the editor. Fix the error and rebuild.
-   
+
    .. image:: media/hello_world/image12.png
 
 Deploying and Running a Compiled Executable
@@ -215,7 +215,7 @@ combination of available options.
       Real-Time devices, this will be enabled by default once a System
       Image is installed. For other Linux Real-Time systems, SSH can be
       enabled in NI MAX in the **System Settings** for the device.
-    
+
     .. image:: media/hello_world/image13.png
 
 2.  Launch FileZilla.
@@ -223,25 +223,25 @@ combination of available options.
 3.  | In FileZilla, connect to the Linux Real-Time target using the IP
       Address or Hostname, admin account, and Port 22. Click
       **Quickconnect** to open the connection.
-    
+
     .. image:: media/hello_world/image14.png
 
 4.  | In the **Remote site**, ensure that the directory location is
       */home/admin*. Create a new directory for the binary deployment
       with a descriptive name (e.g., *helloWorld/*).
-    
+
     .. image:: media/hello_world/image15.png
 
 5.  Open the new directory in the **Remote site** side of FileZilla.
 
 6.  | On the **Local site** side, navigate to the location of the binary
       to be deployed.
-    
+
     .. image:: media/hello_world/image16.png
 
 7.  | Copy the binary by double-clicking it in the local file system
       view. A copy should now appear in the remote file system.
-    
+
     .. image:: media/hello_world/image17.png
 
 8.  | By default, the file will not have any execute permissions defined
@@ -249,7 +249,7 @@ combination of available options.
       the remote copy of the file and selecting the **File
       permissions…** item from the context menu or directly from a shell
       using the **chmod** command.
-    
+
     .. image:: media/hello_world/image18.png
 
 9.  Close FileZilla.
@@ -259,19 +259,19 @@ combination of available options.
 11. | Select a **Connection type** of **SSH** and enter the **Host Name
       (or IP Address)** of the target. Confirm that the **Port** field
       is set to **22** and then click **Open.**
-    
+
     .. image:: media/hello_world/image19.png
 
 12. | Log into the target as the admin user.
-    
+
     .. image:: media/hello_world/image20.png
 
 13. | Change directories to the location of the deployed binary.
-    
+
     .. image:: media/hello_world/image21.png
 
 14. | Run the executable and confirm that it works properly.
-    
+
     .. image:: media/hello_world/image22.png
 
 Debugging Remotely with GDB
@@ -350,54 +350,54 @@ as breakpoints are available.
     open PuTTY and connect via SSH.
 
 2.  | Change directories to the location of the debuggable binary.
-    
+
     .. image:: media/hello_world/image24.png
 
 3.  | Launch gdbserver at the port defined in *launch.json*. This should
       result in gdbserver listening for any connections from a gdb
       connection at that port.
-    
+
     .. image:: media/hello_world/image25.png
 
 4.  In Visual Studio Code, open *helloWorld.c* in the editor.
 
 5.  | Switch to the Debug view by clicking the **Debug** icon.
-    
+
     .. image:: media/hello_world/image26.png
 
 6.  | In the Debug view, ensure that the launch configuration defined is
       selected as the configuration.
-    
+
     .. image:: media/hello_world/image27.png
 
 7.  | In the *helloWorld.c* source file, click to the left of to the
       line that prints the “Hello, World!” message to place a
       breakpoint.
-    
+
     .. image:: media/hello_world/image28.png
 
 8.  | Connect to the remote gdbserver by clicking the **Start
       Debugging** button.
-    
+
     .. image:: media/hello_world/image29.png
 
 9.  | Confirm that the program has stopped at the breakpoint and that
       the SSH session shows a debugger is connected.
-    
+
     .. image:: media/hello_world/image30.png
     .. image:: media/hello_world/image31.png
 
 10. | Use the debugging tools in Visual Studio Code to step through the
       source code and debug the application. Note the output of the
       program in the SSH session while stepping through the application.
-    
+
     .. image:: media/hello_world/image32.png
     .. image:: media/hello_world/image33.png
 
 11. | Complete execution of the program by click the **Continue** button
       or hitting **F5**. Note the exit status of the application in both
       the **Debug Console** in Visual Studio Code and the SSH Session.
-    
+
     .. image:: media/hello_world/image34.png
 
 .. note::

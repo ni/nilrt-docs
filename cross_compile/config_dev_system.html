@@ -1,6 +1,5 @@
 
-
-<!doctype html>
+<!DOCTYPE html>
 
 <html lang="en" data-content_root="../">
   <head>
@@ -9,10 +8,10 @@
 
     <title>Part 2: Configuring a Development System with Visual Studio Code and the NI Linux Real-Time C/C++ Compilers &#8212; nilrt-docs 1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
-    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=658d757c" />
     
     <script src="../_static/documentation_options.js?v=a681ed88"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -24,7 +23,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -52,29 +51,35 @@
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p></li>
-<li><p><a class="reference internal" href="#required-software" id="id2">Required Software</a></p></li>
-<li><p><a class="reference internal" href="#installing-visual-studio-code" id="id3">Installing Visual Studio Code</a></p>
+<li><p><a class="reference internal" href="#introduction" id="id3">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#required-software" id="id4">Required Software</a></p></li>
+<li><p><a class="reference internal" href="#installing-visual-studio-code" id="id5">Installing Visual Studio Code</a></p>
 <ul>
-<li><p><a class="reference internal" href="#installing-the-ide" id="id4">Installing the IDE</a></p></li>
-<li><p><a class="reference internal" href="#installing-extensions" id="id5">Installing Extensions</a></p></li>
+<li><p><a class="reference internal" href="#installing-the-ide" id="id6">Installing the IDE</a></p></li>
+<li><p><a class="reference internal" href="#installing-extensions" id="id7">Installing Extensions</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#installing-the-c-c-cross-compile-toolchains" id="id6">Installing the C/C++ Cross Compile Toolchains</a></p></li>
-<li><p><a class="reference internal" href="#other-tools" id="id7">Other Tools</a></p>
+<li><p><a class="reference internal" href="#installing-the-c-c-cross-compile-toolchains" id="id8">Installing the C/C++ Cross Compile Toolchains</a></p>
 <ul>
-<li><p><a class="reference internal" href="#filezilla" id="id8">FileZilla</a></p></li>
-<li><p><a class="reference internal" href="#putty" id="id9">Putty</a></p></li>
-<li><p><a class="reference internal" href="#cmake" id="id10">CMake</a></p></li>
-<li><p><a class="reference internal" href="#ninja" id="id11">Ninja</a></p></li>
-<li><p><a class="reference internal" href="#zip" id="id12">7-Zip</a></p></li>
+<li><p><a class="reference internal" href="#option-1-extract-the-toolchain" id="id9">Option 1: Extract the Toolchain</a></p></li>
+<li><p><a class="reference internal" href="#option-2-install-the-toolchain-x64-only" id="id10">Option 2: Install the Toolchain (x64 Only)</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#next-steps" id="id13">Next Steps</a></p></li>
+<li><p><a class="reference internal" href="#other-tools" id="id11">Other Tools</a></p>
+<ul>
+<li><p><a class="reference internal" href="#filezilla" id="id12">FileZilla</a></p></li>
+<li><p><a class="reference internal" href="#putty" id="id13">Putty</a></p></li>
+<li><p><a class="reference internal" href="#cmake" id="id14">CMake</a></p></li>
+<li><p><a class="reference internal" href="#ninja" id="id15">Ninja</a></p></li>
+<li><p><a class="reference internal" href="#gnu-make" id="id16">GNU Make</a></p></li>
+<li><p><a class="reference internal" href="#zip" id="id17">7-Zip</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#next-steps" id="id18">Next Steps</a></p></li>
 </ul>
 </nav>
 <section id="introduction">
-<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>The NI Linux Real-Time C/C++ Compiler toolchain provides the components
 needed to cross compile but does not include a specific development
 environment, deployment tool, build tool, or many other tools developers
@@ -84,12 +89,9 @@ computer for use with the NI Linux Real-Time C/C++ compiler including
 various third-party open-source software to fill these gaps.</p>
 </section>
 <section id="required-software">
-<h2><a class="toc-backref" href="#id2" role="doc-backlink">Required Software</a><a class="headerlink" href="#required-software" title="Link to this heading">¶</a></h2>
-<p>The following tools are used for this series of tutorials. Note that
-these tutorials focus on the Windows version of the C/C++ toolchain but
-that the same could be accomplished on Linux Desktops with minor changes
-(e.g., using GNU Make instead of Ninja). This document briefly covers
-each tool and how to set it up.</p>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Required Software</a><a class="headerlink" href="#required-software" title="Link to this heading">¶</a></h2>
+<p>The following tools are used for this series of tutorials. This document
+briefly covers each tool and how to set it up.</p>
 <ul class="simple">
 <li><p>Visual Studio Code</p>
 <ul>
@@ -124,7 +126,7 @@ recommends Visual Studio Code, it’s possible to use other development
 environments or editors as well.</p>
 </section>
 <section id="installing-visual-studio-code">
-<h2><a class="toc-backref" href="#id3" role="doc-backlink">Installing Visual Studio Code</a><a class="headerlink" href="#installing-visual-studio-code" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Installing Visual Studio Code</a><a class="headerlink" href="#installing-visual-studio-code" title="Link to this heading">¶</a></h2>
 <p>Visual Studio Code is a code editor created by Microsoft as a
 lightweight, stream-lined solution for common development operations.
 Thanks to its lightweight and open-source nature, Visual Studio Code
@@ -140,23 +142,18 @@ was created with version 1.38.1 of the environment. Other versions may
 differ in appearance.</p>
 </div>
 <section id="installing-the-ide">
-<h3><a class="toc-backref" href="#id4" role="doc-backlink">Installing the IDE</a><a class="headerlink" href="#installing-the-ide" title="Link to this heading">¶</a></h3>
-<ol class="arabic">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Installing the IDE</a><a class="headerlink" href="#installing-the-ide" title="Link to this heading">¶</a></h3>
+<ol class="arabic simple">
 <li><p>Navigate to the <a class="reference external" href="https://code.visualstudio.com">Visual Studio Code home
 page</a>.</p></li>
-<li><p>Download the IDE installer for your Operating System (e.g., Windows).</p></li>
-<li><p>Run the setup executable.</p></li>
-<li><div class="line-block">
-<div class="line">Follow the onscreen prompts to install, changing the settings as
-desired. The defaults will work but other options are available.</div>
-</div>
-<img alt="../_images/image110.png" src="../_images/image110.png" />
-</li>
+<li><p>Download the IDE installer for your Operating System.</p></li>
+<li><p>Follow the platform-specific guide for <a class="reference external" href="https://code.visualstudio.com/docs/setup/setup-overview">Setting up Visual
+Studio Code</a>.</p></li>
 <li><p>Once finished, launch Visual Studio Code.</p></li>
 </ol>
 </section>
 <section id="installing-extensions">
-<h3><a class="toc-backref" href="#id5" role="doc-backlink">Installing Extensions</a><a class="headerlink" href="#installing-extensions" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Installing Extensions</a><a class="headerlink" href="#installing-extensions" title="Link to this heading">¶</a></h3>
 <ol class="arabic">
 <li><div class="line-block">
 <div class="line">In Visual Studio Code, open the <strong>Extensions</strong> pane by clicking the
@@ -185,20 +182,24 @@ support for C/C++</div>
 </section>
 </section>
 <section id="installing-the-c-c-cross-compile-toolchains">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">Installing the C/C++ Cross Compile Toolchains</a><a class="headerlink" href="#installing-the-c-c-cross-compile-toolchains" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Installing the C/C++ Cross Compile Toolchains</a><a class="headerlink" href="#installing-the-c-c-cross-compile-toolchains" title="Link to this heading">¶</a></h2>
+<section id="option-1-extract-the-toolchain">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Option 1: Extract the Toolchain</a><a class="headerlink" href="#option-1-extract-the-toolchain" title="Link to this heading">¶</a></h3>
 <p>For the toolchain installation, NI recommends using the same directory
 structure for each version of the tools installed on a system. This is
 flexible as long as the cross compile configuration in the IDE points to
 the right location.</p>
 <ol class="arabic simple">
-<li><p>Navigate to the NI Website and download the Windows toolchains for
-ARMv7 or x64 depending on the Real-Time device and software versions
-used on the device. Each toolchain is a compressed collection of the
-required files rather than an installer. To check which toolchain is
-necessary for a given device, refer to <a class="reference external" href="https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html">Real-Time Controllers and
-Real-Time Operating System
+<li><p>Navigate to the <cite>ni.com/downloads &lt;https://ni.com/downloads&gt;</cite> page and
+download the <strong>GNU C &amp; C++ Compile Tools</strong> for ARMv7 or x64, depending
+on the Real-Time device and software versions used on the device. Each
+toolchain is a compressed collection of the required files rather than
+an installer. To check which toolchain is necessary for a given device,
+refer to <a class="reference external" href="https://www.ni.com/en-us/support/documentation/compatibility/17/real-time-controllers-and-real-time-operating-system-compatibili.html">Real-Time Controllers and Real-Time Operating System
 Compatibility.</a></p></li>
 </ol>
+<section id="windows">
+<h4>Windows<a class="headerlink" href="#windows" title="Link to this heading">¶</a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The steps below refer to the <em>toolchain version</em>.
@@ -206,7 +207,7 @@ Typically, this corresponds to the first version that the toolchain
 supports. For example, the 2018-2019 toolchain is typically referred
 to as the 18.0 version.`</p>
 </div>
-<ol class="arabic simple" start="2">
+<ol class="arabic simple">
 <li><p>Use 7-Zip to extract the contents of the toolchain.</p></li>
 </ol>
 <div class="admonition note">
@@ -216,7 +217,7 @@ symbolic links or the toolchain will not work properly. On Windows,
 this requires that the current user have permissions to create
 symbolic links or that 7-Zip be run as an administrator.</p>
 </div>
-<ol class="arabic" start="3">
+<ol class="arabic" start="2">
 <li><div class="line-block">
 <div class="line">If using an ARMv7 target, extract and copy the contents of the
 toolchain to <em>C:\build\&lt;toolchain version&gt;\arm\</em>. The resulting file
@@ -239,7 +240,7 @@ unzip, and once to unpack the tar file. During these extractions there
 may be dialogs prompting the replacement of files or warnings. The
 warnings can be safely ignored.</p>
 </div>
-<ol class="arabic" start="5">
+<ol class="arabic" start="4">
 <li><div class="line-block">
 <div class="line">If using x64 toolchain versions 2023Q1 and later, follow these steps
 to setup <strong>PATH</strong>.</div>
@@ -290,8 +291,88 @@ update this PATH to the currently-in-use version.</p>
 </li>
 </ol>
 </section>
+<section id="linux">
+<h4>Linux<a class="headerlink" href="#linux" title="Link to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Open a terminal and navigate to the directory where the toolchain was
+downloaded.</p></li>
+<li><div class="line-block">
+<div class="line">Modify the script permissions to enable execution:</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>&lt;toolchain&gt;.sh
+</pre></div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line">Run the script to extract the toolchain:</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>./&lt;toolchain&gt;.sh
+<span class="c1"># Options:</span>
+<span class="c1"># -y: Automatic yes to all prompts</span>
+<span class="c1"># -d &lt;dir&gt;: Install the SDK to &lt;dir&gt;</span>
+<span class="c1">#  Default dir: /usr/local/oecore-x86_64</span>
+</pre></div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line">Update the PATH environment variable to include the toolchain path, by modifying <em>~/.profile</em> or <em>~/.bashrc</em>, adding:</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:/usr/local/oecore-x86_64/sysroots/x86_64-nilrtsdk-linux/usr/bin&quot;</span>
+
+<span class="nb">source</span><span class="w"> </span>~/.profile
+<span class="c1"># or</span>
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<section id="option-2-install-the-toolchain-x64-only">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Option 2: Install the Toolchain (x64 Only)</a><a class="headerlink" href="#option-2-install-the-toolchain-x64-only" title="Link to this heading">¶</a></h3>
+<section id="id1">
+<h4>Windows<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Download the <strong>NILRT CrossCompile Toolchain</strong> installer from ni.com/downloads. Refer to <strong>Installing, Updating, Repairing, and Removing NI Software</strong> using Package Manager on ni.com/docs.</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <strong>NILRT CrossCompile Toolchain</strong> will install to <em>C:\build\&lt;toolchain version&gt;\x64</em>.</p>
+</div>
+</li>
+</ol>
+</section>
+<section id="id2">
+<h4>Linux<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h4>
+<ol class="arabic">
+<li><p>Follow the instructions for <cite>Installing NI Drivers and Software on Linux Desktop &lt;https://www.ni.com/docs/en-US/bundle/ni-platform-on-linux-desktop/page/installing-ni-drivers-and-software-on-linux-desktop.html&gt;</cite></p></li>
+<li><div class="line-block">
+<div class="line">Use the system package manager to install NI LinuxRT Toolchain.</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>ni-linuxrt-toolchain
+sudo<span class="w"> </span>zypper<span class="w"> </span>install<span class="w"> </span>ni-linuxrt-toolchain
+sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>ni-linuxrt-toolchain
+</pre></div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line">Update the PATH environment variable to include the toolchain path, by modifying <em>~/.profile</em> or <em>~/.bashrc</em>, adding:</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:/usr/local/oecore-x86_64/sysroots/x86_64-nilrtsdk-linux/usr/bin&quot;</span>
+
+<span class="nb">source</span><span class="w"> </span>~/.profile
+<span class="c1"># or</span>
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+</section>
 <section id="other-tools">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Other Tools</a><a class="headerlink" href="#other-tools" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Other Tools</a><a class="headerlink" href="#other-tools" title="Link to this heading">¶</a></h2>
 <p>Since Visual Studio Code is meant to be flexible and is not tailored to
 a specific use case, much of the build and deployment process is
 decoupled from the IDE itself. This has the advantage that more advanced
@@ -303,7 +384,7 @@ through Tasks in Visual Studio Code or separately from the environment
 but that various extensions may help integrate or better fulfil usage
 requirements.</p>
 <section id="filezilla">
-<h3><a class="toc-backref" href="#id8" role="doc-backlink">FileZilla</a><a class="headerlink" href="#filezilla" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">FileZilla</a><a class="headerlink" href="#filezilla" title="Link to this heading">¶</a></h3>
 <p><a class="reference external" href="https://filezilla-project.org/">FileZilla</a> is a free, cross-platform
 FTP application, consisting of FileZilla Client and FileZilla Server.
 FileZilla Client will be used as a sFTP client to transfer files to and
@@ -323,7 +404,11 @@ on its use.</p>
 </div>
 </section>
 <section id="putty">
-<h3><a class="toc-backref" href="#id9" role="doc-backlink">Putty</a><a class="headerlink" href="#putty" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Putty</a><a class="headerlink" href="#putty" title="Link to this heading">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Windows only application</p>
+</div>
 <p><a class="reference external" href="https://putty.org/">PuTTY</a> is a free and open-source terminal
 emulator, serial console and network file transfer application. In this
 use case, we’ll be using it as an SSH Client to interact with the remote
@@ -331,13 +416,18 @@ system.</p>
 <img alt="../_images/image71.png" src="../_images/image71.png" />
 </section>
 <section id="cmake">
-<h3><a class="toc-backref" href="#id10" role="doc-backlink">CMake</a><a class="headerlink" href="#cmake" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">CMake</a><a class="headerlink" href="#cmake" title="Link to this heading">¶</a></h3>
 <p><a class="reference external" href="https://cmake.org/download">CMake</a> is a cross-platform free and
 open-source software tool for managing the build process of software
 using a compiler-independent method. Essentially, CMake is a tool that
 generates the files needed for build tools such as Make or Ninja. It
 will allow configurable builds which, with some work, can be made cross
 platform friendly as well.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On Linux Desktop, you have the option of installing CMAKE via
+the system package manager. eg: <em>sudo zypper install cmake</em></p>
+</div>
 <p>This series of tutorials were created using CMake 3.14.4. For more
 information on using CMake and version difference, refer to the
 <a class="reference external" href="https://cmake.org/documentation/">official CMake documentation</a>.</p>
@@ -348,7 +438,11 @@ ease of use:</div>
 <img alt="../_images/image82.png" src="../_images/image82.png" />
 </section>
 <section id="ninja">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Ninja</a><a class="headerlink" href="#ninja" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Ninja</a><a class="headerlink" href="#ninja" title="Link to this heading">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Recommended only for Windows. For Linux Desktop use GNU Make</p>
+</div>
 <p><a class="reference external" href="https://ninja-build.org">Ninja</a> is a small build system and one of
 the tools <a class="reference external" href="https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html">CMake can generate build files
 for</a>.
@@ -413,8 +507,39 @@ running <em>ninja –version</em>. This</div>
 </li>
 </ol>
 </section>
+<section id="gnu-make">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">GNU Make</a><a class="headerlink" href="#gnu-make" title="Link to this heading">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Recommended only for Linux Desktop</p>
+</div>
+<ol class="arabic">
+<li><div class="line-block">
+<div class="line">Use the system package manager to install GNU Make.</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>make
+sudo<span class="w"> </span>zypper<span class="w"> </span>install<span class="w"> </span>make
+sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>make
+</pre></div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line">Optional: Install development tools that come with your distribution.</div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>build-essential
+sudo<span class="w"> </span>zypper<span class="w"> </span>install<span class="w"> </span>-t<span class="w"> </span>pattern<span class="w"> </span>devel_basis
+sudo<span class="w"> </span>yum<span class="w"> </span>groupinstall<span class="w"> </span><span class="s2">&quot;Development Tools&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
 <section id="zip">
-<h3><a class="toc-backref" href="#id12" role="doc-backlink">7-Zip</a><a class="headerlink" href="#zip" title="Link to this heading">¶</a></h3>
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">7-Zip</a><a class="headerlink" href="#zip" title="Link to this heading">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Recommended only for Windows</p>
+</div>
 <p><a class="reference external" href="https://www.7-zip.org/download.html">7-Zip</a> is a free and open-source
 file-archiver. In this case, use this tool to extract the toolchain
 downloaded from ni.com.</p>
@@ -422,7 +547,7 @@ downloaded from ni.com.</p>
 </section>
 </section>
 <section id="next-steps">
-<h2><a class="toc-backref" href="#id13" role="doc-backlink">Next Steps</a><a class="headerlink" href="#next-steps" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">Next Steps</a><a class="headerlink" href="#next-steps" title="Link to this heading">¶</a></h2>
 <p>With the software installed, it’s time to configure Visual Studio Code
 for a project using the NI Linux Real-Time compilers.</p>
 </section>
@@ -433,7 +558,7 @@ for a project using the NI Linux Real-Time compilers.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h3><a href="../index.html">Table of Contents</a></h3>
@@ -446,12 +571,25 @@ for a project using the NI Linux Real-Time compilers.</p>
 <li><a class="reference internal" href="#installing-extensions">Installing Extensions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#installing-the-c-c-cross-compile-toolchains">Installing the C/C++ Cross Compile Toolchains</a></li>
+<li><a class="reference internal" href="#installing-the-c-c-cross-compile-toolchains">Installing the C/C++ Cross Compile Toolchains</a><ul>
+<li><a class="reference internal" href="#option-1-extract-the-toolchain">Option 1: Extract the Toolchain</a><ul>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+<li><a class="reference internal" href="#linux">Linux</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#option-2-install-the-toolchain-x64-only">Option 2: Install the Toolchain (x64 Only)</a><ul>
+<li><a class="reference internal" href="#id1">Windows</a></li>
+<li><a class="reference internal" href="#id2">Linux</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a class="reference internal" href="#other-tools">Other Tools</a><ul>
 <li><a class="reference internal" href="#filezilla">FileZilla</a></li>
 <li><a class="reference internal" href="#putty">Putty</a></li>
 <li><a class="reference internal" href="#cmake">CMake</a></li>
 <li><a class="reference internal" href="#ninja">Ninja</a></li>
+<li><a class="reference internal" href="#gnu-make">GNU Make</a></li>
 <li><a class="reference internal" href="#zip">7-Zip</a></li>
 </ul>
 </li>
@@ -480,7 +618,7 @@ for a project using the NI Linux Real-Time compilers.</p>
             rel="nofollow">Show Document Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -488,13 +626,13 @@ for a project using the NI Linux Real-Time compilers.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -513,7 +651,7 @@ for a project using the NI Linux Real-Time compilers.</p>
     </div>
     <div class="footer" role="contentinfo">
     &#169; Copyright NI.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
     </div>
   </body>
 </html>

@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>USB-Based System Replication &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=658d757c" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NI LinuxRT Security Response Policy" href="../policies/security_response_policy.html" />
+    <link rel="prev" title="Obtaining Kernel Logs from a Prior System Crash Via pstore" href="../troubleshooting/pstore.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../troubleshooting/pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">USB-Based System Replication</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="usb-based-system-replication">
+<h1>USB-Based System Replication<a class="headerlink" href="#usb-based-system-replication" title="Link to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#preparing-a-usb-drive" id="id2">Preparing a USB Drive</a></p></li>
+<li><p><a class="reference internal" href="#getting-an-image" id="id3">Getting an Image</a></p></li>
+<li><p><a class="reference internal" href="#setting-an-image" id="id4">Setting an Image</a></p></li>
+<li><p><a class="reference internal" href="#using-an-answers-file" id="id5">Using an Answers File</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>The <cite>USB-based system replication</cite> feature allows saving the full disk image of an x64
+based NI Linux RT capable target and applying it to same or different target(s) of the
+same model.</p>
+<p>This feature will replicate all disk contents, including safemode, runmode, drivers,
+other installed software, settings, and user files.</p>
+<p>Some settings such as Hostname, SSH keys, Salt Minion ID, that uniquely identify a
+target on a network are not replicated to prevent conflicts on the network.</p>
+</section>
+<section id="preparing-a-usb-drive">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Preparing a USB Drive</a><a class="headerlink" href="#preparing-a-usb-drive" title="Link to this heading">¶</a></h2>
+<p>Complete the following steps to prepare a USB drive. These steps are meant to be
+performed on a Windows system with the NI Linux RT System Image installed.</p>
+<p>Format a USB drive with <strong>FAT32</strong> File System and set <strong>NIRECOVERY</strong> as Volume label.</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../_images/format_usb.png"><img alt="../_images/format_usb.png" src="../_images/format_usb.png" style="width: 400px;" />
+</a>
+</div></blockquote>
+<p>Mount <cite>nilrt-recovery-media-x64.iso</cite> found under
+<cite>C:\Program Files (x86)\National Instruments\RT Images\Utilities\Linux RT Safemode\&lt;version 24.8 and above&gt;</cite>
+and copy the contents to the USB drive.
+Do <strong>not</strong> write the entire iso file to the USB drive.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only <cite>nilrt-recovery-media-x64.iso</cite> included with version 24.8 and above of
+NI Linux RT System Image can be used to create a USB drive capable of system replication.</p>
+</div>
+</section>
+<section id="getting-an-image">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Getting an Image</a><a class="headerlink" href="#getting-an-image" title="Link to this heading">¶</a></h2>
+<p>The USB drive prepared above can be used to make a system image of an x64 NI Linux RT target.</p>
+<p>To make a system image, connect the USB drive to the NI Linux RT target, reboot the target,
+and boot to the USB drive.
+The boot order might need to be manually changed in order to boot from the USB drive.</p>
+<p>When the following menu appears, select the <strong>Get Image</strong> menu option.</p>
+<blockquote>
+<div><img alt="../_images/boot_menu.png" src="../_images/boot_menu.png" />
+</div></blockquote>
+<p>Enter a name for the image (make sure there are no spaces or special characters
+except <cite>-</cite>) or accept the provided name.</p>
+<blockquote>
+<div><img alt="../_images/get_image_name.png" src="../_images/get_image_name.png" />
+</div></blockquote>
+<p>Getting the image can take a few minutes depending on the amount of user data and
+write speed of the USB drive. The progress bar will keep moving to show progress.</p>
+<blockquote>
+<div><img alt="../_images/get_image_progress.png" src="../_images/get_image_progress.png" />
+</div></blockquote>
+<p>The image will be saved to the USB drive under <cite>Images/&lt;NameOfSystemImage&gt;</cite>.</p>
+<p>The tool will estimate if the available space on the USB drive will be sufficient to
+store the contents of all partitions.
+If there is insufficient space an error will be displayed.</p>
+<p>When the operation is complete, the following prompt will be shown.
+The USB drive can then be removed. Type <cite>reboot</cite>, and press Enter to reboot the target.</p>
+<blockquote>
+<div><img alt="../_images/get_image_done.png" src="../_images/get_image_done.png" />
+</div></blockquote>
+</section>
+<section id="setting-an-image">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Setting an Image</a><a class="headerlink" href="#setting-an-image" title="Link to this heading">¶</a></h2>
+<p>The USB drive prepared above can be used to apply a system image to an x64 NI Linux RT target.</p>
+<p>To apply a system image, connect the USB drive to the NI Linux RT target, reboot the target,
+and boot to the USB drive.
+The boot order might need to be manually changed in order to boot from the USB drive.</p>
+<p>When the menu appears, select the <strong>Set Image</strong> menu option.</p>
+<p>All images that are available on the USB drive and are compatible with the target
+will be listed. Select one by entering the corresponding number and press Enter.</p>
+<blockquote>
+<div><img alt="../_images/set_image_name.png" src="../_images/set_image_name.png" />
+</div></blockquote>
+<p>Confirm to begin applying the specified image by entering <cite>y</cite>.</p>
+<blockquote>
+<div><img alt="../_images/set_image_confirmation.png" src="../_images/set_image_confirmation.png" />
+</div></blockquote>
+<p>A progress bar will keep moving to show progress.</p>
+<blockquote>
+<div><img alt="../_images/set_image_progress.png" src="../_images/set_image_progress.png" />
+</div></blockquote>
+<p>When the operation is complete, the following prompt will be shown.
+The USB drive can then be removed. Type <cite>reboot</cite>, and press Enter to reboot the target.</p>
+<blockquote>
+<div><img alt="../_images/set_image_done.png" src="../_images/set_image_done.png" />
+</div></blockquote>
+</section>
+<section id="using-an-answers-file">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Using an Answers File</a><a class="headerlink" href="#using-an-answers-file" title="Link to this heading">¶</a></h2>
+<p>A file named <cite>ni_provisioning.answers</cite> can be placed in the root directory of the
+USB drive to disable interactive user prompts.
+Each prompt has a corresponding variable that can be set to the desired value.</p>
+<p>For example, creating an <cite>ni_provisioning.answers</cite> file in the root directory of
+the USB drive with the following contents will disable all user prompts for
+<cite>Get Image</cite> and <cite>Set Image</cite> operations.</p>
+<p>When “Get Image” is selected in the boot menu, the saved image will be named
+“NameOfSystemImage” and the target will be powered off after the image is made.</p>
+<p>When “Set Image” is selected in the boot menu, an image on the USB drive named
+“NameOfSystemImage” will be selected, the confirmation to repartition prompt will
+be confirmed, and the target will be powered off after the image is applied.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#NI_PROVISIONING_ANSWERS_V1
+
+# Setting this to &quot;y&quot; will disable the prompt asking for confirmation to repartition. Not applicable for the &quot;Get Image&quot; operation.
+PROVISION_REPARTITION_TARGET=&quot;y&quot;
+# System Image name used for &quot;Get Image&quot; and &quot;Set Image&quot; operations. No spaces, no special characters except &#39;-&#39;.
+PROVISION_SYSTEMIMAGE_NAME=&quot;NameOfSystemImage&quot;
+# Controls what action is performed after the &quot;Get Image&quot; or &quot;Set Image&quot; operation is complete. Accepted values are &quot;reboot&quot;, &quot;poweroff&quot;, and &quot;shell&quot;.
+PROVISION_REBOOT_METHOD=&quot;poweroff&quot;
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">USB-Based System Replication</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#preparing-a-usb-drive">Preparing a USB Drive</a></li>
+<li><a class="reference internal" href="#getting-an-image">Getting an Image</a></li>
+<li><a class="reference internal" href="#setting-an-image">Setting an Image</a></li>
+<li><a class="reference internal" href="#using-an-answers-file">Using an Answers File</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../troubleshooting/pstore.html"
+                          title="previous chapter">Obtaining Kernel Logs from a Prior System Crash Via pstore</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../policies/security_response_policy.html"
+                          title="next chapter">NI LinuxRT Security Response Policy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/system_replication/system_replication.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../troubleshooting/pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">USB-Based System Replication</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    </div>
+  </body>
+</html>

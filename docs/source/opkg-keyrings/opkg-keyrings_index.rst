@@ -20,10 +20,10 @@ packages can be verified and installed correctly.
 This document provides instructions on how to upgrade the `opkg-keyrings`
 package on NI Linux Real-Time systems.
 
-How to upgrade the keyring via the command line, MAX, or SystemLink:
-====================================================================
-Command Line:
--------------
+How to upgrade the keyring via the command line, MAX, or SystemLink
+===================================================================
+Command Line
+------------
 Note: The following instructions only work when the target has the base system image installed and is booted
 into runmode, and is connected to the internet.
 
@@ -33,28 +33,28 @@ Connect to the RT target via SSH and run the following command (or directly use 
 
     opkg update && opkg upgrade `opkg-keyrings`
 
-MAX:
-----
+MAX
+---
 Note: The following instructions only work when the target has the base system image installed and is booted
 into runmode, and is connected to the internet.
 
-Adding the RT target to MAX:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Adding the RT target to MAX
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Right-click on "Remote Systems" and then "Create New ...".
 Select "Remote Device (not on the local subnet)". Enter the target's 
 host name or IP address, and proceed to "Finish".
 
-Upgrading the `opkg-keyrings` package:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgrading the `opkg-keyrings` package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Expand the target and click on the option to "Add/Remove software" on the 
 target. On the Upgrade tab, there should be an option to upgrade 
 `opkg-keyrings`. Upgrading this package should get the 
 new signing keys installed to the target and added to the keyring.
 
-SystemLink:
------------
-Adding the RT target to SystemLink:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SystemLink
+----------
+Adding the RT target to SystemLink
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Note: The following instructions assume that a SystemLink server is already set up.
 
 Once the RT target has been added to MAX, it can be added to a SystemLink server by
@@ -64,8 +64,8 @@ SystemLink server's IP address or hostname.
 Launch and log in to the SystemLink web application. Click Systems
 and then click Pending systems. Select the desired target to connect.
 
-Upgrading the `opkg-keyrings` package:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Upgrading the `opkg-keyrings` package
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This requires creating a State in SystemLink and applying it to the target.
 
 Create a State by navigating to States under System Management. Click on Create State.
@@ -82,30 +82,30 @@ and under the States tab, click on the State created above and click Apply.
 
 Purpose of the `opkg-keyrings` package
 --------------------------------------
-#. Store Trusted Signing Keys:
+#. Store Trusted Signing Keys
 
     * The package includes the public keys required to verify package or feed signatures.
     * These keys are placed in specific directories, such as /usr/share/opkg/keyrings/.
 
-#. Ensure Package Integrity:
+#. Ensure Package Integrity
 
     * During installation, opkg checks package signatures using these keys.
     * This prevents unauthorized or tampered packages from being installed.
 
-#. Key Management:
+#. Key Management
 
     * The `opkg-keyrings` package is updated when signing keys are rotated (e.g., when
         old keys are retired, and new ones are issued).
     * Upgrading this package ensures the keyring remains current and secure.
 
-Opkg Signing:
-=============
+Opkg Signing
+============
 The package feeds are signed with a private key and the corresponding
 public key is included in the `opkg-keyrings` package. When the feed is
 updated, opkg checks the feed signature against the public key to
 verify its authenticity and integrity.
 
-#. Generate and Sign the Package Index:
+#. Generate and Sign the Package Index
 
     * A pair of private and public keys is created using a tool like gpg.
     * The private key is used to sign the package index (package index, 
@@ -114,12 +114,12 @@ verify its authenticity and integrity.
         *Packages* file.
     * The public key is distributed to the target systems.
 
-#. Verify Signature When a Feed is Updated:
+#. Verify Signature When a Feed is Updated
 
     * When opkg updates a package feed, it verifies the signature of the *Packages* file
       using the public key.
 
-#. Trust Management:
+#. Trust Management
 
     * The public key is preloaded or added to the system's trusted keyring, such as
       opkg-key (see :ref:`How keys are added to the `opkg-keyrings`` for more details

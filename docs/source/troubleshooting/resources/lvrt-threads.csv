@@ -1,0 +1,7 @@
+Thread Name,Description
+MainAppThread,A thread that handles front panel communication.
+LV_Occurrence,A thread that handles LV Occurances (e.g. software interrupts).
+LV_Socket_Mon,A thread that handles socket (TCP and UDP) traffic.
+LV_Countdown,A thread that controls scheduling of UI thread.
+LV_ESys2_Thr*,Worker threads used to run parts of LabVIEW diagrams.
+*Timed Loop*,A thread that handles timed loop whose name is user defined by Timed Loop's Input Node `Structure Name` field.

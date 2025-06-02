@@ -20,6 +20,7 @@ NI Linux Real-Time Documentation and Tutorials
    docker/docker
    troubleshooting/troubleshooting_index
    system_replication/system_replication
+   eapol/eapol
 
 .. toctree::
     :maxdepth: 2

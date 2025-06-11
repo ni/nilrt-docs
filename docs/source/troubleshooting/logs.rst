@@ -95,19 +95,23 @@ The following list outlines some of the common logs and what methods are recomme
 Note that when writing to these logs that it’s important to be aware of how they behave.
 For example, by default the ``errlog.txt`` file will persist across reboots but be rotated by ``logrotate`` very quickly due to file size while the ``messages`` log will not persist across reboots but will be rotated less often.
 
-Enabling Persistent Logs
-========================
-By default, logs are stored in ``/var/log`` which is a symlink to ``/var/volatile/log``.
+Persistent Logs
+===============
+
+Persistent logs setting controls whether contents of ``/var/log`` persist across device reboots or not.
+
+NILRT >= 11.2
+-------------
+
+On NILRT releases >= 11.2, persistent logs are enabled by default. i.e., the contents of ``/var/log`` persist across device reboots.
+
+To disable persistent logs (i.e., use volatile logs), run ``nirtcfg --set section=SystemSettings,token=PersistentLogs.enabled,value="False"`` on command-line and reboot the NI Linux Real-Time system.
+
+NILRT <= 11.1
+-------------
+On older NILRT releases (NILRT <= 11.1), ``/var/log`` is a symlink to ``/var/volatile/log``.
 The ``/var/volatile`` location is a RAM-based tmpfs filesystem whose contents are lost on each reboot.
-This section explains how to make those logs persistent.
-
-**Warning:** Performing the steps in this section can impact system performance.
-Normally these logs are stored in RAM, which is much quicker to read and write.
-By moving these logs to persistent storage, the CPU and disk performance may be impacted.
-Additionally, the frequent logging to disk may impact the disk's lifetime. 
-
-Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the ``/var/log`` location.
-Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto distributions that NI Linux Real-Time is based on.
+This section explains how to make ``/var/log`` contents persistent.
 
 .. note::
    These settings will only persist until a format or software upgrade is made.
@@ -119,7 +123,7 @@ To modify these settings for the ``/var/log`` location:
    To find the version of NILRT installed on the target, run ``cat /etc/os-release`` at the command-line.
 
 NILRT >= 9.1
-------------
+~~~~~~~~~~~~
 
 1. At the command-line on the target, run ``nirtcfg --set section=SystemSettings,token=PersistentLogs.enabled,value="True"``.
 
@@ -132,7 +136,7 @@ NILRT >= 9.1
 To revert to using volatile logs, follow the same steps using ``value="False"`` in the ``nirtcfg`` command.
 
 NILRT < 9.1
------------
+~~~~~~~~~~~~
 
 1. Modify ``/etc/default/volatiles/00_core`` as follows via either a console, sFTP, or your preferred method for editing configuration files on Linux Real-Time systems.
 

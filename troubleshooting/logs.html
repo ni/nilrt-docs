@@ -228,17 +228,19 @@ The following list outlines some of the common logs and what methods are recomme
 <p>Note that when writing to these logs that it’s important to be aware of how they behave.
 For example, by default the <code class="docutils literal notranslate"><span class="pre">errlog.txt</span></code> file will persist across reboots but be rotated by <code class="docutils literal notranslate"><span class="pre">logrotate</span></code> very quickly due to file size while the <code class="docutils literal notranslate"><span class="pre">messages</span></code> log will not persist across reboots but will be rotated less often.</p>
 </section>
-<section id="enabling-persistent-logs">
-<h2>Enabling Persistent Logs<a class="headerlink" href="#enabling-persistent-logs" title="Link to this heading">¶</a></h2>
-<p>By default, logs are stored in <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> which is a symlink to <code class="docutils literal notranslate"><span class="pre">/var/volatile/log</span></code>.
+<section id="persistent-logs">
+<h2>Persistent Logs<a class="headerlink" href="#persistent-logs" title="Link to this heading">¶</a></h2>
+<p>Persistent logs setting controls whether contents of <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> persist across device reboots or not.</p>
+<section id="nilrt-11-2">
+<h3>NILRT &gt;= 11.2<a class="headerlink" href="#nilrt-11-2" title="Link to this heading">¶</a></h3>
+<p>On NILRT releases &gt;= 11.2, persistent logs are enabled by default. i.e., the contents of <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> persist across device reboots.</p>
+<p>To disable persistent logs (i.e., use volatile logs), run <code class="docutils literal notranslate"><span class="pre">nirtcfg</span> <span class="pre">--set</span> <span class="pre">section=SystemSettings,token=PersistentLogs.enabled,value=&quot;False&quot;</span></code> on command-line and reboot the NI Linux Real-Time system.</p>
+</section>
+<section id="nilrt-11-1">
+<h3>NILRT &lt;= 11.1<a class="headerlink" href="#nilrt-11-1" title="Link to this heading">¶</a></h3>
+<p>On older NILRT releases (NILRT &lt;= 11.1), <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> is a symlink to <code class="docutils literal notranslate"><span class="pre">/var/volatile/log</span></code>.
 The <code class="docutils literal notranslate"><span class="pre">/var/volatile</span></code> location is a RAM-based tmpfs filesystem whose contents are lost on each reboot.
-This section explains how to make those logs persistent.</p>
-<p><strong>Warning:</strong> Performing the steps in this section can impact system performance.
-Normally these logs are stored in RAM, which is much quicker to read and write.
-By moving these logs to persistent storage, the CPU and disk performance may be impacted.
-Additionally, the frequent logging to disk may impact the disk’s lifetime.</p>
-<p>Configuring the system such that the logs persist after a reboot requires modifying the behavior used to populate system volatiles for the <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> location.
-Note that the default behavior is inherited from the upstream OpenEmbedded/Yocto distributions that NI Linux Real-Time is based on.</p>
+This section explains how to make <code class="docutils literal notranslate"><span class="pre">/var/log</span></code> contents persistent.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>These settings will only persist until a format or software upgrade is made.
@@ -250,7 +252,7 @@ Once that happens, the Linux Real-Time settings may revert to their defaults for
 <p>To find the version of NILRT installed on the target, run <code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/etc/os-release</span></code> at the command-line.</p>
 </div>
 <section id="nilrt-9-1">
-<h3>NILRT &gt;= 9.1<a class="headerlink" href="#nilrt-9-1" title="Link to this heading">¶</a></h3>
+<h4>NILRT &gt;= 9.1<a class="headerlink" href="#nilrt-9-1" title="Link to this heading">¶</a></h4>
 <ol class="arabic simple">
 <li><p>At the command-line on the target, run <code class="docutils literal notranslate"><span class="pre">nirtcfg</span> <span class="pre">--set</span> <span class="pre">section=SystemSettings,token=PersistentLogs.enabled,value=&quot;True&quot;</span></code>.</p></li>
 <li><p><strong>NILRT 9.1 only:</strong> An additional step is required on NI Linux Real-Time 9.1.
@@ -261,7 +263,7 @@ At the command-line on the target, run <code class="docutils literal notranslate
 <p>To revert to using volatile logs, follow the same steps using <code class="docutils literal notranslate"><span class="pre">value=&quot;False&quot;</span></code> in the <code class="docutils literal notranslate"><span class="pre">nirtcfg</span></code> command.</p>
 </section>
 <section id="id1">
-<h3>NILRT &lt; 9.1<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<h4>NILRT &lt; 9.1<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
 <ol class="arabic">
 <li><p>Modify <code class="docutils literal notranslate"><span class="pre">/etc/default/volatiles/00_core</span></code> as follows via either a console, sFTP, or your preferred method for editing configuration files on Linux Real-Time systems.</p>
 <ol class="arabic">
@@ -299,6 +301,7 @@ Note that the image below may differ from your system depending on the software 
 </section>
 </section>
 </section>
+</section>
 
 
             <div class="clearer"></div>
@@ -319,9 +322,13 @@ Note that the image below may differ from your system depending on the software 
 </li>
 <li><a class="reference internal" href="#logrotate">Logrotate</a></li>
 <li><a class="reference internal" href="#logging-to-the-system-log-s">Logging to the System Log(s)</a></li>
-<li><a class="reference internal" href="#enabling-persistent-logs">Enabling Persistent Logs</a><ul>
+<li><a class="reference internal" href="#persistent-logs">Persistent Logs</a><ul>
+<li><a class="reference internal" href="#nilrt-11-2">NILRT &gt;= 11.2</a></li>
+<li><a class="reference internal" href="#nilrt-11-1">NILRT &lt;= 11.1</a><ul>
 <li><a class="reference internal" href="#nilrt-9-1">NILRT &gt;= 9.1</a></li>
 <li><a class="reference internal" href="#id1">NILRT &lt; 9.1</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

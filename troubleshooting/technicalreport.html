@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Technical Support Report &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tracing on NI Linux Real-Time" href="tracing.html" />
+    <link rel="prev" title="Obtaining Kernel Logs from a Prior System Crash Via pstore" href="pstore.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="tracing.html" title="Tracing on NI Linux Real-Time"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" accesskey="U">NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Technical Support Report</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="technical-support-report">
+<h1>Technical Support Report<a class="headerlink" href="#technical-support-report" title="Link to this heading">¶</a></h1>
+<p>Hardware Configuration Utility can generate a Technical Support Report for an NI Linux Real Time system which contains information about the system that is helpful in troubleshooting issues.</p>
+<p>Starting with NILRT version 11.2 (i.e., 2025Q3), Technical Support Report generated in <cite>.zip</cite> format for x64 systems will also include contents of <cite>/var/log</cite>, <cite>/var/local/natinst/log</cite>, and <cite>/var/lib/pstore</cite>.</p>
+<p>Other files and directories can be included in the Technical Support Report by adding a configuration file such as <cite>user_logs.ini</cite> under <cite>/usr/share/ni-resetniconfig</cite> like following</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[Paths]
+File1 = /File_Path
+
+[Dirs]
+Dir1 = /Some/Dir_1
+Dir2 = /Some/Dir_2
+</pre></div>
+</div>
+<section id="additional-information-and-resources">
+<h2>Additional information and resources<a class="headerlink" href="#additional-information-and-resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.ni.com/docs/en-US/bundle/hardwareconfigurationutility/page/tech-support-report.html">Generating a Technical Support Report</a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Technical Support Report</a><ul>
+<li><a class="reference internal" href="#additional-information-and-resources">Additional information and resources</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pstore.html"
+                          title="previous chapter">Obtaining Kernel Logs from a Prior System Crash Via pstore</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="tracing.html"
+                          title="next chapter">Tracing on NI Linux Real-Time</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/troubleshooting/technicalreport.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="tracing.html" title="Tracing on NI Linux Real-Time"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pstore.html" title="Obtaining Kernel Logs from a Prior System Crash Via pstore"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="troubleshooting_index.html" >NI Linux Real-Time Debug Documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Technical Support Report</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

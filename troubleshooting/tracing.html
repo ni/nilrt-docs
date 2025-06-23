@@ -53,12 +53,14 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="#introduction" id="id2">Introduction</a></p></li>
 <li><p><a class="reference internal" href="#ftrace" id="id3">ftrace</a></p></li>
-<li><p><a class="reference internal" href="#analyzing-the-results" id="id4">Analyzing the results</a></p>
+<li><p><a class="reference internal" href="#extract-the-trace" id="id4">Extract the trace</a></p></li>
+<li><p><a class="reference internal" href="#analyze-the-results" id="id5">Analyze the results</a></p>
 <ul>
-<li><p><a class="reference internal" href="#labview-threads" id="id5">LabVIEW Threads</a></p></li>
+<li><p><a class="reference internal" href="#kernelshark-using-windows-subsystem-for-linux-wsl" id="id6">Kernelshark using Windows Subsystem for Linux (WSL)</a></p></li>
+<li><p><a class="reference internal" href="#labview-threads" id="id7">LabVIEW Threads</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#additional-information-and-resources" id="id6">Additional information and resources</a></p></li>
+<li><p><a class="reference internal" href="#additional-information-and-resources" id="id8">Additional information and resources</a></p></li>
 </ul>
 </nav>
 <section id="introduction">
@@ -102,27 +104,81 @@
 </div>
 <p>Use this with caution and sparingly. Writing to the trace buffer adds additional latency.</p>
 </li>
+<li><p>Stop tracing.</p>
+<p>Trace events are written to a circular buffer, so newer trace contents overwrite older trace contents. Stop tracing as soon as possible after the event of interest to ensure important trace information is not lost.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/tracing_on
+</pre></div>
+</div>
+</li>
 </ol>
 </section>
-<section id="analyzing-the-results">
-<h2><a class="toc-backref" href="#id4" role="doc-backlink">Analyzing the results</a><a class="headerlink" href="#analyzing-the-results" title="Link to this heading">¶</a></h2>
-<p>The resulting trace can be extracted with <code class="docutils literal notranslate"><span class="pre">trace-cmd</span></code> which can be installed from packages feeds with</p>
+<section id="extract-the-trace">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Extract the trace</a><a class="headerlink" href="#extract-the-trace" title="Link to this heading">¶</a></h2>
+<p>The resulting trace can be extracted to a binary file with <code class="docutils literal notranslate"><span class="pre">trace-cmd</span></code> which can be installed from packages feeds with</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>opkg<span class="w"> </span>install<span class="w"> </span>trace-cmd
 </pre></div>
 </div>
-<p>To extract the trace, use</p>
+<p>To extract the trace to the default filename <code class="docutils literal notranslate"><span class="pre">trace.dat</span></code>, use</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>trace-cmd<span class="w"> </span>extract
 </pre></div>
 </div>
-<p>The resulting trace file <code class="docutils literal notranslate"><span class="pre">trace.dat</span></code> can then be loaded in the front-end GUI tool <code class="docutils literal notranslate"><span class="pre">kernelshark</span></code> for off-target analysis.</p>
+<p>Alternatively, the trace can instead be extracted in a human readable textual representation using the following command. Extracting the trace can be a slow operation if it is large.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>/sys/kernel/debug/tracing/trace<span class="w"> </span>&gt;<span class="w"> </span>trace.txt
+</pre></div>
+</div>
+</section>
+<section id="analyze-the-results">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Analyze the results</a><a class="headerlink" href="#analyze-the-results" title="Link to this heading">¶</a></h2>
+<p>A resulting binary trace file can then be loaded in the front-end GUI tool Kernelshark for off-target analysis.</p>
 <blockquote>
 <div><img alt="../_images/trace-loaded-in-kernelshark.png" src="../_images/trace-loaded-in-kernelshark.png" />
 </div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">kernelshark</span></code> can be used on a Linux desktop distribution or on Windows with Windows Subsystem for Linux (WSL).</p>
-<p>Alternatively, trace can also be extracted by reading <code class="docutils literal notranslate"><span class="pre">/sys/kernel/debug/tracing/trace</span></code> file directly. This will output a human readable textual representation. Reading the trace can be a slow operation, if it is large.</p>
+<p>Kernelshark can be used on a Linux desktop distribution or on Windows using the Windows Subsystem for Linux (WSL).</p>
+<section id="kernelshark-using-windows-subsystem-for-linux-wsl">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Kernelshark using Windows Subsystem for Linux (WSL)</a><a class="headerlink" href="#kernelshark-using-windows-subsystem-for-linux-wsl" title="Link to this heading">¶</a></h3>
+<p>Kernelshark is a Linux application. You can run it on a native Linux desktop installation or a virtual machine installation. If you would like to run Kernelshark from within a Windows desktop environment, you can do so using the Windows Subsystem for Linux (WSL).</p>
+<p>A complete guide to installing and using WSL is outside the scope of this document. However, the following steps show the general process to install and use Kernelshark. For more information, see the <a class="reference external" href="https://learn.microsoft.com/en-us/windows/wsl/install">Microsoft documentation</a>.</p>
+<ol class="arabic">
+<li><p>Install WSL</p>
+<p>From Powershell or Command Prompt run in administrator mode:</p>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>wsl --install
+</pre></div>
+</div>
+<p>This command installs the default Linux distribution. The remaining instructions assume Ubuntu, but the instructions are similar for other distributions.</p>
+</li>
+<li><p>Restart Windows</p></li>
+<li><p>Launch Ubuntu</p>
+<p>Ubuntu should now be present in your Windows start menu. Select it to launch Ubuntu. This will open a shell window. There will be a delay as Windows downloads and installs your Linux distribution. You will select a username and password for your account in the Linux distribution.</p>
+</li>
+<li><p>Install Kernelshark</p>
+<p>In the shell window, run each of the following commands.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>kernelshark
+</pre></div>
+</div>
+<p>If you are using a different Linux distribution with a package manager other than <code class="docutils literal notranslate"><span class="pre">apt</span></code> the commands will be different.</p>
+</li>
+<li><p>Launch Kernelshark</p>
+<p>Kernelshark should now be present in your Windows start menu. Select it to launch Kernelshark.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>With some graphics hardware/driver configurations, Kernelshark might open with an empty black window. In this case, you can run Kernelshark with software rendering as a workaround. To do so, run the following command from the Linux shell.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">LIBGL_ALWAYS_SOFTWARE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>kernelshark
+</pre></div>
+</div>
+</div>
+</li>
+<li><p>Copy the trace file</p>
+<p>Use your preferred method to copy the trace file from your target to Windows or to your Linux distribution running in WSL. Common methods include scp, ssh, FTP, etc.</p>
+</li>
+<li><p>Open the trace file</p>
+<p>Using the File menu in Kernelshark, choose to open a trace file. If the trace file is located on the Linux distribution running in WSL, then it should be found at the expected location. If the trace file is located on Windows, you can find it on the appropriate drive under the path <code class="docutils literal notranslate"><span class="pre">/mnt/&lt;drive_letter&gt;</span></code>.</p>
+</li>
+</ol>
+</section>
 <section id="labview-threads">
-<h3><a class="toc-backref" href="#id5" role="doc-backlink">LabVIEW Threads</a><a class="headerlink" href="#labview-threads" title="Link to this heading">¶</a></h3>
-<p>The trace will contain threads created by LabVIEW Real-Time process (lvrt).
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">LabVIEW Threads</a><a class="headerlink" href="#labview-threads" title="Link to this heading">¶</a></h3>
+<p>The trace will contain threads created by the LabVIEW Real-Time process (lvrt).
 The full list of these threads can be obtained by running</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>/proc/<span class="k">$(</span>pidof<span class="w"> </span>lvrt<span class="k">)</span>/task/*/status<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>Name
 </pre></div>
@@ -163,7 +219,7 @@ The full list of these threads can be obtained by running</p>
 </section>
 </section>
 <section id="additional-information-and-resources">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">Additional information and resources</a><a class="headerlink" href="#additional-information-and-resources" title="Link to this heading">¶</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Additional information and resources</a><a class="headerlink" href="#additional-information-and-resources" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.kernel.org/doc/html/latest/trace/index.html">Linux Tracing Technologies</a></p></li>
 <li><p><a class="reference external" href="https://lwn.net/Articles/365835/">Debugging the kernel using Ftrace - part 1</a></p></li>
@@ -188,7 +244,9 @@ The full list of these threads can be obtained by running</p>
 <li><a class="reference internal" href="#">Tracing on NI Linux Real-Time</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#ftrace">ftrace</a></li>
-<li><a class="reference internal" href="#analyzing-the-results">Analyzing the results</a><ul>
+<li><a class="reference internal" href="#extract-the-trace">Extract the trace</a></li>
+<li><a class="reference internal" href="#analyze-the-results">Analyze the results</a><ul>
+<li><a class="reference internal" href="#kernelshark-using-windows-subsystem-for-linux-wsl">Kernelshark using Windows Subsystem for Linux (WSL)</a></li>
 <li><a class="reference internal" href="#labview-threads">LabVIEW Threads</a></li>
 </ul>
 </li>

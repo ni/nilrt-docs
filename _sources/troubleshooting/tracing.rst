@@ -55,33 +55,101 @@ Below is the typical sequence to start an *event trace* from an SSH/serial termi
 
    Use this with caution and sparingly. Writing to the trace buffer adds additional latency.
 
-Analyzing the results
-=====================
+#. Stop tracing.
 
-The resulting trace can be extracted with ``trace-cmd`` which can be installed from packages feeds with
+   Trace events are written to a circular buffer, so newer trace contents overwrite older trace contents. Stop tracing as soon as possible after the event of interest to ensure important trace information is not lost.
+
+   .. code:: bash
+
+      echo 0 > /sys/kernel/debug/tracing/tracing_on
+
+Extract the trace
+=================
+
+The resulting trace can be extracted to a binary file with ``trace-cmd`` which can be installed from packages feeds with
 
 .. code:: bash
 
    opkg install trace-cmd
 
-To extract the trace, use
+To extract the trace to the default filename ``trace.dat``, use
 
 .. code:: bash
 
    trace-cmd extract
 
-The resulting trace file ``trace.dat`` can then be loaded in the front-end GUI tool ``kernelshark`` for off-target analysis.
+Alternatively, the trace can instead be extracted in a human readable textual representation using the following command. Extracting the trace can be a slow operation if it is large. 
+
+.. code:: bash
+
+   cat /sys/kernel/debug/tracing/trace > trace.txt
+
+Analyze the results
+===================
+
+A resulting binary trace file can then be loaded in the front-end GUI tool Kernelshark for off-target analysis.
 
    .. image:: resources/trace-loaded-in-kernelshark.png
 
-``kernelshark`` can be used on a Linux desktop distribution or on Windows with Windows Subsystem for Linux (WSL).
+Kernelshark can be used on a Linux desktop distribution or on Windows using the Windows Subsystem for Linux (WSL).
 
-Alternatively, trace can also be extracted by reading ``/sys/kernel/debug/tracing/trace`` file directly. This will output a human readable textual representation. Reading the trace can be a slow operation, if it is large.
+Kernelshark using Windows Subsystem for Linux (WSL)
+---------------------------------------------------
+
+Kernelshark is a Linux application. You can run it on a native Linux desktop installation or a virtual machine installation. If you would like to run Kernelshark from within a Windows desktop environment, you can do so using the Windows Subsystem for Linux (WSL).
+
+A complete guide to installing and using WSL is outside the scope of this document. However, the following steps show the general process to install and use Kernelshark. For more information, see the `Microsoft documentation <https://learn.microsoft.com/en-us/windows/wsl/install>`_.
+
+#. Install WSL
+
+   From Powershell or Command Prompt run in administrator mode:
+
+   .. code:: batch
+
+      wsl --install
+
+   This command installs the default Linux distribution. The remaining instructions assume Ubuntu, but the instructions are similar for other distributions.
+
+#. Restart Windows
+
+#. Launch Ubuntu
+
+   Ubuntu should now be present in your Windows start menu. Select it to launch Ubuntu. This will open a shell window. There will be a delay as Windows downloads and installs your Linux distribution. You will select a username and password for your account in the Linux distribution.
+
+#. Install Kernelshark
+
+   In the shell window, run each of the following commands.
+
+   .. code:: bash
+
+      sudo apt update
+      sudo apt install kernelshark
+
+   If you are using a different Linux distribution with a package manager other than ``apt`` the commands will be different.
+
+#. Launch Kernelshark
+
+   Kernelshark should now be present in your Windows start menu. Select it to launch Kernelshark.
+
+   .. note::
+      With some graphics hardware/driver configurations, Kernelshark might open with an empty black window. In this case, you can run Kernelshark with software rendering as a workaround. To do so, run the following command from the Linux shell.
+
+      .. code:: bash
+
+         LIBGL_ALWAYS_SOFTWARE=1 kernelshark
+
+#. Copy the trace file
+
+   Use your preferred method to copy the trace file from your target to Windows or to your Linux distribution running in WSL. Common methods include scp, ssh, FTP, etc.
+
+#. Open the trace file
+
+   Using the File menu in Kernelshark, choose to open a trace file. If the trace file is located on the Linux distribution running in WSL, then it should be found at the expected location. If the trace file is located on Windows, you can find it on the appropriate drive under the path ``/mnt/<drive_letter>``.
 
 LabVIEW Threads
 ---------------
 
-The trace will contain threads created by LabVIEW Real-Time process (lvrt).
+The trace will contain threads created by the LabVIEW Real-Time process (lvrt).
 The full list of these threads can be obtained by running
 
 .. code:: bash

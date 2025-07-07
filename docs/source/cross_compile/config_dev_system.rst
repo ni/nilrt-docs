@@ -110,8 +110,19 @@ Installing Extensions
 Installing the C/C++ Cross Compile Toolchains
 ---------------------------------------------
 
+GNU C & C++ Compile Tools x64 GCC version
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. csv-table:: GCC Versions
+   :file: media/gcc/gcc_versions.csv
+   :widths: 50 50
+   :header-rows: 1
+
 Option 1: Extract the Toolchain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+   This option is only available for GNU C & C++ Compilers x64, versions *2014-2016*, *2017*, and *2018-2019*.
 
 For the toolchain installation, NI recommends using the same directory
 structure for each version of the tools installed on a system. This is
@@ -232,6 +243,9 @@ Linux
 
 Option 2: Install the Toolchain (x64 Only)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+   This option is only available for GNU C & C++ Compilers x64, versions **2023 Q1** and later.
 
 Windows
 ^^^^^^^

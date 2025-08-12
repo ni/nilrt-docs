@@ -21,6 +21,7 @@ NI Linux Real-Time Documentation and Tutorials
    troubleshooting/troubleshooting_index
    system_replication/system_replication
    eapol/eapol
+   usbguard/usbguard
 
 .. toctree::
     :maxdepth: 2

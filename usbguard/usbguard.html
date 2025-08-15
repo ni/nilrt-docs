@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>USBGuard Installation and Configuration &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NI LinuxRT Security Response Policy" href="../policies/security_response_policy.html" />
+    <link rel="prev" title="Connecting NI Linux Real-Time Systems to a Wired 802.1X Network" href="../eapol/eapol.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../eapol/eapol.html" title="Connecting NI Linux Real-Time Systems to a Wired 802.1X Network"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">USBGuard Installation and Configuration</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="usbguard-installation-and-configuration">
+<h1>USBGuard Installation and Configuration<a class="headerlink" href="#usbguard-installation-and-configuration" title="Link to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id1">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#installation" id="id2">Installation</a></p></li>
+<li><p><a class="reference internal" href="#configuration" id="id3">Configuration</a></p></li>
+<li><p><a class="reference internal" href="#service-management" id="id4">Service Management</a></p></li>
+<li><p><a class="reference internal" href="#additional-resources" id="id5">Additional Resources</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>USBGuard is a software framework designed to protect Linux systems from unauthorized or potentially
+malicious USB devices. It provides a robust mechanism for controlling which USB devices are allowed to
+connect to your system by implementing whitelisting and blacklisting policies based on device attributes
+such as ID, serial number, and more.</p>
+<p>The primary purpose of USBGuard is to defend against threats like BadUSB attacks, where compromised
+USB devices can be used to exploit or take control of a computer. By enforcing strict authorization
+policies, USBGuard helps prevent rogue devices from gaining access, reducing the risk of data theft,
+malware infection, or system compromise.</p>
+<p>You might want to use USBGuard if you need to:
+- Secure sensitive systems against unauthorized USB access
+- Prevent data exfiltration via removable media
+- Limit the risk of malware introduced through USB devices
+- Maintain compliance with security policies that restrict external device usage</p>
+<p>USBGuard is especially valuable in environments where physical access to computers is possible, such as
+offices, labs, or public spaces. Its flexible rule language and integration with Linux kernel features make
+it a powerful tool for enhancing endpoint security.</p>
+</section>
+<section id="installation">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Installation</a><a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>USBGuard requires the NI Linux RT System Image version 11.3 (build 25.8.0) or newer.</p>
+<p>To install USBGuard on an NI Linux Real-Time system, simply run the following command
+from your target:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>opkg<span class="w"> </span>install<span class="w"> </span>usbguard
+</pre></div>
+</div>
+<p>This will install, but not enable, USBGuard on your system.</p>
+<p>You can check the status of the USBGuard service with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>service<span class="w"> </span>usbguard<span class="w"> </span>status
+</pre></div>
+</div>
+</section>
+<section id="configuration">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Configuration</a><a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<p>USBGuard uses configuration files to control its behavior and define which USB devices are allowed or
+blocked. The two main files are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/etc/usbguard/rules.conf</span></code>: This file contains the rules that define which USB devices are allowed or blocked.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/etc/usbguard/usbguard-daemon.conf</span></code>: This file contains the daemon configuration</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>By default, USBGuard blocks all USB devices until you create rules to allow them.
+This includes essential devices like your keyboard and mouse. Before starting or enabling
+USBGuard, make sure your <code class="docutils literal notranslate"><span class="pre">rules.conf</span></code> authorizes the devices you need to avoid losing access.</p>
+</div>
+<p>To generate a ruleset based on currently attached USB devices, run the following command as root:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>usbguard<span class="w"> </span>generate-policy<span class="w"> </span>&gt;<span class="w"> </span>/etc/usbguard/rules.conf
+</pre></div>
+</div>
+<p>This will create a <code class="docutils literal notranslate"><span class="pre">rules.conf</span></code> file that whitelists all devices currently connected to your system. You
+can then edit this file to fine-tune your device policies.</p>
+<p>Once you are satisfied with your rules, you can enable USBGuard to run at startup by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Force remove any existing symlinks</span>
+update-rc.d<span class="w"> </span>-f<span class="w"> </span>usbguard<span class="w"> </span>remove
+<span class="c1"># Add USBGuard to startup, starting if applicable for current runlevel, using</span>
+<span class="c1"># defaults from the init script</span>
+update-rc.d<span class="w"> </span>-s<span class="w"> </span>usbguard<span class="w"> </span>defaults
+</pre></div>
+</div>
+</section>
+<section id="service-management">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Service Management</a><a class="headerlink" href="#service-management" title="Link to this heading">¶</a></h2>
+<p>With sysvinit, you can manually control the USBGuard service using the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>service<span class="w"> </span>usbguard<span class="w"> </span>start<span class="w">      </span><span class="c1"># Start the USBGuard service</span>
+service<span class="w"> </span>usbguard<span class="w"> </span>stop<span class="w">       </span><span class="c1"># Stop the USBGuard service</span>
+service<span class="w"> </span>usbguard<span class="w"> </span>restart<span class="w">    </span><span class="c1"># Restart the USBGuard service</span>
+service<span class="w"> </span>usbguard<span class="w"> </span>status<span class="w">     </span><span class="c1"># Check the status of the USBGuard service</span>
+</pre></div>
+</div>
+<p>These commands require root privileges.</p>
+</section>
+<section id="additional-resources">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Additional Resources</a><a class="headerlink" href="#additional-resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://usbguard.github.io/documentation/configuration.html">USBGuard Configuration Documentation</a></p></li>
+<li><p><a class="reference external" href="https://usbguard.github.io/documentation/rule-language.html">USBGuard Rule Language Documentation</a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">USBGuard Installation and Configuration</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#service-management">Service Management</a></li>
+<li><a class="reference internal" href="#additional-resources">Additional Resources</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../eapol/eapol.html"
+                          title="previous chapter">Connecting NI Linux Real-Time Systems to a Wired 802.1X Network</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../policies/security_response_policy.html"
+                          title="next chapter">NI LinuxRT Security Response Policy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/usbguard/usbguard.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../eapol/eapol.html" title="Connecting NI Linux Real-Time Systems to a Wired 802.1X Network"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">USBGuard Installation and Configuration</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

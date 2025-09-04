@@ -68,7 +68,7 @@ Before starting, the required software and toolchains must be installed
 to the NI Linux Real-Time system used. This can be accomplished through
 console access to the device via a serial port, SSH, or direct access
 via a keyboard and monitor. For the screenshots in this tutorial, SSH is
-used via \ `PuTTY <https://www.putty.org/>`__.
+used via `PuTTY`_.
 
 1. Open a console to the NI Linux Real-Time system and log in as or
    switch to the **admin** user.
@@ -310,6 +310,9 @@ Resources
    Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__
 -  `Dynamic Kernel Module Support
    source <https://github.com/dell/dkms>`__
--  `Putty <https://www.putty.org/>`__
+-  `PuTTY`_
 -  `Getting Started with C/C++ Development Tools for NI Linux Real-Time,
    Eclipse Edition <http://www.ni.com/tutorial/14625/en/>`__
+
+
+.. _PuTTY: https://putty.software/

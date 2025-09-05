@@ -213,7 +213,7 @@ includes and other necessary resources.
      directory: *c_cpp_properties.json*. The file should also be open in
      the editor. For more information on *c_cpp_properties.json*, refer
      to the official documentation at `c_cpp_properties.json
-     reference <https://code.visualstudio.com/docs/cpp/c-cpp-properties-schema-reference>`__.
+     reference <https://code.visualstudio.com/docs/cpp/customize-cpp-settings>`__.
 
    .. image:: media/config_vscode/image8.png
 

@@ -65,3 +65,19 @@ html_sourcelink_suffix = ''
 html_sidebars = {
    '**': ['localtoc.html', 'relations.html', 'github_link.html', 'searchbox.html'],
 }
+
+
+# -- Options for linkcheck builder -------------------------------------------
+
+from os import cpu_count
+
+linkcheck_workers = cpu_count()  # Use as many workers as there are CPU cores
+
+linkcheck_ignore = [
+    r"https://linux.die.net/.*",  # linux.die.next denies robots with 403
+]
+
+linkcheck_anchors_ignore_for_url = [
+    r"https://www.ni.com/en-us/support/downloads/.*",  # NI Downloads pages use dynamic anchors
+    r"https://github.com/ni/linux/blob/.*",  # Probably a GH file reference, which use dynamic anchors
+]

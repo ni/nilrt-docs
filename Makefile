@@ -27,3 +27,12 @@ all :
 clean :
 	$(MAKE) -C docs clean
 .PHONY : clean
+
+
+linkcheck :
+	$(MAKE) -C docs linkcheck
+.PHONY : linkcheck
+
+
+lint : linkcheck
+.PHONY : lint

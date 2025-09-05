@@ -1,0 +1,41 @@
+name: Build Project
+description: Install build dependencies, build the project, and upload artifacts.
+
+inputs:
+  python-version:
+    description: Python version to use
+    required: false
+    default: '3.13'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install project python dependencies
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install cyclonedx-bom
+
+    - name: Build project
+      shell: bash
+      run: |
+        make all
+
+    - name: Generate SBOMS
+      shell: bash
+      run: |
+        mkdir -p docs/build/sbom
+        pip freeze --all | cyclonedx-py requirements - >docs/build/sbom/host-python.sbom.cdx.json
+        dpkg-query --list >docs/build/sbom/host-packages.sbom.txt
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build
+        path: docs/build/

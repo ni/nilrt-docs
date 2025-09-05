@@ -1,0 +1,20 @@
+name: PR Checks
+
+on: [pull_request]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    env:
+        SPHINXOPTS: -W
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build project
+      uses: ./.github/actions/build
+
+    - name: Lint docs
+      run: make lint

@@ -1,24 +1,34 @@
 # nilrt-docs
-Repository for the https://nilrt-docs.ni.com documentation pages for NI Linux Real-Time.
+Official documentation for the NI Linux Real-Time OS.
 
-## Introduction
-This project contains community sourced documentation for the NI Linux Real-Time Operating System. This documentation is hosted at https://nilrt-docs.ni.com.
+The built documentation is hosted at [https://nilrt-docs.ni.com/](https://nilrt-docs.ni.com/).
+
 
 ## Building
 This documentation is built using Sphinx. To build:
 
-1. [Install Sphinx using whichever method you prefer from the official Sphinx documentation.](https://www.sphinx-doc.org/en/master/usage/installation.html). Ensure that the version of Sphinx is greater than or equal to v3.0.
-2. Clone this repo.
+1. Install the host build tools.
+   * [GNU Make](https://www.gnu.org/software/make/)
+   * [Python3](https://www.python.org/downloads/)
+
+1. Install the python requirements specified in [`:requirements.txt`](./requirements.txt).
+    It is recommended that you use a python virtual environment.
+
+    ```bash
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install --upgrade pip
+    pip install -r requirements.txt
+    ```
+
+1. Build the project using the included Makefile.
+
    ``` bash
-   git clone https://github.com/ni/nilrt-docs
-   cd nilrt-docs
+   make all
    ```
-3. Run the following commands.
-   ``` bash
-   cd docs/
-   make html
-   ```
-4. Navigate to the built html tree at `docs/build/html`
+
+   The built documentation output will appear under `:docs/build/html/`.
+
 
 ## About NI Linux Real-Time
 To learn about NI Linux Real-Time, visit the [NI Linux Real-Time Portal](http://www.ni.com/white-paper/14627/en/).

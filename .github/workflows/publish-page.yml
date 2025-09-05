@@ -1,32 +1,26 @@
+
 name: "Publish Documentation"
 
 on:
   push:
     branches:
-    - main
+      - main
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-python@v2
-    - uses: actions/checkout@master
-      with:
-        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
-    - name: Build and Commit
-      uses: sphinx-notes/pages@v2
-      with:
-        target_branch: 'gh-pages'
-        documentation_path: './docs/source'
-    - name: Preserve Configuration Files
-      run: |
-        echo "* @amstewart" > CODEOWNERS
-        git checkout gh-pages^ -- CNAME
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        base: 'gh-pages'
-        delete-branch: true
-        title: 'gh-pages updates from ${{ github.sha }}'
-        branch: 'dev/automated-updates-${{ github.sha }}'
-        body: 'Automated updates to published pages from ${{ github.sha }}'
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build project
+        uses: ./.github/actions/build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html
+          publish_branch: gh-pages

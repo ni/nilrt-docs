@@ -137,7 +137,7 @@ However, if the signing keys used by the feeds are rotated, the target system re
 to add the new key and remove any obsolete keys no longer in use.
 
 The latest version of the `opkg-keyrings` package, available on the distribution feed
-(https://download.ni.com/#ni-linux-rt/feeds/dist/), is built with the updated signing keys.
+(https://download.ni.com/ni-linux-rt/feeds/dist/), is built with the updated signing keys.
 Upgrading this package on the target system installs the new signing key to
 /usr/share/opkg/keyrings, updates the keyring by adding the new key, and
 removes any deprecated keys no longer used to sign the feeds.

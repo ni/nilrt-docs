@@ -20,10 +20,11 @@ policies, USBGuard helps prevent rogue devices from gaining access, reducing the
 malware infection, or system compromise.
 
 You might want to use USBGuard if you need to:
-- Secure sensitive systems against unauthorized USB access
-- Prevent data exfiltration via removable media
-- Limit the risk of malware introduced through USB devices
-- Maintain compliance with security policies that restrict external device usage
+
+- secure sensitive systems against unauthorized USB access.
+- prevent data exfiltration via removable media.
+- limit the risk of malware introduced through USB devices.
+- maintain compliance with security policies that restrict external device usage.
 
 USBGuard is especially valuable in environments where physical access to computers is possible, such as
 offices, labs, or public spaces. Its flexible rule language and integration with Linux kernel features make

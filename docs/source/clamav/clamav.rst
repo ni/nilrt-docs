@@ -233,5 +233,5 @@ Additional Resources
 - `Scanning Usage Guide <https://docs.clamav.net/manual/Usage/Scanning.html>`_ - Comprehensive scanning options and examples
 - `Freshclam Configuration <https://docs.clamav.net/manual/Usage/Configuration.html#freshclamconf>`_ - Signature update configuration
 - `Signature Management <https://docs.clamav.net/manual/Usage/SignatureManagement.html>`_ - Managing virus definition databases
-- `ClamAV FAQ <https://docs.clamav.net/faq/index.html>`_ - Frequently asked questions and troubleshooting tips
+- `ClamAV FAQ <https://docs.clamav.net/faq/faq.html>`_ - Frequently asked questions and troubleshooting tips
 - `CVDUpdate Utility <https://pypi.org/project/cvdupdate/>`_ - Python utility for offline signature updates

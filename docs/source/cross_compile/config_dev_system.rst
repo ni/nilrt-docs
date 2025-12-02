@@ -111,7 +111,7 @@ Installing the C/C++ Cross Compile Toolchains
 ---------------------------------------------
 
 GNU C & C++ Compile Tools x64 GCC version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. csv-table:: GCC Versions
    :file: media/gcc/gcc_versions.csv

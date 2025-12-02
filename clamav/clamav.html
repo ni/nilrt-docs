@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ClamAV Installation and Configuration &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NI LinuxRT Security Response Policy" href="../policies/security_response_policy.html" />
+    <link rel="prev" title="USBGuard Installation and Configuration" href="../usbguard/usbguard.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../usbguard/usbguard.html" title="USBGuard Installation and Configuration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ClamAV Installation and Configuration</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="clamav-installation-and-configuration">
+<h1>ClamAV Installation and Configuration<a class="headerlink" href="#clamav-installation-and-configuration" title="Link to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id3">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#installation" id="id4">Installation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installing-clamav" id="id5">Installing ClamAV</a></p></li>
+<li><p><a class="reference internal" href="#verifying-installation" id="id6">Verifying Installation</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#configuration" id="id7">Configuration</a></p>
+<ul>
+<li><p><a class="reference internal" href="#updating-virus-signatures" id="id8">Updating Virus Signatures</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#scanning-files-and-directories" id="id9">Scanning Files and Directories</a></p>
+<ul>
+<li><p><a class="reference internal" href="#using-the-nilrt-s-wrapper-script" id="id10">Using the NILRT’s Wrapper Script</a></p></li>
+<li><p><a class="reference internal" href="#using-clamscan-directly" id="id11">Using clamscan Directly</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#additional-resources" id="id12">Additional Resources</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>ClamAV is an open-source antivirus engine designed to detect trojans, viruses, malware, and other
+malicious threats on Linux systems. It provides a robust scanning mechanism that can identify and
+quarantine infected files by comparing them against continuously updated virus signature databases.
+ClamAV supports scanning of various file formats including compressed files, executables, documents,
+and email attachments.</p>
+<p>The primary purpose of ClamAV is to protect systems from malware infections that could compromise
+system integrity, steal sensitive data, or disrupt operations. By scanning files and directories for known
+malicious patterns, ClamAV helps identify threats before they can execute or spread, reducing the risk
+of data breaches, ransomware attacks, or system compromise.</p>
+<p>You might want to use ClamAV if you need to:</p>
+<ul class="simple">
+<li><p>scan files and directories for viruses and malware on embedded Linux systems.</p></li>
+<li><p>verify the integrity of files transferred via USB, network, or other external sources.</p></li>
+<li><p>detect malicious code before it can execute on critical industrial control systems.</p></li>
+<li><p>maintain compliance with security policies that require antivirus protection.</p></li>
+</ul>
+<p>ClamAV is especially valuable in environments where file transfers occur frequently or where systems
+process data from external sources. Its command-line interface, low resource footprint, and flexible
+scanning options make it well-suited for embedded Linux Real-Time systems like NI’s industrial controllers.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This guide covers NILRT-specific installation and configuration. For comprehensive documentation
+on all ClamAV commands, options, and advanced usage, refer to the official
+<a class="reference external" href="https://docs.clamav.net/manual/Usage.html">ClamAV User Manual</a>.</p>
+</div>
+</section>
+<section id="installation">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Installation</a><a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>ClamAV requires the NI Linux RT System Image version 11.4 (build 26.0.0) or newer.</p>
+<section id="installing-clamav">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Installing ClamAV</a><a class="headerlink" href="#installing-clamav" title="Link to this heading">¶</a></h3>
+<p>To install ClamAV on your NILRT system, use the opkg package manager:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>opkg<span class="w"> </span>update
+opkg<span class="w"> </span>install<span class="w"> </span>clamav<span class="w"> </span>clamav-freshclam
+</pre></div>
+</div>
+<p>This will install:
+- <code class="docutils literal notranslate"><span class="pre">clamav</span></code>: The core ClamAV antivirus engine and scanner
+- <code class="docutils literal notranslate"><span class="pre">clamav-freshclam</span></code>: The utility for updating virus signature databases</p>
+<p>After installation, you’ll need to configure ClamAV according to your requirements. See the Configuration section below for details.</p>
+</section>
+<section id="verifying-installation">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Verifying Installation</a><a class="headerlink" href="#verifying-installation" title="Link to this heading">¶</a></h3>
+<p>After installation, verify that ClamAV is properly installed and configured:</p>
+<p><strong>Quick Version Check:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>clamscan<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>You should see output showing the ClamAV version (1.4.3 or newer) and configuration paths.</p>
+</section>
+</section>
+<section id="configuration">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Configuration</a><a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h2>
+<p>ClamAV uses configuration files to control its behavior for virus scanning and signature updates.
+The main configuration files are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/usr/etc/freshclam.conf</span></code>: Configuration for the freshclam signature updater</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/etc/clamav/clamd.conf</span></code>: Configuration for the ClamAV daemon (optional)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/var/lib/clamav/</span></code>: Directory containing virus signature databases</p></li>
+</ul>
+<section id="updating-virus-signatures">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Updating Virus Signatures</a><a class="headerlink" href="#updating-virus-signatures" title="Link to this heading">¶</a></h3>
+<p>Before scanning files, you need to download the latest virus signature databases. ClamAV provides the following methods to update signatures:</p>
+<p><strong>Method 1: Online Update (Recommended)</strong></p>
+<p>If your target has internet connectivity, update signatures using freshclam with superuser permissions:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>freshclam
+</pre></div>
+</div>
+<p>This downloads the latest virus definitions from ClamAV’s mirror servers.</p>
+<p><strong>Method 2: Offline Update (For Systems Without Internet Access)</strong></p>
+<p>For systems without internet connectivity, you need to manually download the signature databases on a system with internet access, then transfer them to your NILRT target.</p>
+<p><strong>Option A: Using freshclam on another system</strong></p>
+<p>On a Linux system with internet access and ClamAV installed:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download signatures to a specific directory</span>
+freshclam<span class="w"> </span>--datadir<span class="o">=</span>/tmp/clamav-db
+
+<span class="c1"># Copy the downloaded files to your NILRT target</span>
+<span class="c1"># Transfer these files: bytecode.cvd, daily.cvd, main.cvd</span>
+</pre></div>
+</div>
+<p><strong>Option B: Using cvdupdate (Python utility)</strong></p>
+<p>CVDUpdate is a python utility to download and update ClamAV Virus Databases and database patch files for the purposes of supporting the offline systems.
+This utility is provided and recommended by the ClamAV project and licensed under Apache-2.0 license. Refer to the Additional Resources section for more information.
+User can use cvdupdate utility on any system with internet access and then copy the downloaded signature files to the NILRT target.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install cvdupdate</span>
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>cvdupdate
+
+<span class="c1"># (optional) You may wish to customize where the databases are stored</span>
+cvd<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--dbdir<span class="w"> </span>&lt;your<span class="w"> </span>path&gt;
+
+<span class="c1"># Download the latest signatures</span>
+cvd<span class="w"> </span>update
+
+<span class="c1"># Signatures are downloaded to: ~/.cvdupdate/database/</span>
+<span class="c1"># Copy these .cvd files to your NILRT target</span>
+</pre></div>
+</div>
+<p><strong>Transferring Signatures to NILRT Target</strong></p>
+<p>Once you have the signature files (.cvd or .cld files), copy them to your NILRT target’s ClamAV database directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copy files to the target (via SCP, USB, or other method)</span>
+<span class="c1"># Then on the NILRT target:</span>
+cp<span class="w"> </span>*.cvd<span class="w"> </span>/var/lib/clamav/
+chown<span class="w"> </span>clamav:clamav<span class="w"> </span>/var/lib/clamav/*.cvd
+chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/var/lib/clamav/*.cvd
+</pre></div>
+</div>
+<dl class="simple">
+<dt>The typical signature files you need are:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">main.cvd</span></code> or <code class="docutils literal notranslate"><span class="pre">main.cld</span></code> - Main virus database</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">daily.cvd</span></code> or <code class="docutils literal notranslate"><span class="pre">daily.cld</span></code> - Daily updates</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bytecode.cvd</span></code> or <code class="docutils literal notranslate"><span class="pre">bytecode.cld</span></code> - Bytecode signatures</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="scanning-files-and-directories">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Scanning Files and Directories</a><a class="headerlink" href="#scanning-files-and-directories" title="Link to this heading">¶</a></h2>
+<p>ClamAV can be used for Scheduled periodic scan or Manual scan.</p>
+<p>To schedule periodic automated scans on your NILRT system, configure the <code class="docutils literal notranslate"><span class="pre">/etc/cron.d/clamav-scan</span></code> file.
+For more information on scheduling and cron configuration, refer to the <a class="reference external" href="https://docs.clamav.net/manual/Usage.html">ClamAV User Manual</a>.</p>
+<p>ClamAV is configured for manual operation on NILRT systems. Use the following commands to scan files and directories for malware.</p>
+<section id="using-the-nilrt-s-wrapper-script">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Using the NILRT’s Wrapper Script</a><a class="headerlink" href="#using-the-nilrt-s-wrapper-script" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">clamav-scan</span></code> wrapper script handles memory management automatically and provides a simplified interface:</p>
+<p><strong>Basic Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scan current directory</span>
+clamav-scan<span class="w"> </span>.
+
+<span class="c1"># Scan a specific directory</span>
+clamav-scan<span class="w"> </span>/path/to/scan
+
+<span class="c1"># Scan a specific file</span>
+clamav-scan<span class="w"> </span>/path/to/file.txt
+</pre></div>
+</div>
+<p><strong>Advanced Options:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set custom swap file size (in MB)</span>
+clamav-scan<span class="w"> </span>--swap-size<span class="w"> </span><span class="m">2048</span><span class="w"> </span>/path/to/scan
+</pre></div>
+</div>
+<p>All standard <code class="docutils literal notranslate"><span class="pre">clamscan</span></code> options can be passed to the wrapper script.</p>
+<p>The wrapper script automatically:</p>
+<ul class="simple">
+<li><p>Creates temporary swap files (default size is 1024 MB) if system memory is insufficient (&lt; 3GB)</p></li>
+<li><p>Passes through any additional <code class="docutils literal notranslate"><span class="pre">clamscan</span></code> options</p></li>
+</ul>
+</section>
+<section id="using-clamscan-directly">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Using clamscan Directly</a><a class="headerlink" href="#using-clamscan-directly" title="Link to this heading">¶</a></h3>
+<p>For more control over scanning options, use <code class="docutils literal notranslate"><span class="pre">clamscan</span></code> directly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Recursive scan of a directory</span>
+clamscan<span class="w"> </span>-r<span class="w"> </span>/path/to/scan
+
+<span class="c1"># Scan and show only infected files</span>
+clamscan<span class="w"> </span>-r<span class="w"> </span>-i<span class="w"> </span>/path/to/scan
+
+<span class="c1"># Scan with verbose output</span>
+clamscan<span class="w"> </span>-r<span class="w"> </span>-v<span class="w"> </span>/path/to/scan
+
+<span class="c1"># Scan with custom log file</span>
+clamscan<span class="w"> </span>-r<span class="w"> </span>--log<span class="o">=</span>/tmp/my-scan.log<span class="w"> </span>/path/to/scan
+</pre></div>
+</div>
+<p>Common clamscan options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-r</span></code> : Recursive scan</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-i</span></code> : Show only infected files</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-v</span></code> : Verbose output</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--log=FILE</span></code> : Save results to log file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--max-filesize=SIZE</span></code> : Skip files larger than SIZE</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--exclude-dir=PATTERN</span></code> : Exclude directories matching pattern</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All commands require root privileges to access all files and directories on the system.</p>
+</div>
+</section>
+</section>
+<section id="additional-resources">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Additional Resources</a><a class="headerlink" href="#additional-resources" title="Link to this heading">¶</a></h2>
+<p><strong>Official ClamAV Documentation:</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.clamav.net/manual/Usage.html">ClamAV User Manual</a> - Complete guide to all ClamAV commands and options</p></li>
+<li><p><a class="reference external" href="https://docs.clamav.net/">ClamAV Official Documentation</a> - Main documentation portal</p></li>
+<li><p><a class="reference external" href="https://docs.clamav.net/manual/Usage/Scanning.html">Scanning Usage Guide</a> - Comprehensive scanning options and examples</p></li>
+<li><p><a class="reference external" href="https://docs.clamav.net/manual/Usage/Configuration.html#freshclamconf">Freshclam Configuration</a> - Signature update configuration</p></li>
+<li><p><a class="reference external" href="https://docs.clamav.net/manual/Usage/SignatureManagement.html">Signature Management</a> - Managing virus definition databases</p></li>
+<li><p><a class="reference external" href="https://docs.clamav.net/faq/faq.html">ClamAV FAQ</a> - Frequently asked questions and troubleshooting tips</p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/cvdupdate/">CVDUpdate Utility</a> - Python utility for offline signature updates</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">ClamAV Installation and Configuration</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#installing-clamav">Installing ClamAV</a></li>
+<li><a class="reference internal" href="#verifying-installation">Verifying Installation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li><a class="reference internal" href="#updating-virus-signatures">Updating Virus Signatures</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scanning-files-and-directories">Scanning Files and Directories</a><ul>
+<li><a class="reference internal" href="#using-the-nilrt-s-wrapper-script">Using the NILRT’s Wrapper Script</a></li>
+<li><a class="reference internal" href="#using-clamscan-directly">Using clamscan Directly</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#additional-resources">Additional Resources</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../usbguard/usbguard.html"
+                          title="previous chapter">USBGuard Installation and Configuration</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../policies/security_response_policy.html"
+                          title="next chapter">NI LinuxRT Security Response Policy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/clamav/clamav.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../usbguard/usbguard.html" title="USBGuard Installation and Configuration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ClamAV Installation and Configuration</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

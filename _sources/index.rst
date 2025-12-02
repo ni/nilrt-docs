@@ -22,6 +22,7 @@ NI Linux Real-Time Documentation and Tutorials
    system_replication/system_replication
    eapol/eapol
    usbguard/usbguard
+   clamav/clamav
 
 .. toctree::
     :maxdepth: 2

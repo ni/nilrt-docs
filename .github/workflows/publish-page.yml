@@ -18,6 +18,9 @@ jobs:
       - name: Build project
         uses: ./.github/actions/build
 
+      - name: Set up CNAME for GitHub Pages
+        run: echo "nilrt-docs.ni.com" >docs/build/html/CNAME
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

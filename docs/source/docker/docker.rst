@@ -25,7 +25,7 @@ from your target:
 
 .. code:: bash
     
-    opkg install docker-ce
+    opkg install docker
 
 .. note::
 

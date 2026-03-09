@@ -29,7 +29,7 @@ from your target:
 
 .. note::
 
-    Currently Docker will not function correctly if you have LabVIEW RT installed.
+    Docker cannot be used in combination with LabVIEW RT versions older than 26.0 due to cgroups v1 resource utilization conflicts present in those prior versions.
 
 Once installed, you can verify it was set up correctly by running:
 

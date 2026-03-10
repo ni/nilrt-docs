@@ -31,6 +31,9 @@ from your target:
 
     Docker cannot be used in combination with LabVIEW RT versions older than 26.0 due to cgroups v1 resource utilization conflicts present in those prior versions.
 
+.. note::
+    At this time, Docker is not compatible with 32-bit ARM (armv7l) NI Linux RT targets. You can check the target CPU architecture using the ``uname -m`` command.
+
 Once installed, you can verify it was set up correctly by running:
 
 .. code:: bash

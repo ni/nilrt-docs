@@ -67,12 +67,16 @@ NI Linux Real-Time system.</p>
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Installation</a><a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
 <p>To install Docker on an NI Linux Real-Time system, simply run the following command
 from your target:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>opkg<span class="w"> </span>install<span class="w"> </span>docker-ce
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>opkg<span class="w"> </span>install<span class="w"> </span>docker
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Currently Docker will not function correctly if you have LabVIEW RT installed.</p>
+<p>Docker cannot be used in combination with LabVIEW RT versions older than 26.0 due to cgroups v1 resource utilization conflicts present in those prior versions.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this time, Docker is not compatible with 32-bit ARM (armv7l) NI Linux RT targets. You can check the target CPU architecture using the <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-m</span></code> command.</p>
 </div>
 <p>Once installed, you can verify it was set up correctly by running:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>hello-world

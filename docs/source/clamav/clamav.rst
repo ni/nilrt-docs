@@ -77,7 +77,7 @@ Configuration
 ClamAV uses configuration files to control its behavior for virus scanning and signature updates.
 The main configuration files are:
 
-- ``/usr/etc/freshclam.conf``: Configuration for the freshclam signature updater
+- ``/etc/clamav/freshclam.conf``: Configuration for the freshclam signature updater
 - ``/etc/clamav/clamd.conf``: Configuration for the ClamAV daemon (optional)
 - ``/var/lib/clamav/``: Directory containing virus signature databases
 

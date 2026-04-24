@@ -81,14 +81,18 @@ The main configuration files are:
 - ``/etc/clamav/clamd.conf``: Configuration for the ClamAV daemon (optional)
 - ``/var/lib/clamav/``: Directory containing virus signature databases
 
+
 Updating Virus Signatures
 --------------------------
 
-Before scanning files, you need to download the latest virus signature databases. ClamAV provides the following methods to update signatures:
+Before scanning files, you need to download the latest virus signature database.
+ClamAV provides the following methods to update signatures:
 
-**Method 1: Online Update (Recommended)**
 
-If your target has internet connectivity, update signatures using freshclam with superuser permissions:
+Method 1: Online Update
+~~~~~~~~~~~~~~~~~~~~~~~
+
+If your target has internet connectivity, update signatures using ``freshclam`` with superuser permissions:
 
 .. code:: bash
 
@@ -96,9 +100,11 @@ If your target has internet connectivity, update signatures using freshclam with
 
 This downloads the latest virus definitions from ClamAV's mirror servers.
 
-**Method 2: Offline Update (For Systems Without Internet Access)**
 
-For systems without internet connectivity, you need to manually download the signature databases on a system with internet access, then transfer them to your NILRT target.
+Method 2: Offline Update
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+**For systems without internet connectivity,** you need to manually download the signature databases on a system with internet access, then transfer them to your NILRT target.
 
 **Option A: Using freshclam on another system**
 
@@ -114,9 +120,10 @@ On a Linux system with internet access and ClamAV installed:
 
 **Option B: Using cvdupdate (Python utility)**
 
-CVDUpdate is a python utility to download and update ClamAV Virus Databases and database patch files for the purposes of supporting the offline systems. 
-This utility is provided and recommended by the ClamAV project and licensed under Apache-2.0 license. Refer to the Additional Resources section for more information.
-User can use cvdupdate utility on any system with internet access and then copy the downloaded signature files to the NILRT target.
+CVDUpdate is a python utility to download and update ClamAV Virus Databases and database patch files for the purposes of supporting offline systems.
+This utility is provided and recommended by the ClamAV project and licensed under Apache-2.0 license.
+Refer to the Additional Resources section for more information.
+Use ``cvdupdate`` on any system with internet access and then copy the downloaded signature files to the NILRT target.
 
 .. code:: bash
 
@@ -134,7 +141,7 @@ User can use cvdupdate utility on any system with internet access and then copy 
 
 **Transferring Signatures to NILRT Target**
 
-Once you have the signature files (.cvd or .cld files), copy them to your NILRT target's ClamAV database directory:
+Once you have the signature files (``.cvd`` or ``.cld`` files), copy them to your NILRT target's ClamAV database directory.
 
 .. code:: bash
 
@@ -151,14 +158,16 @@ The typical signature files you need are:
 
 
 Scanning Files and Directories
-===============================
+==============================
 
-ClamAV can be used for Scheduled periodic scan or Manual scan. 
+ClamAV can be used to run scheduled, periodic scans or manual scans on demand.
 
-To schedule periodic automated scans on your NILRT system, configure the ``/etc/cron.d/clamav-scan`` file. 
+To schedule periodic scans on your NILRT system, create a cron job which runs the ``clamav-scan`` wrapper script at your desired frequency.
 For more information on scheduling and cron configuration, refer to the `ClamAV User Manual <https://docs.clamav.net/manual/Usage.html>`_.
 
-ClamAV is configured for manual operation on NILRT systems. Use the following commands to scan files and directories for malware.
+ClamAV is configured for manual operation on NILRT systems.
+Use the following commands to scan files and directories for malware.
+
 
 Using the NILRT's Wrapper Script
 ---------------------------------------
@@ -187,10 +196,11 @@ The ``clamav-scan`` wrapper script handles memory management automatically and p
 
 All standard ``clamscan`` options can be passed to the wrapper script.
 
-The wrapper script automatically:
+The wrapper script automatically...
 
-- Creates temporary swap files (default size is 1024 MB) if system memory is insufficient (< 3GB)
-- Passes through any additional ``clamscan`` options
+- creates temporary swap files (default size is 1024 MB) if system memory is small (< 3GB).
+- passes through any additional ``clamscan`` options.
+
 
 Using clamscan Directly
 -----------------------
@@ -222,6 +232,7 @@ Common clamscan options:
 
 .. note::
     All commands require root privileges to access all files and directories on the system.
+
 
 Additional Resources
 ====================

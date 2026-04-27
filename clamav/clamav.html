@@ -129,21 +129,25 @@ opkg<span class="w"> </span>install<span class="w"> </span>clamav<span class="w"
 <p>ClamAV uses configuration files to control its behavior for virus scanning and signature updates.
 The main configuration files are:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">/usr/etc/freshclam.conf</span></code>: Configuration for the freshclam signature updater</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/etc/clamav/freshclam.conf</span></code>: Configuration for the freshclam signature updater</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">/etc/clamav/clamd.conf</span></code>: Configuration for the ClamAV daemon (optional)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">/var/lib/clamav/</span></code>: Directory containing virus signature databases</p></li>
 </ul>
 <section id="updating-virus-signatures">
 <h3><a class="toc-backref" href="#id8" role="doc-backlink">Updating Virus Signatures</a><a class="headerlink" href="#updating-virus-signatures" title="Link to this heading">¶</a></h3>
-<p>Before scanning files, you need to download the latest virus signature databases. ClamAV provides the following methods to update signatures:</p>
-<p><strong>Method 1: Online Update (Recommended)</strong></p>
-<p>If your target has internet connectivity, update signatures using freshclam with superuser permissions:</p>
+<p>Before scanning files, you need to download the latest virus signature database.
+ClamAV provides the following methods to update signatures:</p>
+<section id="method-1-online-update">
+<h4>Method 1: Online Update<a class="headerlink" href="#method-1-online-update" title="Link to this heading">¶</a></h4>
+<p>If your target has internet connectivity, update signatures using <code class="docutils literal notranslate"><span class="pre">freshclam</span></code> with superuser permissions:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>freshclam
 </pre></div>
 </div>
 <p>This downloads the latest virus definitions from ClamAV’s mirror servers.</p>
-<p><strong>Method 2: Offline Update (For Systems Without Internet Access)</strong></p>
-<p>For systems without internet connectivity, you need to manually download the signature databases on a system with internet access, then transfer them to your NILRT target.</p>
+</section>
+<section id="method-2-offline-update">
+<h4>Method 2: Offline Update<a class="headerlink" href="#method-2-offline-update" title="Link to this heading">¶</a></h4>
+<p><strong>For systems without internet connectivity,</strong> you need to manually download the signature databases on a system with internet access, then transfer them to your NILRT target.</p>
 <p><strong>Option A: Using freshclam on another system</strong></p>
 <p>On a Linux system with internet access and ClamAV installed:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download signatures to a specific directory</span>
@@ -154,9 +158,10 @@ freshclam<span class="w"> </span>--datadir<span class="o">=</span>/tmp/clamav-db
 </pre></div>
 </div>
 <p><strong>Option B: Using cvdupdate (Python utility)</strong></p>
-<p>CVDUpdate is a python utility to download and update ClamAV Virus Databases and database patch files for the purposes of supporting the offline systems.
-This utility is provided and recommended by the ClamAV project and licensed under Apache-2.0 license. Refer to the Additional Resources section for more information.
-User can use cvdupdate utility on any system with internet access and then copy the downloaded signature files to the NILRT target.</p>
+<p>CVDUpdate is a python utility to download and update ClamAV Virus Databases and database patch files for the purposes of supporting offline systems.
+This utility is provided and recommended by the ClamAV project and licensed under Apache-2.0 license.
+Refer to the Additional Resources section for more information.
+Use <code class="docutils literal notranslate"><span class="pre">cvdupdate</span></code> on any system with internet access and then copy the downloaded signature files to the NILRT target.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install cvdupdate</span>
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>cvdupdate
 
@@ -171,7 +176,7 @@ cvd<span class="w"> </span>update
 </pre></div>
 </div>
 <p><strong>Transferring Signatures to NILRT Target</strong></p>
-<p>Once you have the signature files (.cvd or .cld files), copy them to your NILRT target’s ClamAV database directory:</p>
+<p>Once you have the signature files (<code class="docutils literal notranslate"><span class="pre">.cvd</span></code> or <code class="docutils literal notranslate"><span class="pre">.cld</span></code> files), copy them to your NILRT target’s ClamAV database directory.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copy files to the target (via SCP, USB, or other method)</span>
 <span class="c1"># Then on the NILRT target:</span>
 cp<span class="w"> </span>*.cvd<span class="w"> </span>/var/lib/clamav/
@@ -189,12 +194,14 @@ chmod<span class="w"> </span><span class="m">644</span><span class="w"> </span>/
 </dl>
 </section>
 </section>
+</section>
 <section id="scanning-files-and-directories">
 <h2><a class="toc-backref" href="#id9" role="doc-backlink">Scanning Files and Directories</a><a class="headerlink" href="#scanning-files-and-directories" title="Link to this heading">¶</a></h2>
-<p>ClamAV can be used for Scheduled periodic scan or Manual scan.</p>
-<p>To schedule periodic automated scans on your NILRT system, configure the <code class="docutils literal notranslate"><span class="pre">/etc/cron.d/clamav-scan</span></code> file.
+<p>ClamAV can be used to run scheduled, periodic scans or manual scans on demand.</p>
+<p>To schedule periodic scans on your NILRT system, create a cron job which runs the <code class="docutils literal notranslate"><span class="pre">clamav-scan</span></code> wrapper script at your desired frequency.
 For more information on scheduling and cron configuration, refer to the <a class="reference external" href="https://docs.clamav.net/manual/Usage.html">ClamAV User Manual</a>.</p>
-<p>ClamAV is configured for manual operation on NILRT systems. Use the following commands to scan files and directories for malware.</p>
+<p>ClamAV is configured for manual operation on NILRT systems.
+Use the following commands to scan files and directories for malware.</p>
 <section id="using-the-nilrt-s-wrapper-script">
 <h3><a class="toc-backref" href="#id10" role="doc-backlink">Using the NILRT’s Wrapper Script</a><a class="headerlink" href="#using-the-nilrt-s-wrapper-script" title="Link to this heading">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">clamav-scan</span></code> wrapper script handles memory management automatically and provides a simplified interface:</p>
@@ -215,10 +222,10 @@ clamav-scan<span class="w"> </span>--swap-size<span class="w"> </span><span clas
 </pre></div>
 </div>
 <p>All standard <code class="docutils literal notranslate"><span class="pre">clamscan</span></code> options can be passed to the wrapper script.</p>
-<p>The wrapper script automatically:</p>
+<p>The wrapper script automatically…</p>
 <ul class="simple">
-<li><p>Creates temporary swap files (default size is 1024 MB) if system memory is insufficient (&lt; 3GB)</p></li>
-<li><p>Passes through any additional <code class="docutils literal notranslate"><span class="pre">clamscan</span></code> options</p></li>
+<li><p>creates temporary swap files (default size is 1024 MB) if system memory is small (&lt; 3GB).</p></li>
+<li><p>passes through any additional <code class="docutils literal notranslate"><span class="pre">clamscan</span></code> options.</p></li>
 </ul>
 </section>
 <section id="using-clamscan-directly">
@@ -285,7 +292,11 @@ clamscan<span class="w"> </span>-r<span class="w"> </span>--log<span class="o">=
 </ul>
 </li>
 <li><a class="reference internal" href="#configuration">Configuration</a><ul>
-<li><a class="reference internal" href="#updating-virus-signatures">Updating Virus Signatures</a></li>
+<li><a class="reference internal" href="#updating-virus-signatures">Updating Virus Signatures</a><ul>
+<li><a class="reference internal" href="#method-1-online-update">Method 1: Online Update</a></li>
+<li><a class="reference internal" href="#method-2-offline-update">Method 2: Offline Update</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#scanning-files-and-directories">Scanning Files and Directories</a><ul>

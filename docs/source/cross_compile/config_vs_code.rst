@@ -278,25 +278,28 @@ includes and other necessary resources.
       .. code:: json
 
          {
-           "env": {
-             "compilerSysroots": "C:/build/<toolchain version>/arm/sysroots/"
-           },
-           "configurations": [
-             {
+            "env": {
+               "compilerSysroots": "C:/build/<toolchain version>/arm/sysroots/"
+            },
+            "configurations": [
+               {
                "name": "NI Linux Real-Time ARMv7",
                "compilerPath": "${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gcc.exe",
                "compilerArgs": [
-                 "--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/"
+                  "--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/"
                ],
                "includePath": [
-                 "${workspaceFolder}/",
-                 "${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/"
+                  "${workspaceFolder}/",
+                  "${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/"
                ],
                "intelliSenseMode": "gcc-x86"
-             }
-           ],
-           "version": 4
+               }
+            ],
+            "version": 4
          }
+
+      .. note:: For toolchain versions 2026Q3 and later, the `compilerPath` is instead `${compilerSysroots}/x86_64-w64-mingw32/usr/bin/arm-nilrt-linux/arm-nilrt-linux-gnueabi-gcc.exe`.
+
 
 5. Save *c_cpp_properties.json*, then close the file in the editor.
 
@@ -390,6 +393,8 @@ debugging <https://code.visualstudio.com/docs/cpp/launch-json-reference>`__.
            ]
          }
 
+      .. note:: For toolchain versions 2026Q3 and later, the `miDebuggerPath` is `C:/build/<toolchain version>/armv7-a/sysroots/x86_64-w64-mingw32/usr/bin/rm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe`.
+
 3. Save *launch.json*.
 
 Creating a CMake Build Configuration
@@ -467,6 +472,8 @@ document.
 
       set(toolchainpath C:/build/<toolchain version>/arm/sysroots)
 
+   .. note:: For toolchain versions 2026Q3 and later, the `toolchainpath` is `C:/build/<toolchain version>/armv7-a/sysroots`.
+
 4. Next, configure the compilers for both C and C++. CMake will
    automatically decide which compiler to used based on the files being
    compiled for a given project.
@@ -491,6 +498,8 @@ document.
 
       set(CMAKE_C_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/armnilrt-linux-gnueabi-gcc.exe)
       set(CMAKE_CXX_COMPILER ${toolchainpath}/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linuxgnueabi/arm-nilrt-linux-gnueabi-g++.exe)
+
+   .. note:: For toolchain versions 2026Q3 and later, replace `i686-nilrtsdk-mingw32` with `x86_64-w64-mingw32`
 
 5. The compiler flags, include directories, and sysroot should all be
    defined in the script as well. Note that these are the NI recommended

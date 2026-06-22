@@ -333,26 +333,30 @@ reference</a>.</div>
 <div class="line">For NI Linux Real-Time ARM devices, complete the file as follows:</div>
 </div>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/arm/sysroots/&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="p">{</span>
+<span class="w">   </span><span class="nt">&quot;env&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;compilerSysroots&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C:/build/&lt;toolchain version&gt;/arm/sysroots/&quot;</span>
+<span class="w">   </span><span class="p">},</span>
+<span class="w">   </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NI Linux Real-Time ARMv7&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;compilerPath&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;${compilerSysroots}/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gcc.exe&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;compilerArgs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/&quot;</span>
+<span class="w">         </span><span class="s2">&quot;--sysroot=${compilerSysroots}/cortexa9-vfpv3-nilrt-linuxgnueabi/&quot;</span>
 <span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;includePath&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/&quot;</span>
+<span class="w">         </span><span class="s2">&quot;${workspaceFolder}/&quot;</span><span class="p">,</span>
+<span class="w">         </span><span class="s2">&quot;${compilerSysroots}/cortexa9-vfpv3-nilrt-linux-gnueabi/usr/include/&quot;</span>
 <span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;intelliSenseMode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gcc-x86&quot;</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">   </span><span class="p">],</span>
+<span class="w">   </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span>
 <span class="p">}</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For toolchain versions 2026Q3 and later, the <cite>compilerPath</cite> is instead <cite>${compilerSysroots}/x86_64-w64-mingw32/usr/bin/arm-nilrt-linux/arm-nilrt-linux-gnueabi-gcc.exe</cite>.</p>
 </div>
 </li>
 </ol>
@@ -452,6 +456,10 @@ that not all fields are currently completed.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For toolchain versions 2026Q3 and later, the <cite>miDebuggerPath</cite> is <cite>C:/build/&lt;toolchain version&gt;/armv7-a/sysroots/x86_64-w64-mingw32/usr/bin/rm-nilrt-linux-gnueabi/arm-nilrt-linux-gnueabi-gdb.exe</cite>.</p>
+</div>
 </li>
 </ol>
 </li>
@@ -532,6 +540,10 @@ typing out the full sysroot location each time.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">toolchainpath</span><span class="w"> </span><span class="s">C:/build/&lt;toolchain</span><span class="w"> </span><span class="s">version&gt;/arm/sysroots</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For toolchain versions 2026Q3 and later, the <cite>toolchainpath</cite> is <cite>C:/build/&lt;toolchain version&gt;/armv7-a/sysroots</cite>.</p>
+</div>
 </li>
 <li><p>Next, configure the compilers for both C and C++. CMake will
 automatically decide which compiler to used based on the files being
@@ -561,6 +573,10 @@ compiled for a given project.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linux-gnueabi/armnilrt-linux-gnueabi-gcc.exe</span><span class="p">)</span>
 <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER</span><span class="w"> </span><span class="o">${</span><span class="nv">toolchainpath</span><span class="o">}</span><span class="s">/i686-nilrtsdk-mingw32/usr/bin/arm-nilrt-linuxgnueabi/arm-nilrt-linux-gnueabi-g++.exe</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For toolchain versions 2026Q3 and later, replace <cite>i686-nilrtsdk-mingw32</cite> with <cite>x86_64-w64-mingw32</cite></p>
 </div>
 </li>
 <li><p>The compiler flags, include directories, and sysroot should all be

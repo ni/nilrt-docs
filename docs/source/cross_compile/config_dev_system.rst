@@ -110,19 +110,31 @@ Installing Extensions
 Installing the C/C++ Cross Compile Toolchains
 ---------------------------------------------
 
-GNU C & C++ Compile Tools x64 GCC version
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GNU C & C++ Compile Tools GCC versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. csv-table:: GCC Versions
-   :file: media/toolchain/gcc_versions.csv
+.. list-table::
    :widths: 50 50
-   :header-rows: 1
+
+   * - **x64 GCC version**
+     - **ARM GCC version**
+   * - .. csv-table:: GCC Versions
+          :file: media/toolchain/gcc_versions.csv
+          :widths: 50 50
+          :header-rows: 1
+
+     - .. csv-table:: GCC Versions
+          :file: media/toolchain/gcc_arm_versions.csv
+          :widths: 50 50
+          :header-rows: 1
 
 Option 1: Extract the Toolchain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
    This option is only available for GNU C & C++ Compilers x64, versions *2014-2016*, *2017*, and *2018-2019*.
+
+   This option is only available for GNU C & C++ Compile Tools for ARMv7 *2014-2016*, *2017*, and *2018-2019*.
 
 For the toolchain installation, NI recommends using the same directory
 structure for each version of the tools installed on a system. This is
@@ -172,8 +184,7 @@ Windows
    may be dialogs prompting the replacement of files or warnings. The
    warnings can be safely ignored.
 
-4. | If using x64 toolchain versions 2023Q1 and later, follow these steps
-     to setup **PATH**.
+4. | Follow these steps to setup **PATH**.
 
    a. | Press **Start+R** to open the **Run** window, then type in
         *sysdm.cpl* and hit **OK.** This will launch the **System
@@ -241,11 +252,13 @@ Linux
       # or
       source ~/.bashrc
 
-Option 2: Install the Toolchain (x64 Only)
+Option 2: Install the Toolchain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
    This option is only available for GNU C & C++ Compilers x64, versions **2023 Q1** and later.
+
+   This option is only available for GNU C & C++ Compilers ARMv7, versions **2026 Q3** and later
 
 Windows
 ^^^^^^^
@@ -253,7 +266,7 @@ Windows
 1. | Download the **NILRT CrossCompile Toolchain** installer from ni.com/downloads. Refer to **Installing, Updating, Repairing, and Removing NI Software** using Package Manager on ni.com/docs.
 
    .. note::
-      The **NILRT CrossCompile Toolchain** will install to *C:\\build\\<toolchain version>\\x64*.
+      The **NILRT CrossCompile Toolchain** will install to *C:\\build\\<toolchain version>\\x64* and *C:\\build\\<toolchain version>\\armv7-a*.
 
 Linux
 ^^^^^
@@ -267,6 +280,12 @@ Linux
       sudo apt-get install ni-linuxrt-toolchain
       sudo zypper install ni-linuxrt-toolchain
       sudo yum install ni-linuxrt-toolchain
+
+   .. code:: bash
+
+      sudo apt-get install ni-linuxrt-toolchain-arm
+      sudo zypper install ni-linuxrt-toolchain-arm
+      sudo yum install ni-linuxrt-toolchain-arm
 
 
 3. | Update the PATH environment variable to include the toolchain path, by modifying *~/.profile* or *~/.bashrc*, adding:

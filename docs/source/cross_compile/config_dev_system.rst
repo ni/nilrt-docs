@@ -133,6 +133,7 @@ Option 1: Extract the Toolchain
 
 .. note::
    This option is only available for GNU C & C++ Compilers x64, versions *2014-2016*, *2017*, and *2018-2019*.
+
    This option is only available for GNU C & C++ Compile Tools for ARMv7 *2014-2016*, *2017*, and *2018-2019*.
 
 For the toolchain installation, NI recommends using the same directory
@@ -256,6 +257,7 @@ Option 2: Install the Toolchain
 
 .. note::
    This option is only available for GNU C & C++ Compilers x64, versions **2023 Q1** and later.
+
    This option is only available for GNU C & C++ Compilers ARMv7, versions **2026 Q3** and later
 
 Windows

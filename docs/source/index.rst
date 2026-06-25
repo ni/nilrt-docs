@@ -18,6 +18,7 @@ NI Linux Real-Time Documentation and Tutorials
    opkg/opkg_tutorials_index
    opkg-keyrings/opkg-keyrings_index
    docker/docker
+   nilrt_containers/nilrt_containers
    troubleshooting/troubleshooting_index
    system_replication/system_replication
    eapol/eapol

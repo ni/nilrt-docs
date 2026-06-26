@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Running NI Linux Real-Time in Containers &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NI Linux Real-Time Debug Documentation" href="../troubleshooting/troubleshooting_index.html" />
+    <link rel="prev" title="NI Linux Real-Time and Docker" href="../docker/docker.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../docker/docker.html" title="NI Linux Real-Time and Docker"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Running NI Linux Real-Time in Containers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="running-ni-linux-real-time-in-containers">
+<h1>Running NI Linux Real-Time in Containers<a class="headerlink" href="#running-ni-linux-real-time-in-containers" title="Link to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#overview" id="id1">Overview</a></p></li>
+<li><p><a class="reference internal" href="#what-the-containers-are-for" id="id2">What the Containers Are For</a></p></li>
+<li><p><a class="reference internal" href="#real-time-behavior-and-the-host-kernel" id="id3">Real-Time Behavior and the Host Kernel</a></p></li>
+<li><p><a class="reference internal" href="#drivers-in-containers" id="id4">Drivers in Containers</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites" id="id5">Prerequisites</a></p>
+<ul>
+<li><p><a class="reference internal" href="#building-the-images" id="id6">Building the images</a></p></li>
+<li><p><a class="reference internal" href="#running-the-images" id="id7">Running the images</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#building-the-containers" id="id8">Building the Containers</a></p></li>
+<li><p><a class="reference internal" href="#running-the-containers" id="id9">Running the Containers</a></p>
+<ul>
+<li><p><a class="reference internal" href="#create-the-container-network-once" id="id10">Create the container network (once)</a></p></li>
+<li><p><a class="reference internal" href="#launch-containers" id="id11">Launch containers</a></p></li>
+<li><p><a class="reference internal" href="#manage-running-containers" id="id12">Manage running containers</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#installing-labview-and-veristand" id="id13">Installing LabVIEW and VeriStand</a></p></li>
+<li><p><a class="reference internal" href="#configurable-run-options" id="id14">Configurable Run Options</a></p></li>
+<li><p><a class="reference internal" href="#supported-host-operating-systems" id="id15">Supported Host Operating Systems</a></p></li>
+</ul>
+</nav>
+<section id="overview">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>NI Linux Real-Time (NILRT) can be built and run as an OCI/Docker
+container image. Instead of running NILRT on dedicated NI hardware, a
+container image packages the NILRT runmode userspace – including SSH,
+the NI System Web Server, mDNS-based discovery, and the <code class="docutils literal notranslate"><span class="pre">opkg</span></code> package
+manager – so that it runs as a container on a regular Linux host.</p>
+<p>Two container image variants are produced from the
+<a class="reference external" href="https://github.com/ni/nilrt">nilrt</a> build project:</p>
+<ul class="simple">
+<li><p><strong>nilrt-runmode-container</strong> – the full Base System Image, including
+DKMS and the proprietary NI software stack.</p></li>
+<li><p><strong>nilrt-slim-container</strong> – a minimal Base System Image with just the
+core runmode userspace: no desktop packages and none of the
+proprietary NI software. It is smaller and faster to start; install
+only the NI software you need via <code class="docutils literal notranslate"><span class="pre">opkg</span></code>.</p></li>
+</ul>
+<p>The images are managed with helper scripts in the <code class="docutils literal notranslate"><span class="pre">docker/</span></code> directory
+of the nilrt project:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">docker/create-build-nilrt.sh</span></code> – builds the pyrex build container.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docker/setup-nilrt-network.sh</span></code> – creates a macvlan network so
+containers get their own IP addresses on the LAN.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docker/nilrt-ctr.sh</span></code> – launches and manages NILRT containers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docker/docker-compose.yml</span></code> – the Compose definition used by
+<code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span></code>.</p></li>
+</ul>
+</section>
+<section id="what-the-containers-are-for">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">What the Containers Are For</a><a class="headerlink" href="#what-the-containers-are-for" title="Link to this heading">¶</a></h2>
+<p>NILRT containers are intended for development, testing, and continuous
+integration workflows where running on real hardware is inconvenient or
+unavailable. Typical use cases include:</p>
+<ul class="simple">
+<li><p>Spinning up many NILRT systems quickly – for example, scaling out
+tens of targets for software-deployment or discovery testing.</p></li>
+<li><p>Validating package installs, feed configuration, and <code class="docutils literal notranslate"><span class="pre">opkg</span></code>
+workflows without reflashing hardware.</p></li>
+<li><p>Exercising NI MAX and VeriStand deployment flows against a
+discoverable, networked NILRT system.</p></li>
+<li><p>Reproducible CI environments that exercise NILRT userspace software.</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>NILRT containers are <strong>not</strong> a replacement for real-time hardware in
+production. They are a development and test convenience. See
+<a class="reference internal" href="#real-time-behavior-and-the-host-kernel">Real-Time Behavior and the Host Kernel</a> below.</p>
+</div>
+</section>
+<section id="real-time-behavior-and-the-host-kernel">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Real-Time Behavior and the Host Kernel</a><a class="headerlink" href="#real-time-behavior-and-the-host-kernel" title="Link to this heading">¶</a></h2>
+<p>A container is <strong>not</strong> a virtual machine. All containers on a host share
+that host’s single Linux kernel; the container image provides only the
+userspace. This has an important consequence for NILRT:</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A NILRT container runs on the <strong>host’s</strong> kernel, not the NILRT
+<code class="docutils literal notranslate"><span class="pre">PREEMPT_RT</span></code> real-time kernel. The deterministic, low-latency
+scheduling that defines the “RT” in NI Linux Real-Time comes from
+that kernel. When NILRT userspace runs in a container on a
+general-purpose host kernel, real-time determinism is <strong>lost or
+significantly degraded</strong>.</p>
+</div>
+<p>Practically, this means:</p>
+<ul class="simple">
+<li><p>Even though the NILRT runmode image installs a NILRT kernel into its
+root filesystem, that kernel is <strong>not</strong> the one running – the host
+kernel is. The bundled kernel and modules are inert.</p></li>
+<li><p>Latency and jitter depend entirely on the host kernel’s configuration.
+A stock desktop/server kernel makes no real-time guarantees.</p></li>
+<li><p>Do not use container measurements to characterize real-time
+performance of NI hardware.</p></li>
+</ul>
+<p>If you need genuine real-time behavior, run NILRT on supported NI
+hardware (or, at minimum, on a host running a <code class="docutils literal notranslate"><span class="pre">PREEMPT_RT</span></code> kernel,
+which still does not replicate NI hardware behavior).</p>
+</section>
+<section id="drivers-in-containers">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Drivers in Containers</a><a class="headerlink" href="#drivers-in-containers" title="Link to this heading">¶</a></h2>
+<p>Installing NI hardware drivers inside a NILRT container is <strong>not
+sensible</strong> and is not supported.</p>
+<ul class="simple">
+<li><p>Kernel-mode drivers must match the <strong>running</strong> kernel. Because the
+container uses the host kernel (not the NILRT kernel in the image),
+NILRT kernel modules will not load.</p></li>
+<li><p>The container has no access to the physical NI devices, buses, and
+FPGA/board resources that those drivers manage.</p></li>
+<li><p>To keep dependent packages installable without pulling in
+driver/kernel components that would fail in a container, the container
+images inject placeholder <code class="docutils literal notranslate"><span class="pre">opkg</span></code> status entries for low-level
+driver packages (for example <code class="docutils literal notranslate"><span class="pre">ni-dim</span></code> and <code class="docutils literal notranslate"><span class="pre">ni-mdbg</span></code>). This
+satisfies dependency constraints so that higher-level software
+installs, but it does <strong>not</strong> provide working drivers.</p></li>
+</ul>
+<p>In short: use containers for userspace software (LabVIEW RT, VeriStand
+engine, web services, package workflows), not for hardware I/O.</p>
+</section>
+<section id="prerequisites">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<section id="building-the-images">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Building the images</a><a class="headerlink" href="#building-the-images" title="Link to this heading">¶</a></h3>
+<p>To <strong>build</strong> the container images you need the standard NILRT build
+environment described in the <a class="reference external" href="https://github.com/ni/nilrt/blob/HEAD/README.md">nilrt README</a>:</p>
+<ul class="simple">
+<li><p>A Linux build host (NI builds and tests on Ubuntu).</p></li>
+<li><p>The Docker engine (the bare engine, <strong>not</strong> Docker Desktop).</p></li>
+<li><p>The nilrt project source and submodules checked out, the
+<code class="docutils literal notranslate"><span class="pre">build-nilrt</span></code> pyrex image built, and <code class="docutils literal notranslate"><span class="pre">ni-oe-init-build-env</span></code>
+sourced.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MACHINE=x64</span></code> exported (containers are intended for x64 hosts).</p></li>
+<li><p>The core package feed and package index built first
+(<code class="docutils literal notranslate"><span class="pre">packagefeed-ni-core</span></code> and <code class="docutils literal notranslate"><span class="pre">package-index</span></code>), as for any other
+image.</p></li>
+</ul>
+</section>
+<section id="running-the-images">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Running the images</a><a class="headerlink" href="#running-the-images" title="Link to this heading">¶</a></h3>
+<p>To <strong>run</strong> the container images, on the host that will run them:</p>
+<ul class="simple">
+<li><p>A container runtime: <strong>Docker</strong> (with the Compose plugin) or
+<strong>podman</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python3</span></code> (the helper scripts use it for IP math and network
+inspection).</p></li>
+<li><p>For LAN-visible containers via macvlan: root/<code class="docutils literal notranslate"><span class="pre">sudo</span></code> access and an
+interface in promiscuous mode (the setup script handles this). In VMs
+(for example VirtualBox/VMware) the host NIC must allow promiscuous
+mode.</p></li>
+<li><p>The containers run as <code class="docutils literal notranslate"><span class="pre">--privileged</span></code> (required by the NILRT init,
+<code class="docutils literal notranslate"><span class="pre">niauth</span></code>, bind-mounts, and <code class="docutils literal notranslate"><span class="pre">setcap</span></code> in the post-install), so the
+host must permit that.</p></li>
+</ul>
+</section>
+</section>
+<section id="building-the-containers">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Building the Containers</a><a class="headerlink" href="#building-the-containers" title="Link to this heading">¶</a></h2>
+<p>After completing the build-environment setup and building the core feed
+and package index, build the image recipes with bitbake:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">MACHINE</span><span class="o">=</span>x64
+
+<span class="c1"># build the full runmode container image...</span>
+bitbake<span class="w"> </span>nilrt-runmode-container
+
+<span class="c1"># ...and/or the slim variant</span>
+bitbake<span class="w"> </span>nilrt-slim-container
+</pre></div>
+</div>
+<p>The build emits OCI and docker-archive artifacts under
+<code class="docutils literal notranslate"><span class="pre">$BUILDDIR/tmp-glibc/deploy/images/x64/</span></code>. The <code class="docutils literal notranslate"><span class="pre">*.docker.tar</span></code> archive
+can be loaded directly into Docker:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$BUILDDIR</span>/tmp-glibc/deploy/images/x64/
+
+<span class="c1"># full image</span>
+docker<span class="w"> </span>load<span class="w"> </span>-i<span class="w"> </span>nilrt-runmode-container-x64.docker.tar
+<span class="c1"># slim image</span>
+docker<span class="w"> </span>load<span class="w"> </span>-i<span class="w"> </span>nilrt-slim-container-x64.docker.tar
+
+<span class="c1"># verify the images are present; note the version tag</span>
+docker<span class="w"> </span>images<span class="w"> </span>nilrt-runmode-container
+docker<span class="w"> </span>images<span class="w"> </span>nilrt-slim-container
+</pre></div>
+</div>
+<p>The images are tagged <code class="docutils literal notranslate"><span class="pre">nilrt-runmode-container:&lt;DISTRO_VERSION&gt;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">nilrt-slim-container:&lt;DISTRO_VERSION&gt;-slim</span></code>. The <code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span></code>
+helper auto-detects the newest locally-available tag, or you can pin one
+with the <code class="docutils literal notranslate"><span class="pre">NILRT_VERSION</span></code> environment variable.</p>
+<p>For podman, load the archive with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>load<span class="w"> </span>-i<span class="w"> </span>nilrt-runmode-container-x64.docker.tar
+</pre></div>
+</div>
+</section>
+<section id="running-the-containers">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Running the Containers</a><a class="headerlink" href="#running-the-containers" title="Link to this heading">¶</a></h2>
+<section id="create-the-container-network-once">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Create the container network (once)</a><a class="headerlink" href="#create-the-container-network-once" title="Link to this heading">¶</a></h3>
+<p>Containers attach to an external macvlan network named <code class="docutils literal notranslate"><span class="pre">nilrt-net</span></code>,
+which gives each container its own IP address on your physical LAN so
+that remote hosts and NI MAX can discover them. Create it once with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># auto-detect interface, subnet, and gateway</span>
+bash<span class="w"> </span>docker/setup-nilrt-network.sh
+
+<span class="c1"># ...or specify everything explicitly, reserving a range for containers</span>
+bash<span class="w"> </span>docker/setup-nilrt-network.sh<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-s<span class="w"> </span><span class="m">192</span>.0.2.0/24<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-g<span class="w"> </span><span class="m">192</span>.0.2.1<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.0.2.64/26
+
+<span class="c1"># podman users</span>
+bash<span class="w"> </span>docker/setup-nilrt-network.sh<span class="w"> </span>--runtime<span class="w"> </span>podman
+</pre></div>
+</div>
+<p>Reserving an IP range (<code class="docutils literal notranslate"><span class="pre">-r/--ip-range</span></code>) for containers avoids DHCP
+conflicts – coordinate the range with your network administrator. The
+script also sets up a <code class="docutils literal notranslate"><span class="pre">nilrt-shim</span></code> interface so the <strong>host</strong> can reach
+containers on the macvlan network (macvlan otherwise blocks
+host-to-container traffic). Use <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> to preview the commands
+without applying them.</p>
+</section>
+<section id="launch-containers">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Launch containers</a><a class="headerlink" href="#launch-containers" title="Link to this heading">¶</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span> <span class="pre">run</span></code>, which scans the LAN for free addresses and
+pins a collision-free IP to each container. Containers are named
+sequentially (<code class="docutils literal notranslate"><span class="pre">nilrt-1</span></code>, <code class="docutils literal notranslate"><span class="pre">nilrt-2</span></code>, <code class="docutils literal notranslate"><span class="pre">nilrt-slim-1</span></code>, …):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># launch one full runmode container</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>run<span class="w"> </span>nilrt
+
+<span class="c1"># launch three slim containers</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>run<span class="w"> </span>nilrt-slim<span class="w"> </span>-n<span class="w"> </span><span class="m">3</span>
+
+<span class="c1"># restrict allocation to a CIDR, or skip the (slow) LAN scan</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>run<span class="w"> </span>nilrt<span class="w"> </span>-r<span class="w"> </span><span class="m">192</span>.0.2.64/26
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>run<span class="w"> </span>nilrt<span class="w"> </span>--no-scan
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>run<span class="w"> </span>nilrt<span class="w"> </span>--dry-run
+</pre></div>
+</div>
+<p>For <strong>podman</strong>, assign a free address yourself with an explicit
+<code class="docutils literal notranslate"><span class="pre">--ip</span></code> (the <code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span> <span class="pre">run</span></code> helper is Docker/Compose-specific):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--privileged<span class="w"> </span>--network<span class="o">=</span>nilrt-net<span class="w"> </span>--ip<span class="w"> </span><span class="m">192</span>.0.2.65<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>nilrt-runmode-container:TAG
+</pre></div>
+</div>
+</section>
+<section id="manage-running-containers">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Manage running containers</a><a class="headerlink" href="#manage-running-containers" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span></code> provides convenience commands. A target can be a
+container name, an ID prefix, or a managed index:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>status<span class="w"> </span>nilrt-1<span class="w">            </span><span class="c1"># show a summary</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>shell<span class="w"> </span>nilrt-1<span class="w">             </span><span class="c1"># interactive shell</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>set-feed<span class="w"> </span>all<span class="w"> </span>2026Q2<span class="w">       </span><span class="c1"># set the opkg feed</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>change-hostname<span class="w"> </span>nilrt-1<span class="w"> </span>cRIO-test
+</pre></div>
+</div>
+<p>Standard runtime commands also work, filtered to NILRT-managed
+containers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>ps<span class="w"> </span>-a<span class="w"> </span>--filter<span class="w"> </span><span class="nv">label</span><span class="o">=</span>nilrt.managed<span class="o">=</span><span class="nb">true</span>
+docker<span class="w"> </span>logs<span class="w"> </span>CONTAINER
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>CONTAINER<span class="w"> </span>/bin/bash
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installing-labview-and-veristand">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Installing LabVIEW and VeriStand</a><a class="headerlink" href="#installing-labview-and-veristand" title="Link to this heading">¶</a></h2>
+<p>LabVIEW Real-Time and the VeriStand engine are installed inside a
+running container with <code class="docutils literal notranslate"><span class="pre">opkg</span></code>, the same package manager used on NILRT
+hardware. First point the container at a package feed for the desired
+release quarter, then install the packages.</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># point the container&#39;s opkg at a feed (YYYYQN, e.g. 2026Q2)</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>set-feed<span class="w"> </span>nilrt-1<span class="w"> </span>2026Q2
+
+<span class="c1"># install LabVIEW Real-Time</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>install<span class="w"> </span>nilrt-1<span class="w"> </span>--feed<span class="w"> </span>2026Q2<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ni-labview-realtime
+
+<span class="c1"># install the VeriStand engine</span>
+bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>install<span class="w"> </span>nilrt-1<span class="w"> </span>--feed<span class="w"> </span>2026Q2<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>ni-veristand-engine
+</pre></div>
+</div>
+<p>Equivalently, from a shell inside the container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>docker/nilrt-ctr.sh<span class="w"> </span>shell<span class="w"> </span>nilrt-1
+
+<span class="c1"># inside the container:</span>
+opkg<span class="w"> </span>update
+opkg<span class="w"> </span>install<span class="w"> </span>ni-labview-realtime
+opkg<span class="w"> </span>install<span class="w"> </span>ni-veristand-engine
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On hardware, installing an RT application package causes a reboot so
+that the LabVIEW RT engine (<code class="docutils literal notranslate"><span class="pre">lvrt</span></code>) re-reads its startup
+application. Containers are not rebooted, so the images ship an
+<code class="docutils literal notranslate"><span class="pre">opkg</span></code> wrapper that restarts <code class="docutils literal notranslate"><span class="pre">lvrt</span></code> automatically after a
+successful install or upgrade of an RT-relevant package
+(<code class="docutils literal notranslate"><span class="pre">ni-labview-realtime*</span></code>, <code class="docutils literal notranslate"><span class="pre">ni-veristand-engine*</span></code>). The restart is
+skipped while <code class="docutils literal notranslate"><span class="pre">lvrt</span></code> is actively serving an application, so running
+deployments are not interrupted.</p>
+</div>
+<p>Once installed, the container is discoverable by NI MAX and VeriStand
+(via mDNS and the NI System Web Server) at the container’s LAN IP, and
+applications such as the VeriStand engine can be deployed to it over
+the network.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Because the container runs on the host kernel (see <a class="reference internal" href="#real-time-behavior-and-the-host-kernel">Real-Time
+Behavior and the Host Kernel</a>), LabVIEW RT and VeriStand run
+<strong>without</strong> real-time determinism. This is suitable for functional
+and integration testing, not for real-time performance validation.</p>
+</div>
+</section>
+<section id="configurable-run-options">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Configurable Run Options</a><a class="headerlink" href="#configurable-run-options" title="Link to this heading">¶</a></h2>
+<p>Container behavior is driven by <code class="docutils literal notranslate"><span class="pre">docker/docker-compose.yml</span></code> and the
+environment variables consumed by the helper scripts. The most useful
+knobs:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 38.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>How to set it</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Image variant</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">nilrt</span></code> vs <code class="docutils literal notranslate"><span class="pre">run</span> <span class="pre">nilrt-slim</span></code></p></td>
+<td><p>Full runmode vs slim image.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Image version/tag</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NILRT_VERSION=&lt;tag&gt;</span></code> env var</p></td>
+<td><p>Defaults to the newest locally-loaded tag.</p></td>
+</tr>
+<tr class="row-even"><td><p>Number of containers</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-n/--count</span> <span class="pre">N</span></code> on <code class="docutils literal notranslate"><span class="pre">run</span></code></p></td>
+<td><p>Launches N collision-free instances.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Network name</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NILRT_NETWORK</span></code> env var (default <code class="docutils literal notranslate"><span class="pre">nilrt-net</span></code>)</p></td>
+<td><p>Must be an existing external macvlan network.</p></td>
+</tr>
+<tr class="row-even"><td><p>IP address / range</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NILRT_IP</span></code> (per container); <code class="docutils literal notranslate"><span class="pre">-r/--ip-range</span></code> on
+<code class="docutils literal notranslate"><span class="pre">run</span></code>/network setup</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">run</span></code> pins a verified-free IP; podman uses <code class="docutils literal notranslate"><span class="pre">--ip</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>LAN scan tuning</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NILRT_SCAN=0</span></code> (disable), <code class="docutils literal notranslate"><span class="pre">NILRT_SCAN_TIMEOUT=&lt;sec&gt;</span></code></p></td>
+<td><p>Controls the free-IP probe before launch.</p></td>
+</tr>
+<tr class="row-even"><td><p>Hostname</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span> <span class="pre">change-hostname</span> <span class="pre">&lt;target&gt;</span> <span class="pre">&lt;name&gt;</span></code></p></td>
+<td><p>Also re-derives the NI serial number.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Package feed</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">nilrt-ctr.sh</span> <span class="pre">set-feed</span> <span class="pre">&lt;target|all&gt;</span> <span class="pre">&lt;YYYYQN&gt;</span></code></p></td>
+<td><p>Writes <code class="docutils literal notranslate"><span class="pre">/etc/opkg/base-feeds.conf</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Because the containers are launched through Docker Compose, you can
+constrain host resources (CPU, memory, storage, devices, extra volumes)
+by editing <code class="docutils literal notranslate"><span class="pre">docker/docker-compose.yml</span></code> or adding a Compose override.
+For example, to limit CPU and memory and add a persistent volume, add to
+the relevant service:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">nilrt</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cpus</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2.0&quot;</span><span class="w">            </span><span class="c1"># max 2 CPU cores</span>
+<span class="w">    </span><span class="nt">cpuset</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0-1&quot;</span><span class="w">          </span><span class="c1"># pin to specific cores (optional)</span>
+<span class="w">    </span><span class="nt">mem_limit</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4g&quot;</span><span class="w">        </span><span class="c1"># max 4 GiB RAM</span>
+<span class="w">    </span><span class="nt">memswap_limit</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4g&quot;</span><span class="w">    </span><span class="c1"># cap swap as well</span>
+<span class="w">    </span><span class="nt">shm_size</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1g&quot;</span><span class="w">         </span><span class="c1"># /dev/shm size</span>
+<span class="w">    </span><span class="nt">storage_opt</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;20G&quot;</span><span class="w">          </span><span class="c1"># writable-layer size cap (driver-dependent)</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/host/path:/c</span><span class="w">      </span><span class="c1"># persist deployed apps/data across restarts</span>
+</pre></div>
+</div>
+<p>When running directly with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">run</span></code> or <code class="docutils literal notranslate"><span class="pre">podman</span> <span class="pre">run</span></code>, the
+equivalent flags are <code class="docutils literal notranslate"><span class="pre">--cpus</span></code>, <code class="docutils literal notranslate"><span class="pre">--cpuset-cpus</span></code>, <code class="docutils literal notranslate"><span class="pre">--memory</span></code>,
+<code class="docutils literal notranslate"><span class="pre">--memory-swap</span></code>, <code class="docutils literal notranslate"><span class="pre">--shm-size</span></code>, <code class="docutils literal notranslate"><span class="pre">--storage-opt</span> <span class="pre">size=</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">-v/--volume</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The NILRT init requires <code class="docutils literal notranslate"><span class="pre">--privileged</span></code>. Dropping it will break
+<code class="docutils literal notranslate"><span class="pre">niauth</span></code>, the web server, and the bind-mounts.</p>
+</div>
+</section>
+<section id="supported-host-operating-systems">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">Supported Host Operating Systems</a><a class="headerlink" href="#supported-host-operating-systems" title="Link to this heading">¶</a></h2>
+<p>The container images are <strong>x64 Linux</strong> images and are intended to run on
+a <strong>Linux host</strong> with a native container runtime:</p>
+<ul class="simple">
+<li><p><strong>Docker engine</strong> (not Docker Desktop) with the Compose plugin, or
+<strong>podman</strong>.</p></li>
+<li><p>NI builds and validates on <strong>Ubuntu</strong>; other modern Linux
+distributions with a current Docker/podman should work.</p></li>
+<li><p>macvlan networking (used for LAN-visible container IPs) is a Linux
+feature; it is not available on Docker Desktop for macOS/Windows, so
+the LAN-discovery workflow described here is Linux-only. Running the
+image without macvlan (for example with default bridge networking) is
+possible but loses direct LAN discoverability by NI MAX/VeriStand.</p></li>
+<li><p>When the host is itself a VM, enable nested promiscuous mode on the
+VM’s NIC for macvlan to work.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Running NI Linux Real-Time in Containers</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#what-the-containers-are-for">What the Containers Are For</a></li>
+<li><a class="reference internal" href="#real-time-behavior-and-the-host-kernel">Real-Time Behavior and the Host Kernel</a></li>
+<li><a class="reference internal" href="#drivers-in-containers">Drivers in Containers</a></li>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a><ul>
+<li><a class="reference internal" href="#building-the-images">Building the images</a></li>
+<li><a class="reference internal" href="#running-the-images">Running the images</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-the-containers">Building the Containers</a></li>
+<li><a class="reference internal" href="#running-the-containers">Running the Containers</a><ul>
+<li><a class="reference internal" href="#create-the-container-network-once">Create the container network (once)</a></li>
+<li><a class="reference internal" href="#launch-containers">Launch containers</a></li>
+<li><a class="reference internal" href="#manage-running-containers">Manage running containers</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-labview-and-veristand">Installing LabVIEW and VeriStand</a></li>
+<li><a class="reference internal" href="#configurable-run-options">Configurable Run Options</a></li>
+<li><a class="reference internal" href="#supported-host-operating-systems">Supported Host Operating Systems</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../docker/docker.html"
+                          title="previous chapter">NI Linux Real-Time and Docker</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../troubleshooting/troubleshooting_index.html"
+                          title="next chapter">NI Linux Real-Time Debug Documentation</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/nilrt_containers/nilrt_containers.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/troubleshooting_index.html" title="NI Linux Real-Time Debug Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../docker/docker.html" title="NI Linux Real-Time and Docker"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Running NI Linux Real-Time in Containers</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

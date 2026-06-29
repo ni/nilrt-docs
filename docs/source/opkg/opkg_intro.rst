@@ -77,8 +77,7 @@ Source Files
 To demonstrate building and testing a package, this tutorial will use a simple “Hello, World!” example.
 While this same process will apply to any package, NI recommends walking through the process for this simple module before moving to more complex designs.
 
-The :download:`source for this “Hello, World!” package<source_files/opkg_intro.tar.gz>` will consist of three main
-files:
+Download this example IPK (:download:`opkg_intro.tar.gz<source_files/opkg_intro.tar.gz>`) and inspect its contents.
 
 :helloworld.c: The C source code
 :CONTROL: The control file for the package

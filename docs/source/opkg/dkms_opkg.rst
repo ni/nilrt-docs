@@ -19,7 +19,6 @@ This document will discuss how to create, package, and test loadable kernel modu
 A Note on Support
 -----------------
 
-guidance.
 This document is meant as a walkthrough of general Linux concepts within NI Linux Real-Time.
 As these concepts are general to any Linux system and the open source software used, NI Support will not provide assistance through Technical Support channels should problems be encountered.
 NI does not provide official support for modifying the kernel such as through the addition of loadable kernel modules.

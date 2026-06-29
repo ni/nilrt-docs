@@ -1,7 +1,7 @@
 Package: hello
 Version: 0.1
 Architecture: x86_64
-Maintainer: charlie.johnston@ni.com
+Maintainer: rtos@emerson.com
 Description: This is a hello world dkms module
 Priority: option
 Depends: dkms

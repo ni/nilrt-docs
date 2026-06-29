@@ -2,29 +2,47 @@
 .DEFAULT_GOAL := all
 
 # DIRECTORIES
-srcdir := src
-# /DIRECTORIES
+srcdir = docs/source
+
 
 # BINARIES
 export MAKE ?= make
 export PYTHON ?= python3
 export SPHINXBUILD = $(PYTHON) -m sphinx
-# /BINARIES
+export TAR ?= tar
+
+# ==============================================================================
+# REAL TARGETS
+# ==============================================================================
+
+opkg_intro_IPK = $(srcdir)/opkg/source_files/opkg_intro.tar.gz
+$(opkg_intro_IPK) : $(shell find $(srcdir)/opkg/source_files/opkg_intro/ -type f)
+	$(TAR) -czf $@ -C $(srcdir)/opkg/source_files/opkg_intro/ .
 
 
-# REAL TARGETS #
-################
+dkms_opkg_IPK = $(srcdir)/opkg/source_files/dkms_opkg.tar.gz
+$(dkms_opkg_IPK) : $(shell find $(srcdir)/opkg/source_files/dkms_opkg/ -type f)
+	$(TAR) -czf $@ -C $(srcdir)/opkg/source_files/dkms_opkg/ .
 
 
-# PHONY TARGETS #
-#################
 
-all :
+OBJ = \
+	$(opkg_intro_IPK) \
+	$(dkms_opkg_IPK)
+
+
+
+# ==============================================================================
+# PHONY TARGETS
+# ==============================================================================
+
+all : $(OBJ)
 	$(MAKE) -C docs html
 .PHONY : all
 
 
 clean :
+	rm -rf $(OBJ)
 	$(MAKE) -C docs clean
 .PHONY : clean
 

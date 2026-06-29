@@ -1,2 +1,5 @@
 .venv/
 docs/build/
+
+# MAKEFILE INTERMEDIATE FILES
+docs/source/opkg/source_files/*.tar.gz

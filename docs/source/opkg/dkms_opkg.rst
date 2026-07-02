@@ -36,7 +36,7 @@ The following software and hardware are required to follow this tutorial:
         - This can be checked in either NI MAX under ``System Information`` or in the output of the ``uname -r`` command on the Linux Real-Time device.
     - Access to the online NI Repositories or an offline version of the repo copied from the online NI Repositories.
 - Source for a Linux Kernel Module
-    - NI recommends using the “Hello, World!” kernel module :download:`available here <source_files/dkms_opkg.tar.gz>` for this tutorial. The file contains two directories:
+    - NI recommends using the “Hello, World!” kernel module :download:`available here <source_files/dkms-opkg.tar.gz>` for this tutorial. The file contains two directories:
         - ``module_source`` - source files for a DKMS loadable kernel module
         - ``hello`` - the same module and required files formatted for IPK creation
 
@@ -71,6 +71,9 @@ By generating the kernel module dynamically, a single distribution can support m
 Additionally, kernel upgrades will be less likely to break or negatively impact the performance of the module.
 For these reasons, NI recommends using DKMS for managing any loadable kernel modules outside of the kernel source tree.
 
+.. note::
+   DKMS will already be installed when using NI Linux Real-Time Operating System versions 8.0.0 and later or when using a PXI Linux Real-Time controller.
+
 
 Opkg
 ----
@@ -85,10 +88,6 @@ IPK packages can be created on any system with ``opkg-build`` installed. For sim
 
 Configuring the System
 ======================
-
-.. note::
-   DKMS will already be installed when using NI Linux Real-Time Operating System versions 8.0.0 and later or when using a PXI Linux Real-Time controller.
-   When using older systems, running the ``updateNIDriver`` commands on non-IPK systems can cause problems with DKMS.
 
 Before starting, the required software and toolchains must be installed to the NI Linux Real-Time system used.
 This can be accomplished through console access to the device via a serial port, SSH, or direct access via a keyboard and monitor.
@@ -115,7 +114,7 @@ For the screenshots in this tutorial, SSH is used via `PuTTY`_.
 Source Files
 ============
 
-To demonstrate building and testing a package containing a kernel module this tutorial will use a :download:`simple “Hello, World!” module <source_files/dkms_opkg.tar.gz>`.
+To demonstrate building and testing a package containing a kernel module this tutorial will use a :download:`simple “Hello, World!” module <source_files/dkms-opkg.tar.gz>`.
 This module will print a kernel message when it loads and unloads to confirm that the module is loaded.
 While this same process will apply to any kernel module, NI recommends walking through the process for this simple module before moving to more complex designs.
 

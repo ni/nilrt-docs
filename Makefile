@@ -21,14 +21,14 @@ $(opkg_intro_dist) : $(shell find $(srcdir)/opkg/source_files/opkg-intro/ -type 
 	$(TAR) -czf $@ -C $(@D) opkg-intro/
 
 
-dkms_opkg_IPK = $(srcdir)/opkg/source_files/dkms_opkg.tar.gz
-$(dkms_opkg_IPK) : $(shell find $(srcdir)/opkg/source_files/dkms_opkg/ -type f)
-	$(TAR) -czf $@ -C $(srcdir)/opkg/source_files/dkms_opkg/ .
+dkms_opkg_dist = $(srcdir)/opkg/source_files/dkms-opkg.tar.gz
+$(dkms_opkg_dist) : $(shell find $(srcdir)/opkg/source_files/dkms-opkg/ -type f)
+	$(TAR) -czf $@ -C $(@D) dkms-opkg/
 
 
 OBJ = \
 	$(opkg_intro_dist) \
-	$(dkms_opkg_IPK)
+	$(dkms_opkg_dist)
 
 
 # ==============================================================================

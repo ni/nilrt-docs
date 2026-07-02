@@ -11,6 +11,8 @@ export PYTHON ?= python3
 export SPHINXBUILD = $(PYTHON) -m sphinx
 export TAR ?= tar
 
+export SPHINXOPTS ?= --fail-on-warning --keep-going
+
 
 # ==============================================================================
 # REAL TARGETS

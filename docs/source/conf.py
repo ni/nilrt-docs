@@ -75,6 +75,7 @@ linkcheck_workers = cpu_count()  # Use as many workers as there are CPU cores
 
 linkcheck_ignore = [
     r"https://linux.die.net/.*",  # linux.die.next denies robots with 403
+    r"https://git\.yoctoproject\.org/opkg-utils/?",  # Cloudflare challenge causes unstable 403s in linkcheck
 ]
 
 linkcheck_anchors_ignore_for_url = [

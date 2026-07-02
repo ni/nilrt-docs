@@ -36,9 +36,7 @@ The following software and hardware are required to follow this tutorial:
         - This can be checked in either NI MAX under ``System Information`` or in the output of the ``uname -r`` command on the Linux Real-Time device.
     - Access to the online NI Repositories or an offline version of the repo copied from the online NI Repositories.
 - Source for a Linux Kernel Module
-    - NI recommends using the “Hello, World!” kernel module :download:`available here <source_files/dkms-opkg.tar.gz>` for this tutorial. The file contains two directories:
-        - ``module_source`` - source files for a DKMS loadable kernel module
-        - ``hello`` - the same module and required files formatted for IPK creation
+    - NI recommends using the “Hello, World!” kernel module :download:`available here <source_files/dkms-opkg.tar.gz>` for this tutorial. This source archive contains a simple kernel module and the IPK metadata necessary to package it as a DKMS package.
 
 
 DKMS, opkg, and Kernel Modules

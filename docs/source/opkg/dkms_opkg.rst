@@ -136,46 +136,22 @@ Other simple kernel module source examples can be found in that document, and th
 The source code has been modified slightly to account for the default logging levels in the NI Linux Real-Time OS.
 That is, the ``printk`` functions have been modified to log at the ``KERN_NOTICE`` level rather than ``KERN_INFO`` level to more easily demonstrate logging functionality.
 
-.. code:: C
 
-   #include <linux/module.h>
-   #include <linux/kernel.h>
-   #include <linux/init.h>
-
-   static int __init hello_init(void)
-   {
-     printk(KERN_NOTICE "Hello world!\n");
-     return 0;
-   }
-
-   static void __exit hello_exit(void)
-   {
-     printk(KERN_NOTICE "Goodbye world!\n");
-   }
-
-   module_init(hello_init);
-   module_exit(hello_exit);
+.. literalinclude:: source_files/dkms-opkg/usr/src/hello-0.1/hello.c
+   :linenos:
+   :language: C
 
 
 Makefile
 ~~~~~~~~
 
-document.
 This makefile, as with the C source file, is based on the examples given in the `The Linux Kernel Module Programming Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__.
 More examples of kernel module makefiles and related options are covered in that document.
 
-.. code:: makefile
+.. literalinclude:: source_files/dkms-opkg/usr/src/hello-0.1/Makefile
+   :linenos:
+   :language: make
 
-   obj-m := hello.o
-   KVERSION := $(shell uname -r)
-
-   all:
-     $(MAKE) -C /lib/modules/$(KVERSION)/build M=$(PWD) modules
-   clean:
-     $(MAKE) -C /lib/modules/$(KVERSION)/build M=$(PWD) clean
-
-
-.. _dkmsconf:
 
 dkms.conf
 ~~~~~~~~~
@@ -184,15 +160,9 @@ The DKMS configuration file (``dkms.conf``) defines how and where a module shoul
 The provided ``dkms.conf`` for this tutorial includes the package name, version, clean and make commands, module name, compiled module destination, and whether the module should be automatically installed when booting to a new kernel.
 For more information on the format of ``dkms.conf`` refer to the `dkms man page <https://linux.die.net/man/8/dkms>`__.
 
-::
 
-   PACKAGE_NAME="hello"
-   PACKAGE_VERSION="0.1"
-   CLEAN="make clean"
-   MAKE[0]="make all KVERSION=$kernelver"
-   BUILT_MODULE_NAME[0]="hello"
-   DEST_MODULE_LOCATION[0]="/updates"
-   AUTOINSTALL="yes"
+.. literalinclude:: source_files/dkms-opkg/usr/src/hello-0.1/dkms.conf
+
 
 Testing the Module with DKMS
 ----------------------------
@@ -272,24 +242,17 @@ Much of this information will also be returned if the ``opkg info`` command is r
 In this case it's particularly important to ensure that the package depends on DKMS.
 This ensures all the required dependencies to dynamically compile the module are present before attempting to install it.
 
-::
+.. literalinclude:: source_files/dkms-opkg/CONTROL/control
 
-   Package: hello
-   Version: 0.1
-   Architecture: x86_64
-   Maintainer: an.email@website.com
-   Description: This is a hello world dkms module
-   Priority: option
-   Depends: dkms
 
 The debian-binary File
 ----------------------
 
 This file should be a text file containing only the following line, as described by the IPK standard.
 
-::
 
-   2.0
+.. literalinclude:: source_files/dkms-opkg/debian-binary
+
 
 Scripts
 -------
@@ -310,50 +273,20 @@ In this case, it will run the ``common.postinst`` script included with DKMS if t
 Otherwise, it will print an error message.
 All versions of DKMS included with NI Linux Real-Time 2020 and later will support the ``common.postinst`` method.
 
-.. code:: bash
+.. literalinclude:: source_files/dkms-opkg/CONTROL/postinst
+   :linenos:
+   :language: bash
 
-   #!/bin/sh
-   set -e
-   DKMS_NAME=hello
-   DKMS_PACKAGE_NAME=hello
-   DKMS_VERSION=0.1
-   case "$1" in
-     configure)
-       if [ -x /usr/lib/dkms/common.postinst ]; then
-         /usr/lib/dkms/common.postinst $DKMS_NAME $DKMS_VERSION /usr/share/$DKMS_PACKAGE_NAME
-   "" $2
-       else
-         echo "ERROR: DKMS version is too old and $DKMS_PACKAGE_NAME was not"
-         echo "built with legacy DKMS support."
-         echo "You must either rebuild $DKMS_PACKAGE_NAME with legacy postinst"
-         echo "support or upgrade DKMS to a more current version."
-         exit 1
-       fi
-     ;;
-   esac
-   exit 0
-
-
-premrm
-~~~~~~
+prerm
+~~~~~
 
 The ``prerm`` script will be run by opkg before any files are removed during package removal.
 For DKMS-based packages, this will ensure that the kernel module is not registered or in use during removal and will clean up any files created for the module by DKMS during normal usage.
 
-.. code:: bash
+.. literalinclude:: source_files/dkms-opkg/CONTROL/prerm
+   :linenos:
+   :language: bash
 
-   #!/bin/sh
-   set -e
-   DKMS_NAME=hello
-   DKMS_VERSION=0.1
-   case "$1" in
-     remove|upgrade|deconfigure)
-       if [ "$(dkms status -m $DKMS_NAME -v $DKMS_VERSION)" ]; then
-         dkms remove -m $DKMS_NAME -v $DKMS_VERSION --all || true
-       fi
-     ;;
-   esac
-   exit 0
 
 Building the Package
 ====================
@@ -409,6 +342,7 @@ This confirms that the package was built correctly and that the included scripts
 
 At this point, NI recommends copying the package from your development system and deploying it to a different deployment system or formatting the system used to create the IPK and installing from scratch.
 The same testing described above can be used alongside any module-specific testing required by the loadable kernel module.
+
 
 Resources
 =========

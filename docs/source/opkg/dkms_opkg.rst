@@ -96,13 +96,19 @@ For the screenshots in this tutorial, SSH is used via `PuTTY`_.
 
 1. Open a console to the NI Linux Real-Time system and log in as or switch to the ``admin`` user.
 2. Run the ``opkg update`` command to refresh the list of available packages.
+
    .. image:: media/image1.png
+
 3. Install ``dkms`` for DKMS support if it’s not already installed.
    Note that this will also install ``gcc``, the kernel headers (``kernel-dev``), and ``make`` as dependencies.
    If other development tools or dependencies are required for a given kernel module, those will need installed as well.
+   
    .. image:: media/image2.png
+
 4. Install the ``opkg-utils`` package to install the required tools for creating ``.ipk`` files.
+
    .. image:: media/image3.png
+
 5. Confirm that the installation completed successfully.
 
 
@@ -200,19 +206,15 @@ This can be done as follows:
 1. Copy the source code files to ``/usr/src/<module name>-<module-version>`` on the Linux Real-Time controller via FTP, sFTP, or scp.
 
    .. image:: media/image7.png
-
 2. Add the package via the ``dkms add`` command.
 
    .. image:: media/image8.png
-
 3. Install the module via ``dkms install``.
 
    .. image:: media/image9.png
-
 4. Test loading the module with ``modprobe`` and confirm that it loaded.
 
    .. image:: media/image10.png
-
 5. Unload and remove the module.
 
    .. image:: media/image11.png
@@ -250,6 +252,7 @@ This mirrors the final structure contained in the built package, which is simply
 As covered in the official opkg documentation, an IPK requires three things with the other items being optional:
 
 1. A ``CONTROL`` directory with a ``control`` file.
+
    .. note:: Keep in mind that Linux is case sensitive.
 2. The data files to be installed in their proper directory structure.
    In this tutorial, these files are the same as used when testing the DKMS module previously.

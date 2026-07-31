@@ -307,7 +307,7 @@ Resources
 -  `NI Linux Real-Time
    FAQ <https://forums.ni.com/t5/NI-Linux-Real-Time-Documents/NI-Linux-Real-Time-FAQ/ta-p/3495630?profile.language=en>`__
 -  `The Linux Kernel Module Programming
-   Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__
+   Guide <https://sysprog21.github.io/lkmpg/>`__
 -  `Dynamic Kernel Module Support
    source <https://github.com/dell/dkms>`__
 -  `PuTTY`_

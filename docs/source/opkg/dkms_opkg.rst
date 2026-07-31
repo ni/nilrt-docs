@@ -76,7 +76,7 @@ denoting that the binary object links against the kernel.
 Creating or obtaining source for these modules is much the same as for
 any other Linux distribution. While a simple “Hello, World!” example is
 provided for this tutorial, NI recommends reviewing `The Linux Kernel
-Module Programming Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__
+Module Programming Guide <https://sysprog21.github.io/lkmpg/>`__
 before attempting to create or modify a Linux kernel module.
 
 DKMS
@@ -188,10 +188,10 @@ hello.c
 
 This is C source code for a simple “Hello, World!” kernel module taken
 from the examples given in `The Linux Kernel Module Programming
-Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__. Other simple kernel
+Guide <https://sysprog21.github.io/lkmpg/>`__. Other simple kernel
 module source examples can be found in that document, and this source is
-based on the `Hello World (part
-2) <https://www.tldp.org/LDP/lkmpg/2.6/html/hello2.html>`__ section of
+based on the `Hello World
+<https://sysprog21.github.io/lkmpg/>`__ section of
 that document.
 
 The source code has been modified slightly to account for the default
@@ -224,7 +224,7 @@ Makefile
 
 This makefile, as with the C source file, is based on the examples given
 in the `The Linux Kernel Module Programming
-Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__. More examples of
+Guide <https://sysprog21.github.io/lkmpg/>`__. More examples of
 kernel module makefiles and related options are covered in that
 document.
 
@@ -521,7 +521,7 @@ Resources
 -  `NI Linux Real-Time
    FAQ <https://forums.ni.com/t5/NI-Linux-Real-Time-Documents/NI-Linux-Real-Time-FAQ/ta-p/3495630?profile.language=en>`__
 -  `The Linux Kernel Module Programming
-   Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__
+   Guide <https://sysprog21.github.io/lkmpg/>`__
 -  `Dynamic Kernel Module Support
    source <https://github.com/dell/dkms>`__
 -  `PuTTY`_

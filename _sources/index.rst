@@ -24,6 +24,7 @@ NI Linux Real-Time Documentation and Tutorials
    eapol/eapol
    usbguard/usbguard
    clamav/clamav
+   firewalld/firewalld
 
 .. toctree::
     :maxdepth: 2

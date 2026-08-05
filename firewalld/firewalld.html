@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Firewall Configuration with firewalld &#8212; nilrt-docs 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
+    
+    <script src="../_static/documentation_options.js?v=a681ed88"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NI LinuxRT Security Response Policy" href="../policies/security_response_policy.html" />
+    <link rel="prev" title="ClamAV Installation and Configuration" href="../clamav/clamav.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../clamav/clamav.html" title="ClamAV Installation and Configuration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Firewall Configuration with firewalld</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="firewall-configuration-with-firewalld">
+<h1>Firewall Configuration with firewalld<a class="headerlink" href="#firewall-configuration-with-firewalld" title="Link to this heading">¶</a></h1>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#introduction" id="id2">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#availability" id="id3">Availability</a></p></li>
+<li><p><a class="reference internal" href="#checking-the-firewall-status" id="id4">Checking the Firewall Status</a></p></li>
+<li><p><a class="reference internal" href="#default-configuration" id="id5">Default Configuration</a></p></li>
+<li><p><a class="reference internal" href="#ni-service-definitions" id="id6">NI Service Definitions</a></p></li>
+<li><p><a class="reference internal" href="#managing-the-firewall" id="id7">Managing the Firewall</a></p>
+<ul>
+<li><p><a class="reference internal" href="#opening-a-service-or-port" id="id8">Opening a Service or Port</a></p></li>
+<li><p><a class="reference internal" href="#closing-a-service-or-port" id="id9">Closing a Service or Port</a></p></li>
+<li><p><a class="reference internal" href="#applying-and-persisting-changes" id="id10">Applying and Persisting Changes</a></p></li>
+<li><p><a class="reference internal" href="#working-with-zones" id="id11">Working with Zones</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#persistence-across-reimaging-and-replication" id="id12">Persistence Across Reimaging and Replication</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting" id="id13">Troubleshooting</a></p></li>
+<li><p><a class="reference internal" href="#additional-resources" id="id14">Additional Resources</a></p></li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>firewalld is a firewall management daemon that provides a dynamically managed
+firewall with support for network zones, predefined services, and both runtime
+and permanent configuration. On NI Linux Real-Time (NILRT), firewalld is the
+recommended way to control which network services can be accessed on a target.</p>
+<p>firewalld organizes rules around a few concepts:</p>
+<ul class="simple">
+<li><p><strong>Zones</strong> represent different trust levels for network connections (for
+example, <code class="docutils literal notranslate"><span class="pre">public</span></code> for untrusted networks). The active zone determines which
+traffic is allowed.</p></li>
+<li><p><strong>Services</strong> are named collections of ports and protocols (for example,
+<code class="docutils literal notranslate"><span class="pre">ssh</span></code> or <code class="docutils literal notranslate"><span class="pre">modbus</span></code>) that can be added to a zone without having to remember
+individual port numbers.</p></li>
+<li><p><strong>Runtime vs. permanent</strong> configuration lets you test rule changes
+immediately (runtime) and separately commit them so they survive a reboot or
+daemon reload (permanent).</p></li>
+</ul>
+<p>You might want to use firewalld if you need to:</p>
+<ul class="simple">
+<li><p>restrict which network services on your NILRT target are accessible from the
+network.</p></li>
+<li><p>open ports for NI software components or your own applications in a
+controlled, named way.</p></li>
+<li><p>apply different rule sets depending on the network a target is connected to.</p></li>
+<li><p>maintain compliance with security policies that require host-based firewalling.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This guide covers NILRT-specific behavior and common tasks. For comprehensive
+documentation on all firewalld concepts, commands, and options, refer to the
+official <a class="reference external" href="https://firewalld.org/documentation/">firewalld documentation</a>.</p>
+</div>
+</section>
+<section id="availability">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Availability</a><a class="headerlink" href="#availability" title="Link to this heading">¶</a></h2>
+<p>firewalld has been available in the NILRT package feed since the 2025 Q1
+release and can be installed with <code class="docutils literal notranslate"><span class="pre">opkg</span></code> if it is not already present:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>opkg<span class="w"> </span>update
+opkg<span class="w"> </span>install<span class="w"> </span>firewalld<span class="w"> </span>ni-firewalld-servicedefs
+</pre></div>
+</div>
+</section>
+<section id="checking-the-firewall-status">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Checking the Firewall Status</a><a class="headerlink" href="#checking-the-firewall-status" title="Link to this heading">¶</a></h2>
+<p>Managing the firewall requires superuser (root) permissions. Check the
+firewalld daemon state with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--state
+</pre></div>
+</div>
+<p>A running firewall reports <code class="docutils literal notranslate"><span class="pre">running</span></code>. You can also query or control the
+service through its init script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/etc/init.d/firewalld<span class="w"> </span>status
+/etc/init.d/firewalld<span class="w"> </span>start
+/etc/init.d/firewalld<span class="w"> </span>restart
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>NILRT uses a SysV init system rather than <code class="docutils literal notranslate"><span class="pre">systemd</span></code>, so <code class="docutils literal notranslate"><span class="pre">systemctl</span></code> is
+not available. Use the <code class="docutils literal notranslate"><span class="pre">/etc/init.d/firewalld</span></code> script to start, stop, and
+check the daemon.</p>
+</div>
+</section>
+<section id="default-configuration">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Default Configuration</a><a class="headerlink" href="#default-configuration" title="Link to this heading">¶</a></h2>
+<p>By default, the firewall is configured as follows:</p>
+<ul class="simple">
+<li><p>The default (and active) zone is <code class="docutils literal notranslate"><span class="pre">public</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">public</span></code> zone allows the <code class="docutils literal notranslate"><span class="pre">ssh</span></code> and <code class="docutils literal notranslate"><span class="pre">dhcpv6-client</span></code> services so that
+remote login and IPv6 address configuration continue to work.</p></li>
+</ul>
+<p>Inspect the active configuration with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show the default zone</span>
+firewall-cmd<span class="w"> </span>--get-default-zone
+
+<span class="c1"># Show everything allowed in the active zone(s)</span>
+firewall-cmd<span class="w"> </span>--list-all
+
+<span class="c1"># List all available (defined) services</span>
+firewall-cmd<span class="w"> </span>--get-services
+</pre></div>
+</div>
+</section>
+<section id="ni-service-definitions">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">NI Service Definitions</a><a class="headerlink" href="#ni-service-definitions" title="Link to this heading">¶</a></h2>
+<p>NILRT ships firewalld <em>service definitions</em> for the network protocols used by NI
+software. These definitions declare the ports and protocols for each service but
+do <strong>not</strong> automatically open them—you add a service to a zone to open its ports
+(refer to <a class="reference internal" href="#managing-the-firewall">Managing the Firewall</a>).</p>
+<p>The service definition files are installed under
+<code class="docutils literal notranslate"><span class="pre">/usr/lib/firewalld/services/</span></code> and are available to <code class="docutils literal notranslate"><span class="pre">firewall-cmd</span></code> by name.
+Commonly used NI services include:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Service name</p></th>
+<th class="head"><p>Ports</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ni-service-locator</span></code></p></td>
+<td><p>tcp/3580</p></td>
+<td><p>NI Service Locator port-mapping facility.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ni-visa-server</span></code></p></td>
+<td><p>tcp/3537</p></td>
+<td><p>NI-VISA remote server.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ni-mxs</span></code></p></td>
+<td><p>tcp/51700, 57616, 61900, 62602</p></td>
+<td><p>NI Configuration Manager (MXS).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ni-rpc-server</span></code></p></td>
+<td><p>tcp/43973</p></td>
+<td><p>NI RPC server.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ni-logos-xt</span></code></p></td>
+<td><p>tcp/2343, tcp/59110-59209, udp/6000-6010</p></td>
+<td><p>NI Logos XT publish-subscribe data transfer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ni-sync-remote</span></code></p></td>
+<td><p>tcp/31762</p></td>
+<td><p>NI-Sync remote access.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ni-labview-realtime</span></code></p></td>
+<td><p>tcp/3079</p></td>
+<td><p>LabVIEW Real-Time target access.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">modbus</span></code></p></td>
+<td><p>tcp/502</p></td>
+<td><p>Modbus protocol.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">opcua</span></code></p></td>
+<td><p>tcp/49580</p></td>
+<td><p>OPC UA protocol.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Additional definitions are provided for <code class="docutils literal notranslate"><span class="pre">dnp3</span></code>, <code class="docutils literal notranslate"><span class="pre">dstp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ethernet-ip</span></code> (and its explicit/implicit variants), <code class="docutils literal notranslate"><span class="pre">iec-60870-5-104</span></code>,
+<code class="docutils literal notranslate"><span class="pre">iec-61850</span></code>, <code class="docutils literal notranslate"><span class="pre">ni-dnet</span></code>, <code class="docutils literal notranslate"><span class="pre">ni-imaq</span></code>, <code class="docutils literal notranslate"><span class="pre">ni-labview-viserver</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ni-rfsa-sfp</span></code>, <code class="docutils literal notranslate"><span class="pre">ni-rfsa-classic-sfp</span></code>, <code class="docutils literal notranslate"><span class="pre">ni-rfsg-sfp</span></code>, <code class="docutils literal notranslate"><span class="pre">ni-scope-sfp</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">ni-xnet-bus-monitor</span></code>.</p>
+<p>View the ports and protocols defined for a service with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--info-service<span class="o">=</span>ni-visa-server
+</pre></div>
+</div>
+</section>
+<section id="managing-the-firewall">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Managing the Firewall</a><a class="headerlink" href="#managing-the-firewall" title="Link to this heading">¶</a></h2>
+<p>All configuration changes are made with <code class="docutils literal notranslate"><span class="pre">firewall-cmd</span></code>. Changes apply either to
+the live <strong>runtime</strong> configuration (lost on reload/reboot) or to the
+<strong>permanent</strong> configuration (persisted). A typical workflow is to change the
+permanent configuration and then reload.</p>
+<section id="opening-a-service-or-port">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Opening a Service or Port</a><a class="headerlink" href="#opening-a-service-or-port" title="Link to this heading">¶</a></h3>
+<p><strong>Open an NI (or standard) service in the default zone:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add permanently, then apply</span>
+firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-service<span class="o">=</span>ni-visa-server
+firewall-cmd<span class="w"> </span>--reload
+</pre></div>
+</div>
+<p><strong>Open an arbitrary port</strong> (for example, a custom application on tcp/8080):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--add-port<span class="o">=</span><span class="m">8080</span>/tcp
+firewall-cmd<span class="w"> </span>--reload
+</pre></div>
+</div>
+<p><strong>Test a change at runtime only</strong> (reverted on the next reload or reboot):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--add-service<span class="o">=</span>modbus
+</pre></div>
+</div>
+</section>
+<section id="closing-a-service-or-port">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Closing a Service or Port</a><a class="headerlink" href="#closing-a-service-or-port" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--remove-service<span class="o">=</span>ni-visa-server
+firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--remove-port<span class="o">=</span><span class="m">8080</span>/tcp
+firewall-cmd<span class="w"> </span>--reload
+</pre></div>
+</div>
+</section>
+<section id="applying-and-persisting-changes">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Applying and Persisting Changes</a><a class="headerlink" href="#applying-and-persisting-changes" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">firewall-cmd</span> <span class="pre">--reload</span></code> applies the permanent configuration and discards any
+runtime-only changes.</p></li>
+<li><p>To copy the current runtime configuration into the permanent configuration,
+use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--runtime-to-permanent
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Permanent firewalld configuration is stored under <code class="docutils literal notranslate"><span class="pre">/etc/firewalld/</span></code>.
+Runtime changes that have not been made permanent are lost when the daemon
+reloads or the target reboots.</p>
+</div>
+</section>
+<section id="working-with-zones">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Working with Zones</a><a class="headerlink" href="#working-with-zones" title="Link to this heading">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all zones and their configuration</span>
+firewall-cmd<span class="w"> </span>--list-all-zones
+
+<span class="c1"># Change the default zone</span>
+firewall-cmd<span class="w"> </span>--set-default-zone<span class="o">=</span>public
+
+<span class="c1"># Bind a specific interface to a zone (permanent)</span>
+firewall-cmd<span class="w"> </span>--permanent<span class="w"> </span>--zone<span class="o">=</span>public<span class="w"> </span>--change-interface<span class="o">=</span>eth0
+firewall-cmd<span class="w"> </span>--reload
+</pre></div>
+</div>
+</section>
+</section>
+<section id="persistence-across-reimaging-and-replication">
+<h2><a class="toc-backref" href="#id12" role="doc-backlink">Persistence Across Reimaging and Replication</a><a class="headerlink" href="#persistence-across-reimaging-and-replication" title="Link to this heading">¶</a></h2>
+<p>The NILRT network configuration utility (<code class="docutils literal notranslate"><span class="pre">ninetcfgutil</span></code>) includes the
+firewalld configuration directories (<code class="docutils literal notranslate"><span class="pre">/etc/firewalld</span></code> and
+<code class="docutils literal notranslate"><span class="pre">/etc/sysconfig/firewalld</span></code>) in its export/import set. As a result, permanent
+firewall changes are preserved when a system configuration is exported and
+restored, or when a target is replicated. Refer to the system replication
+documentation for details on exporting and restoring target configuration.</p>
+</section>
+<section id="troubleshooting">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<p><strong>The firewall is not running:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--state
+/etc/init.d/firewalld<span class="w"> </span>restart
+<span class="c1"># Inspect the system log for firewalld messages</span>
+grep<span class="w"> </span>-i<span class="w"> </span>firewalld<span class="w"> </span>/var/log/messages
+</pre></div>
+</div>
+<p><strong>A change did not take effect:</strong> Verify that you used <code class="docutils literal notranslate"><span class="pre">--permanent</span></code> and then
+ran <code class="docutils literal notranslate"><span class="pre">--reload</span></code>, or check the runtime state directly:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--list-all
+</pre></div>
+</div>
+<p><strong>Log denied packets</strong> to diagnose blocked traffic:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>firewall-cmd<span class="w"> </span>--set-log-denied<span class="o">=</span>all
+firewall-cmd<span class="w"> </span>--get-log-denied
+grep<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;IN=&#39;</span><span class="w"> </span>/var/log/messages
+</pre></div>
+</div>
+</section>
+<section id="additional-resources">
+<h2><a class="toc-backref" href="#id14" role="doc-backlink">Additional Resources</a><a class="headerlink" href="#additional-resources" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://firewalld.org/documentation/">firewalld Documentation</a> - Official
+firewalld documentation portal.</p></li>
+<li><p><a class="reference external" href="https://firewalld.org/documentation/man-pages/firewall-cmd.html">firewall-cmd Manual</a> -
+Complete reference for the <code class="docutils literal notranslate"><span class="pre">firewall-cmd</span></code> command.</p></li>
+<li><p><a class="reference external" href="https://firewalld.org/documentation/zone/">firewalld Zones</a> - Concept guide
+for zones and trust levels.</p></li>
+<li><p><a class="reference external" href="https://firewalld.org/documentation/service/">firewalld Services</a> - How
+service definitions are structured.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Firewall Configuration with firewalld</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#availability">Availability</a></li>
+<li><a class="reference internal" href="#checking-the-firewall-status">Checking the Firewall Status</a></li>
+<li><a class="reference internal" href="#default-configuration">Default Configuration</a></li>
+<li><a class="reference internal" href="#ni-service-definitions">NI Service Definitions</a></li>
+<li><a class="reference internal" href="#managing-the-firewall">Managing the Firewall</a><ul>
+<li><a class="reference internal" href="#opening-a-service-or-port">Opening a Service or Port</a></li>
+<li><a class="reference internal" href="#closing-a-service-or-port">Closing a Service or Port</a></li>
+<li><a class="reference internal" href="#applying-and-persisting-changes">Applying and Persisting Changes</a></li>
+<li><a class="reference internal" href="#working-with-zones">Working with Zones</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#persistence-across-reimaging-and-replication">Persistence Across Reimaging and Replication</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li><a class="reference internal" href="#additional-resources">Additional Resources</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../clamav/clamav.html"
+                          title="previous chapter">ClamAV Installation and Configuration</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../policies/security_response_policy.html"
+                          title="next chapter">NI LinuxRT Security Response Policy</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>GitHub Source</h3>
+    <ul class="this-page-menu">
+      <li><a href="https://github.com/ni/nilrt-docs/"
+            rel="nofollow">Source on GitHub</a></li>
+      <li><a href="https://github.com/ni/nilrt-docs/blob/main/docs/source/firewalld/firewalld.rst"
+            rel="nofollow">Show Document Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../policies/security_response_policy.html" title="NI LinuxRT Security Response Policy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../clamav/clamav.html" title="ClamAV Installation and Configuration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">nilrt-docs 1.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Firewall Configuration with firewalld</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright NI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    </div>
+  </body>
+</html>

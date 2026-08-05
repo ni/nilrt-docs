@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+DKMS_NAME=hello
+DKMS_PACKAGE_NAME=hello
+DKMS_VERSION=0.1
+case "$1" in
+	configure)
+		if [ -x /usr/lib/dkms/common.postinst ]; then
+			/usr/lib/dkms/common.postinst $DKMS_NAME $DKMS_VERSION /usr/share/$DKMS_PACKAGE_NAME "" $2
+		else
+			echo "ERROR IN POSTINST SCRIPT\n"
+			exit 1
+		fi
+	;;
+esac
+exit 0

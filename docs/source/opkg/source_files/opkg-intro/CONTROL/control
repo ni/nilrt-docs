@@ -1,0 +1,7 @@
+Package: opkg-intro
+Version: 1.0.0
+Architecture: all
+Maintainer: "somebody" <somebody@somewhere.com>
+Description: hello world
+Priority: optional
+Section: libs

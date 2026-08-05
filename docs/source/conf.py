@@ -49,10 +49,14 @@ exclude_patterns = []
 #
 html_theme = 'bizstyle'
 
+html_css_files = [
+    "custom.css",
+]
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = []
+html_static_path = ["_static"]
 
 html_context = {
     'github_repo_url': 'https://github.com/ni/nilrt-docs/',
@@ -75,6 +79,7 @@ linkcheck_workers = cpu_count()  # Use as many workers as there are CPU cores
 
 linkcheck_ignore = [
     r"https://linux.die.net/.*",  # linux.die.next denies robots with 403
+    r"https://git\.yoctoproject\.org/opkg-utils/?",  # Cloudflare challenge causes unstable 403s in linkcheck
 ]
 
 linkcheck_anchors_ignore_for_url = [

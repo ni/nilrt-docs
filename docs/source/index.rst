@@ -25,6 +25,7 @@ NI Linux Real-Time Documentation and Tutorials
    usbguard/usbguard
    clamav/clamav
    firewalld/firewalld
+   aide/aide
 
 .. toctree::
     :maxdepth: 2

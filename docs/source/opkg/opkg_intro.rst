@@ -310,6 +310,4 @@ Resources
    Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__
 -  `Dynamic Kernel Module Support
    source <https://github.com/dell/dkms>`__
--  `Getting Started with C/C++ Development Tools for NI Linux Real-Time,
-   Eclipse Edition <http://www.ni.com/tutorial/14625/en/>`__
 

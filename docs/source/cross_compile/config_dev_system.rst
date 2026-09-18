@@ -41,7 +41,7 @@ briefly covers each tool and how to set it up.
 
 -  FileZilla
 
--  `PuTTY`_
+-  PuTTY
 
 -  CMake
 
@@ -337,7 +337,7 @@ Putty
 .. note::
    Windows only application
 
-`PuTTY`_ is a free and open-source terminal
+PuTTY is a free and open-source terminal
 emulator, serial console and network file transfer application. In this
 use case, we’ll be using it as an SSH Client to interact with the remote
 system.
@@ -464,5 +464,3 @@ Next Steps
 With the software installed, it’s time to configure Visual Studio Code
 for a project using the NI Linux Real-Time compilers.
 
-
-.. _PuTTY: https://putty.software/

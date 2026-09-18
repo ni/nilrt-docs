@@ -525,6 +525,4 @@ Resources
 -  `Dynamic Kernel Module Support
    source <https://github.com/dell/dkms>`__
 -  `dkms(8) - Linux man page <https://linux.die.net/man/8/dkms>`__
--  `Getting Started with C/C++ Development Tools for NI Linux Real-Time,
-   Eclipse Edition <http://www.ni.com/tutorial/14625/en/>`__
 

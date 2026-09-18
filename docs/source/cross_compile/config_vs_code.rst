@@ -414,10 +414,7 @@ setting. Some settings are project specific and will be added later in
 specific build tutorials instead of here. For more information on the
 various CMake variables and commands, refer to the official `CMake
 documentation <https://cmake.org/cmake/help/latest/index.html>`__ for
-the version of CMake used on the system. Many of the variables set are
-required for cross compiling as documented in the CMake Wiki
-`CrossCompiling <https://gitlab.kitware.com/cmake/community/wikis/doc/cmake/CrossCompiling>`__
-document.
+the version of CMake used on the system.
 
 .. note::
    The below steps assume the 18.0 compiler toolchains and Linux
@@ -574,10 +571,7 @@ ways to improve on the template project include:
    extension.
 -  Creating a `CMake toolchain
    file <https://cmake.org/cmake/help/latest/manual/cmake-toolchains.7.html>`__
-   for better portability of the compiler settings. For more
-   information, see the
-   `CrossCompiling <https://gitlab.kitware.com/cmake/community/wikis/doc/cmake/CrossCompiling>`__
-   topic in the CMake Wiki.
+   for better portability of the compiler settings.
 -  Add source code control by registering Source Control Providers such
    as Git. See `Using Version Control in VS
    Code <https://code.visualstudio.com/docs/editor/versioncontrol>`__

@@ -4,7 +4,7 @@ NI Linux Real-Time and opkg: Distributing DKMS-based Kernel Modules
 
 .. contents:: Table of Contents
    :depth: 2
-   :local: 
+   :local:
 
 Introduction
 ============
@@ -136,14 +136,14 @@ Before starting, the required software and toolchains must be installed
 to the NI Linux Real-Time system used. This can be accomplished through
 console access to the device via a serial port, SSH, or direct access
 via a keyboard and monitor. For the screenshots in this tutorial, SSH is
-used via `PuTTY`_.
+used via PuTTY.
 
 1. Open a console to the NI Linux Real-Time system and log in as or
    switch to the **admin** user.
 
 2. | Run the **opkg update** command to refresh the list of available
      packages.
-   
+
    .. image:: media/image1.png
 
 3. | Install **dkms** for DKMS support if it’s not already installed.
@@ -151,12 +151,12 @@ used via `PuTTY`_.
      (**kernel-dev**), and **make** as dependencies. If other
      development tools or dependencies are required for a given kernel
      module, those will need installed as well.
-   
+
    .. image:: media/image2.png
 
 4. | Install the **opkg-utils** package to install the required tools
      for creating \*.ipks.
-   
+
    .. image:: media/image3.png
 
 5. Confirm that the installation completed successfully.
@@ -275,11 +275,11 @@ building it into a package. This can be done as follows.
    .. image:: media/image7.png
 
 2. | Add the package via the **dkms add** command.
-   
+
    .. image:: media/image8.png
 
 3. | Install the module via **dkms install**.
-   
+
    .. image:: media/image9.png
 
 4. | Test loading the module with **modprobe** and confirm that it loaded.
@@ -287,7 +287,7 @@ building it into a package. This can be done as follows.
    .. image:: media/image10.png
 
 5. | Unload and remove the module.
-   
+
    .. image:: media/image11.png
 
 Creating the Package File
@@ -458,11 +458,11 @@ build them into an \*.ipk package.
 1. | Change directories to the directory containing the top-level
      directory for the package. In this case, the directory containing
      the *hello/* directory.
-   
+
    .. image:: media/image17.png
 
 2. | Run the **opkg-build** command on the package directory.
-   
+
    .. image:: media/image18.png
 
 3. | Confirm that the \*.ipk file is now present.
@@ -477,34 +477,34 @@ file directly with opkg. This confirms that the package was built
 correctly and that the included scripts work.
 
 1. | Manually install the package using the **opkg install** command.
-   
+
    .. image:: media/image20.png
 
 2. | View the information detailed in the *control* file using the
      **opkg info** command.
-   
+
    .. image:: media/image21.png
 
 3. | Confirm that the module installed with the **dkms status** command.
-   
+
    .. image:: media/image22.png
 
 4. | Load the new module with **modprobe**.
-   
+
    .. image:: media/image23.png
 
 5. | Confirm that the module loaded by either checking the *messages*
      log or using **dmesg.**
-   
+
    .. image:: media/image24.png
 
 6. | Unload the module using **rmmod** and confirm it unloaded with the
      *messages* log or **dmesg**.
-   
+
    .. image:: media/image25.png
 
 7. | Confirm the module uninstalls properly by using **opkg remove**.
-   
+
    .. image:: media/image26.png
 
 At this point, NI recommends copying the package from your development
@@ -524,11 +524,5 @@ Resources
    Guide <https://www.tldp.org/LDP/lkmpg/2.6/html/>`__
 -  `Dynamic Kernel Module Support
    source <https://github.com/dell/dkms>`__
--  `PuTTY`_
 -  `dkms(8) - Linux man page <https://linux.die.net/man/8/dkms>`__
--  `Getting Started with C/C++ Development Tools for NI Linux Real-Time,
-   Eclipse Edition <http://www.ni.com/tutorial/14625/en/>`__
 
-
-
-.. _PuTTY: https://putty.software/

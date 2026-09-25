@@ -83,6 +83,13 @@ By default, the firewall is configured as follows:
 - The default (and active) zone is ``public``.
 - The ``public`` zone allows the ``ssh`` and ``dhcpv6-client`` services so that
   remote login and IPv6 address configuration continue to work.
+- When ``ni-firewalld-servicedefs`` is installed (the default on NILRT images),
+  the core NI services and the NI System Web Server are also opened in the
+  ``public`` zone so that NI software and web-based configuration remain
+  reachable out of the box: ``ni-service-locator``, ``ni-mxs``,
+  ``ni-rpc-server``, ``ni-logos-xt``, ``ni-sync-remote``, ``http``, and
+  ``https``. These are opened when the package is installed and closed again if
+  it is removed.
 
 Inspect the active configuration with:
 
@@ -102,8 +109,9 @@ NI Service Definitions
 
 NILRT ships firewalld *service definitions* for the network protocols used by NI
 software. These definitions declare the ports and protocols for each service but
-do **not** automatically open them—you add a service to a zone to open its ports
-(refer to `Managing the Firewall`_).
+do **not** automatically open them. To open a service's ports, add it to a zone
+(see `Managing the Firewall`_), or have a package open it automatically (see
+`Opening Ports from a Package or Image`_).
 
 The service definition files are installed under
 ``/usr/lib/firewalld/services/`` and are available to ``firewall-cmd`` by name.
@@ -229,6 +237,121 @@ Working with Zones
    firewall-cmd --permanent --zone=public --change-interface=eth0
    firewall-cmd --reload
 
+Opening Ports from a Package or Image
+=====================================
+
+The commands above change the firewall on a running target. If you build your
+own packages or images for NILRT, you can also have a port opened automatically
+when your software is installed and on every boot, without requiring the user to
+run ``firewall-cmd``.
+
+Defining a custom service
+-------------------------
+
+A firewalld *service definition* is a small XML file that names the ports a
+service uses. Create one for your application and install it into a firewalld
+services directory:
+
+- ``/usr/lib/firewalld/services/`` for a definition shipped by a package, or
+- ``/etc/firewalld/services/`` for a definition added locally on a target.
+
+For example, ``/usr/lib/firewalld/services/my-app.xml``:
+
+.. code:: xml
+
+   <?xml version="1.0" encoding="utf-8"?>
+   <service>
+     <short>my-app</short>
+     <description>My application control port.</description>
+     <port protocol="tcp" port="9000"/>
+   </service>
+
+The service is then available to ``firewall-cmd`` by name and can be opened like
+any other service:
+
+.. code:: bash
+
+   firewall-cmd --permanent --add-service=my-app
+   firewall-cmd --reload
+
+If your protocol is already covered by one of the NI service definitions listed
+above, reuse that service name instead of writing your own.
+
+Opening a service automatically with a drop-in
+----------------------------------------------
+
+NILRT provides a declarative *drop-in* mechanism (from the
+``ni-firewall-dropins`` package) so that a package can request its service be
+opened in the default zone at install time and on every boot, without calling
+``firewall-cmd`` itself.
+
+To use it, install two files:
+
+#. the service definition ``<name>.xml`` (as above), and
+#. a **marker** file under ``/etc/ni/firewall/open.d/``.
+
+A marker names one or more services to open, one per line; blank lines and lines
+beginning with ``#`` are ignored. A marker with no service lines opens a single
+service named after the marker file, with any leading ``NN-`` ordering prefix and
+trailing ``.conf`` suffix removed. For example:
+
+.. code:: bash
+
+   # Open the "my-app" service (empty marker; name taken from the file name)
+   : > /etc/ni/firewall/open.d/my-app
+
+   # Open several services from one drop-in, with an ordering prefix
+   printf 'ni-scope-sfp\nni-rfsa-sfp\n' > /etc/ni/firewall/open.d/10-analog
+
+The apply hook (``/usr/bin/ni-firewall-apply``) reconciles the markers with
+firewalld: it opens every service named by a current marker and closes any
+service it previously opened whose marker has been removed. It runs at boot
+after firewalld starts, records what it opened in
+``/var/lib/ni/firewall/applied``, and only ever closes services it opened
+itself, so services opened by other means are left untouched. To apply markers
+immediately instead of waiting for the next boot:
+
+.. code:: bash
+
+   ni-firewall-apply
+
+Wiring a drop-in into a package recipe
+--------------------------------------
+
+If you build your own image, ship the service definition and the marker from a
+recipe and depend on ``ni-firewall-dropins`` so the apply hook is present:
+
+.. code:: bash
+
+   SRC_URI += " \
+       file://my-app.xml \
+       file://my-app.open \
+   "
+
+   RDEPENDS:${PN} += "ni-firewall-dropins"
+
+   do_install:append () {
+       install -D -m 0644 ${UNPACKDIR}/my-app.xml \
+           ${D}${libdir}/firewalld/services/my-app.xml
+       install -D -m 0644 ${UNPACKDIR}/my-app.open \
+           ${D}${sysconfdir}/ni/firewall/open.d/my-app
+   }
+
+Removing the package removes its marker, and the apply hook then closes only that
+service on the next boot (or ``ni-firewall-apply`` run).
+
+.. note::
+   Opening a port only allows traffic through the firewall; it does not start
+   your service. Your application must still be listening on the port for a
+   remote connection to succeed.
+
+.. note::
+   On a read-only-rootfs target the boot hook cannot write to ``/etc/firewalld``,
+   so bake the open set into the permanent firewalld configuration **offline** at
+   image-build time (for example with ``firewall-offline-cmd`` during
+   ``do_rootfs``, or a pre-populated zone XML) rather than opening ports from an
+   on-target postinst.
+
 Persistence Across Reimaging and Replication
 ============================================
 
@@ -265,6 +388,21 @@ ran ``--reload``, or check the runtime state directly:
    firewall-cmd --set-log-denied=all
    firewall-cmd --get-log-denied
    grep -i 'IN=' /var/log/messages
+
+**A service is open but remote connections still fail:** Opening a port in the
+firewall does not start your application. Confirm that a process is actually
+listening on the port (for example, ``ss -ltn`` or ``netstat -ltn``). If nothing
+is listening, the connection is refused even though the firewall allows it.
+
+**A drop-in did not open a service:** Confirm that both the marker and the
+service definition exist, then re-run the apply hook and check the state file:
+
+.. code:: bash
+
+   ls /etc/ni/firewall/open.d/
+   firewall-cmd --get-services | tr ' ' '\n' | grep <name>
+   ni-firewall-apply
+   cat /var/lib/ni/firewall/applied
 
 Additional Resources
 ====================

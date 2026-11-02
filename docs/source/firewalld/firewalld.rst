@@ -43,13 +43,41 @@ You might want to use firewalld if you need to:
 Availability
 ============
 
-firewalld has been available in the NILRT package feed since the 2025 Q1
-release and can be installed with ``opkg`` if it is not already present:
+firewalld is included in NILRT base system images. On older images it can be
+installed from the NILRT package feed with ``opkg``:
 
 .. code:: bash
 
    opkg update
-   opkg install firewalld ni-firewalld-servicedefs
+   opkg install firewalld ni-firewalld-servicedefs ni-firewall-dropins
+
+Enabling the Firewall
+=====================
+
+The firewall is disabled by default, so a newly imaged target does not filter
+network traffic. It is controlled by the ``firewall.enabled`` setting in the
+``SystemSettings`` section of ``/etc/natinst/share/ni-rt.ini``.
+
+To enable the firewall, set the token to ``True``, then start firewalld or
+reboot the target:
+
+.. code:: bash
+
+   /usr/local/natinst/bin/nirtcfg --set section=SystemSettings,token=firewall.enabled,value=True
+   /etc/init.d/firewalld start
+
+To disable the firewall, set the token to ``False``, then restart firewalld
+(which stops it) or reboot the target:
+
+.. code:: bash
+
+   /usr/local/natinst/bin/nirtcfg --set section=SystemSettings,token=firewall.enabled,value=False
+   /etc/init.d/firewalld restart
+
+While the firewall is disabled, ``/etc/init.d/firewalld start`` reports
+``firewalld is disabled`` and does nothing. The saved configuration is kept and
+is still updated when packages are installed or removed, so it is ready when
+the firewall is enabled.
 
 Checking the Firewall Status
 ============================
@@ -61,8 +89,9 @@ firewalld daemon state with:
 
    firewall-cmd --state
 
-A running firewall reports ``running``. You can also query or control the
-service through its init script:
+A running firewall reports ``running``; a disabled firewall reports
+``not running``. You can also query or control the service through its init
+script:
 
 .. code:: bash
 
@@ -86,9 +115,9 @@ By default, the firewall is configured as follows:
 - When ``ni-firewalld-servicedefs`` is installed (the default on NILRT images),
   several core services are also opened in the ``public`` zone to enable remote
   configuration of the system. These services include: ``ni-service-locator``,
-  ``ni-mxs``, ``ni-rpc-server``, ``ni-logos-xt``, ``ni-sync-remote``, ``http``,
-  and ``https``. These services are opened when the ``ni-firewalld-servicedefs``
-  package is installed and closed again if it is removed.
+  ``ni-mxs``, ``ni-logos-xt``, ``http``, ``https``, and ``mdns``. These services
+  are opened when the ``ni-firewalld-servicedefs`` package is installed and
+  closed again if it is removed.
 
 Inspect the active configuration with:
 
@@ -126,24 +155,30 @@ Commonly used NI services include:
    * - ``ni-service-locator``
      - tcp/3580
      - NI Service Locator port-mapping facility.
-   * - ``ni-visa-server``
-     - tcp/3537
-     - NI-VISA remote server.
    * - ``ni-mxs``
      - tcp/51700, 57616, 61900, 62602
      - NI Configuration Manager (MXS).
-   * - ``ni-rpc-server``
-     - tcp/43973
-     - NI RPC server.
    * - ``ni-logos-xt``
      - tcp/2343, tcp/59110-59209, udp/6000-6010
      - NI Logos XT publish-subscribe data transfer.
-   * - ``ni-sync-remote``
-     - tcp/31762
-     - NI-Sync remote access.
    * - ``ni-labview-realtime``
      - tcp/3079
      - LabVIEW Real-Time target access.
+   * - ``ni-labview-viserver``
+     - tcp/3363
+     - LabVIEW VI Server.
+   * - ``ni-labview-remote-panels``
+     - tcp/8000
+     - LabVIEW Remote Front Panels.
+   * - ``ni-labview-webservices``
+     - tcp/8080
+     - LabVIEW Web Services.
+   * - ``ni-veristand-gateway``
+     - tcp/2039, 2041, 2042
+     - NI VeriStand Gateway.
+   * - ``ni-veristand-engine``
+     - tcp/2040, 2050
+     - NI VeriStand Engine.
    * - ``modbus``
      - tcp/502
      - Modbus protocol.
@@ -153,15 +188,14 @@ Commonly used NI services include:
 
 Additional definitions are provided for ``dnp3``, ``dstp``,
 ``ethernet-ip`` (and its explicit/implicit variants), ``iec-60870-5-104``,
-``iec-61850``, ``ni-dnet``, ``ni-imaq``, ``ni-labview-viserver``,
-``ni-rfsa-sfp``, ``ni-rfsa-classic-sfp``, ``ni-rfsg-sfp``, ``ni-scope-sfp``, and
-``ni-xnet-bus-monitor``.
+``iec-61850``, ``ni-dnet``, ``ni-rfsa-sfp``, ``ni-rfsa-classic-sfp``, and
+``ni-rfsg-sfp``.
 
 View the ports and protocols defined for a service with:
 
 .. code:: bash
 
-   firewall-cmd --info-service=ni-visa-server
+   firewall-cmd --info-service=ni-labview-realtime
 
 Managing the Firewall
 =====================
@@ -179,7 +213,7 @@ Opening a Service or Port
 .. code:: bash
 
    # Add permanently, then apply
-   firewall-cmd --permanent --add-service=ni-visa-server
+   firewall-cmd --permanent --add-service=ni-labview-realtime
    firewall-cmd --reload
 
 **Open an arbitrary port** (for example, a custom application on tcp/8080):
@@ -200,7 +234,7 @@ Closing a Service or Port
 
 .. code:: bash
 
-   firewall-cmd --permanent --remove-service=ni-visa-server
+   firewall-cmd --permanent --remove-service=ni-labview-realtime
    firewall-cmd --permanent --remove-port=8080/tcp
    firewall-cmd --reload
 
@@ -293,13 +327,13 @@ name as the marker file.
 
 For example, an empty marker file named ``/etc/ni/firewall/open.d/my-app`` opens
 the ``my-app`` service. A marker file with the following contents opens both the
-``my-app`` service and the NI-VISA server:
+``my-app`` service and LabVIEW Real-Time target access:
 
 .. code:: text
 
    # Services required by my-app
    my-app
-   ni-visa-server
+   ni-labview-realtime
 
 The ``/usr/bin/ni-firewall-apply`` script processes the marker files. It opens
 every service named by a current marker file. It also closes any service it
@@ -341,6 +375,12 @@ definition file and marker file, and its services are closed as soon as the
 removal finishes.
 
 .. note::
+   ``ni-firewall-apply`` runs only after an ``opkg`` command that succeeds. If
+   any package in the command fails to install (for example, its ``postinst``
+   script fails), the services of the packages that did install are not opened
+   until you run ``ni-firewall-apply``, the next successful ``opkg`` command, or
+   the next reboot.
+.. note::
    Opening a service only allows traffic through the firewall. It does not start
    your application. Your application must be running and listening on the port
    for a remote connection to succeed.
@@ -358,10 +398,12 @@ documentation for details on exporting and restoring target configuration.
 Troubleshooting
 ===============
 
-**The firewall is not running:**
+**The firewall is not running:** Check that it is enabled (refer to
+`Enabling the Firewall`_), then check its state and the system log:
 
 .. code:: bash
 
+   /usr/local/natinst/bin/nirtcfg --get section=SystemSettings,token=firewall.enabled,value=False
    firewall-cmd --state
    /etc/init.d/firewalld restart
    # Inspect the system log for firewalld messages

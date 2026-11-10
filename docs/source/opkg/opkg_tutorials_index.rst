@@ -8,3 +8,4 @@ Opkg Package System Tutorials
 
    opkg_intro
    dkms_opkg
+   opkg_updates
